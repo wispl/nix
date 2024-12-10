@@ -184,6 +184,10 @@
   # a lot of ignored "..." file errors, which are apparantly harmless.
   services.dbus.implementation = "broker";
 
+  services.udev.packages = [
+    pkgs.platformio-core
+    pkgs.openocd
+  ];
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
