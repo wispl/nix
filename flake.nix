@@ -31,7 +31,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.wisp = import ./home-manager/home.nix;
+            home-manager.users.wisp = import ./home/home.nix;
           }
         ];
       };
