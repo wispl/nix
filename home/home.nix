@@ -1,6 +1,5 @@
 {pkgs, ...}: {
   imports = [
-		./scripts
     ./waybar
     ./firefox
 
@@ -14,6 +13,7 @@
 
     # ./sway.nix
     ./river.nix
+    ./scripts.nix
 
     ./texlive.nix
     ./sioyek.nix
