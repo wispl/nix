@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# FOR SWAY ONLY!
+# Run a progam or focus it if already running.
+# If the program is already in focus, it will be moved to the scratchpad.
+# The progam is identified via an app_id assigned to it
+#
+# program: program to execute (must be assigned the given app_id)
+# app_id:  app_id of the program
+
+program=$1
+app_id=$2
+
+# if program is focused, move it to the scratchpad and exit
+focused=$(swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true) | .app_id')
+if [ "$focused" = "$app_id" ]; then
+	swaymsg move scratchpad
+	exit 0
+fi
+
+# start the program if it is not already running
+node=$(swaymsg -t get_tree | jq -r --arg APPID "$app_id" '.. | select(.type?) | select(.app_id==$APPID)')
+if [[ -z "$node" ]]; then
+	$program
+fi
+
+# focus the program
+swaymsg [app_id="${app_id}"] focus

@@ -1,0 +1,15 @@
+#!/bin/env bash
+# Create and edit a note using the current time as filename
+# Optionally accepts a title as parameter
+
+# Get the current date
+printf -v date "%(%Y%m%d%H%M)T"
+printf -v file "${HOME}/notes/paperslips/${date}.md"
+# Create a new file in the paperslip directory and
+# add a heading with the date and title
+echo "# $date $1" >> $file
+
+# Append a link to the index file for visibility
+echo -e "\t* [$1](paperslips/${date}.md)" >> "${HOME}/notes/index.md"
+
+$EDITOR $file

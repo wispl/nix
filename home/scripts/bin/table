@@ -1,0 +1,49 @@
+#!/bin/env bash
+# Printy prints data, first parameter is rows, second is cols,
+# and the rest is data
+
+rows=$1; shift
+cols=$1; shift
+vals=($@)
+
+# largest length of data in each column
+lens=()
+# separator between rows
+sep=""
+
+# find longest string in each column for padding
+for ((c=0; c<cols; c++)); do
+	for ((r=0; r<rows; r++)); do
+		len=${#vals[r*rows+c]}
+		if [[ $len > ${lens[c]} ]]; then
+			lens[c]=$len
+		fi
+	done
+	# adds separator characters with padding for the column
+	for ((i=0; i<${lens[c]}+2; i++)); do
+		sep+="─" 
+	done
+	sep+="┼"
+done
+# trim out the extra character at the end
+sep=${sep:0:-1}
+
+# print header
+echo "┌${sep//"┼"/"┬"}┐"
+# print data
+for ((r=0; r<rows; r++)); do
+	for ((c=0; c<cols; c++)); do
+		# justifies each string using appropriate padding
+		printf "│ %-${lens[c]}s " ${vals[r*rows+c]}
+	done
+	# close the bar
+	echo "│"
+	# print the separator
+	if (( $r == ${rows}-1 )); then
+		# end of table
+		echo "└${sep//"┼"/"┴"}┘"
+	else
+		echo "├${sep}┤"
+	fi
+done
+

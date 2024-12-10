@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+# Searches and performs actions on notes in a directories. This primarily works
+# with .tex files with a stucture of
+#
+# notes/
+# 	category1/
+# 		subject1/
+# 		subject2/
+# 	category2/
+# 		subject3/
+# 	category3/
+# 		/subject4/
+#
+# where the subject directories would be the ones containing the notes. Each
+# subject directory should have a main.tex or whatever NOTES_MAIN is set to
+# which acts as a entry point or as the main tex file itself. The compiled pdf
+# file should be consistently named across the folders, set to whatever
+# NOTES_MAIN_PDF is set to.
+#
+# Inside the subject, the structure should be
+#
+# subject1/
+# 	main.tex
+# 	0.tex
+# 	1.tex
+# 	2.tex
+# 	3.tex
+#
+# Skipping numbers is allowed, the numbers just provides a sane way to detect
+# sections and wanted texfiles, as well as allowing the use of adding new
+# sections base off the last one. New directories and other tex files can be
+# added without collision.
+#
+# This script depends on
+# 	fuzzel  (change MENU)
+# 	sioyek  (change PDF_VIEWER)
+# 	foot    (changes required for other terminals)
+# 	bash with support for extglob
+#
+# These components can be swapped out for other ones, the script will require
+# some tweaking however.
+
+# directory to search course notes for
+NOTES_DIR="${HOME}/notes/courses/"
+# starting file
+NOTES_MAIN="main.tex"
+# name of the compiled pdf
+NOTES_MAIN_PDF="main.pdf"
+
+MENU="fuzzel"
+PDF_VIEWER="sioyek"
+
+shopt -s extglob
+
+# get second level directories in NOTES_DIR convert them to relative paths
+dirs=("${NOTES_DIR}"*/*)
+dirnames=("${dirs[@]#"${NOTES_DIR}"}")
+
+dir=$(IFS=$'\n'; echo "${dirnames[*]}" | $MENU -d -p "Course ")
+
+# View: view the pdf
+# Edit: edit main.tex
+# Section: edit a specific section
+# Add: adds a new section, if the last section was 7.tex, 8.tex will be created
+if [[ -n "$dir" ]]; then
+	choice=$(echo -e "View\nEdit\nSection\nAdd" | $MENU -d -i -p "$dir ")
+	case $choice in
+		"View")
+			"$PDF_VIEWER" "${NOTES_DIR}/${dir}/${NOTES_MAIN_PDF}"
+			;;
+		"Edit")
+			foot -D "${NOTES_DIR}/${dir}/" "$EDITOR" "${NOTES_DIR}/${dir}/${NOTES_MAIN}"
+			;;
+		"Section")
+			# get all tex files representing sections and convert
+			# them to relative file
+			files=("${NOTES_DIR}${dir}"/[0-9]*.tex)
+			filenames=("${files[@]#"${NOTES_DIR}${dir}/"}")
+
+			file=$(IFS=$'\n'; echo "${filenames[*]}" | $MENU -d -p "$dir ")
+
+			foot -D "${NOTES_DIR}/${dir}/" $EDITOR "${NOTES_DIR}/${dir}/${file}"
+			;;
+		"Add")
+			# find the most recent tex file via sorting, then
+			# create a new tex file with the incremented number
+			files=("${NOTES_DIR}${dir}"/[0-9]*.tex)
+			last=$(IFS=$'\n'; sort -n <<< "${files[*]##*/}" | tail -n 1)
+			next=$(( ${last%.*} + 1))
+			foot -D "${NOTES_DIR}/${dir}/" "$EDITOR" "${NOTES_DIR}/${dir}/${next}.tex"
+			;;
+	esac
+fi

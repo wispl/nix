@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   imports = [
+		./scripts
     ./waybar
     ./firefox
 

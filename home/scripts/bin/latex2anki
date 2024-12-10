@@ -1,0 +1,112 @@
+#!/bin/env python
+
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+from dataclasses import dataclass
+from textwrap import dedent
+import re
+
+# TODO: cloze? better cards? show environment and chapter?
+def main():
+    parser = ArgumentParser(
+        prog="latex2anki",
+        description=dedent(
+        """
+            Converts latex files into a text file suitable for anki import.
+            Parses environments of the form
+            \\begin{environment}[front]
+                back
+            \\end{environment}
+            into front;back cards in the export.
+            Ensure html fields are allowed in anki before importing.
+        """
+        ),
+        formatter_class=RawDescriptionHelpFormatter,
+    )
+
+    parser.add_argument("input", nargs="+")
+    parser.add_argument("-o", "--output", default="output.txt")
+    parser.add_argument(
+        "-e",
+        "--environment",
+        dest="environment",
+        action="extend",
+        nargs="+",
+        type=str,
+        help="environments to parse for, default is theorem and definition",
+    )
+
+    args = parser.parse_args()
+
+    card_parser = CardParser(args.environment or ["theorem", "definition"])
+    for file in args.input:
+        card_parser.parse_file(file)
+    card_parser.gen_anki(args.output)
+
+
+@dataclass
+class Card:
+    environment: str
+    front: str
+    back: str
+
+
+class CardParser:
+
+    environments: list[str]
+
+    cards: list[Card] = []
+    current_card: Card = None
+
+    def __init__(self, environments: list[str]):
+        self.environments = environments
+
+    def parse_file(self, file: str):
+        with open(file) as reader:
+            for line in reader.readlines():
+                self.parse_line(line)
+
+    def parse_line(self, line: str):
+        begin_match = re.match(r"\\begin{(.*)}\[(.*)\]", line)
+        if begin_match and begin_match.group(1) in self.environments:
+            self.current_card = Card(begin_match.group(1), begin_match.group(2), "")
+            return
+
+        end_match = re.match(r"\\end{(.+)}", line)
+        if self.current_card:
+            if end_match and end_match.group(1) == self.current_card.environment:
+                # strip final \n
+                self.current_card.back = self.current_card.back[:-1]
+                self.cards.append(self.current_card)
+                self.current_card = None
+                return
+            else:
+                self.current_card.back += self.latex_to_html(line.lstrip())
+
+    def gen_anki(self, file: str):
+        with open(file, "w") as writer:
+            for card in self.cards:
+                writer.write(f'{card.front};"{card.back}"\n')
+
+    def latex_to_html(self, text: str) -> str:
+        """
+        Convert some non-math latex environments to html for MathJax.
+        """
+        # lists
+        text = re.sub(r"\\begin{enumerate}", "<ol>", text)
+        text = re.sub(r"\\end{enumerate}", "</ol>", text)
+
+        text = re.sub(r"\\begin{itemize}", "<ul>", text)
+        text = re.sub(r"\\end{itemize}", "</ul>", text)
+
+        text = re.sub(r"\\begin{align\*}", "\\\\begin{align}", text)
+        text = re.sub(r"\\end{align\*}", "\\\\end{align}", text)
+
+        text = re.sub(r"\\item (.+)", r"<li>\1</li>", text)
+
+        # inline math
+        text = re.sub(r"\$(.*)\$", r"\\(\1\\)", text)
+
+        return text
+
+
+main()
