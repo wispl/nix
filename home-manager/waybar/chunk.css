@@ -1,0 +1,100 @@
+@import "colors/dragon.css";
+
+* {
+    border: none;
+    border-radius: 0px;
+    font-family:  "FantasqueSansM Nerd Font Propo";
+    font-size: 20px;
+ }
+
+window#waybar {
+    background: transparent;
+}
+
+#workspaces button {
+    background-color: transparent;
+    margin-top: 5px;
+
+    color: @fg;
+}
+
+#workspaces button.focused {
+    background: @bg4;
+    color: @magenta;
+    border: 4px solid @magenta;
+    border-radius: 5px;
+}
+
+#workspaces button.urgent {
+    color: @red;
+}
+
+#memory, #network, #battery, #backlight, #pulseaudio, #clock, #custom-power {
+    color: @fg;
+    background-color: @bg;
+
+    margin-top: 5px;
+    padding: 5px 10px;
+
+    border-top: 4px solid @magenta;
+    border-bottom: 4px solid @magenta;
+    border-radius: 6px;
+}
+
+#battery {
+    margin-left: 10px;
+    margin-right: 10px;
+    border-left: 4px solid @magenta;
+    border-right: 4px solid @magenta;
+}
+
+#battery.charging, #battery.plugged {
+    background-color: @bg;
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    background-color: @bg;
+    color: @orange;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @bg;
+    color: @red;
+}
+
+#pulseaudio {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-left: 4px solid @magenta;
+}
+
+#backlight {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-right: 4px solid @magenta;
+}
+
+#custom-power {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 4px solid @magenta;
+}
+
+#network {
+    border-radius: 0px;
+}
+
+#memory {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-right: 4px solid @magenta;
+}
+
+#clock {
+    margin-right: 10px;
+    border-left: 4px solid @magenta;
+    border-right: 4px solid @magenta;
+}

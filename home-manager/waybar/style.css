@@ -1,0 +1,166 @@
+/* Kanagawa Dragon */
+@define-color fg #c5c9c5;
+
+/* bg from dark to light */
+@define-color bg0 #0d0c0c;
+@define-color bg1 #12120f;
+@define-color bg2 #1D1C19;
+@define-color bg  #181616;
+@define-color bg4 #282727;
+@define-color bg5 #393836;
+@define-color bg6 #625e5a;
+
+@define-color red #c4746e;
+@define-color green #87a987;
+@define-color yellow #c4b28a;
+@define-color orange #b6927b;
+@define-color blue #8ba4b0;
+@define-color magenta #a292a3;
+@define-color cyan #8ea4a2;
+
+* {
+    border: none;
+    border-radius: 0px;
+    margin: 0px;
+
+    font-family: "FantasqueSansM Nerd Font Propo";
+    font-size: 24px;
+}
+
+window#waybar {
+    background-color: alpha(@bg, 0.9);
+    border: 5px solid @bg2;
+}
+
+#battery,
+#network,
+#memory,
+#pulseaudio-slider,
+#backlight-slider {
+    margin-right: 15px;
+}
+
+#network {
+    color: @blue;
+}
+
+#memory {
+    color: @red;
+    margin-left: 20px;
+}
+
+#battery {
+    color: @fg;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+}
+
+#battery.charging, #battery.plugged {
+    color: @green;
+}
+
+#clock {
+    color: @fg;
+    background-color: @bg2;
+
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    padding: 5px 10px;
+}
+
+#pulseaudio {
+    color: @magenta;
+}
+
+#pulseaudio-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    min-height: 5px;
+    min-width: 80px;
+    border-radius: 5px;
+
+    background-color: @bg5;
+}
+
+#pulseaudio-slider highlight {
+    min-height: 5px;
+    border-radius: 5px;
+
+    background-color: @magenta;
+}
+
+#backlight {
+    color: @yellow;
+}
+
+#backlight-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#backlight-slider trough {
+    min-height: 5px;
+    min-width: 80px;
+    border-radius: 5px;
+
+    background-color: @bg5;
+}
+
+#backlight-slider highlight {
+    min-height: 5px;
+    border-radius: 5px;
+
+    background-color: @yellow;
+}
+
+#workspaces button {
+    padding-left: 10px;
+    padding-right: 10px;
+    color: @bg6;
+}
+
+#workspaces button.empty {
+    color: @bg5;
+}
+
+#workspaces button.urgent {
+    color: @red;
+}
+
+#workspaces button.focused {
+    color: @fg;
+}
+
+#tags button {
+    padding-left: 10px;
+    padding-right: 10px;
+    color: @bg5;
+}
+
+#tags button.occupied {
+    color: @bg6;
+}
+
+#tags button.urgent {
+    color: @red;
+}
+
+#tags button.focused {
+    color: @fg;
+}

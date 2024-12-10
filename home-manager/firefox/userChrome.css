@@ -1,0 +1,38 @@
+/* Firefox CSS
+ * Minimal firefox css tweaks
+ * Assorted hacks from https://github.com/MrOtherGuy/firefox-csshacks/
+ */
+
+/* Use same color for nav and tab bar */
+#navigator-toolbox:not(:-moz-lwtheme) {
+	background: var(--toolbar-field-background-color) !important;
+}
+
+/* Makes the urlbar a little brighter */
+#urlbar-background {
+	background: var(--tab-selected-bgcolor) !important;
+	filter: brightness(85%);
+}
+
+/* Swap tab background colors to be same as toolbar */
+#tabbrowser-tabs {
+	background: var(--toolbar-field-background-color) !important;
+}
+
+/* Remove active tab border */
+.tab-background{
+	outline: none !important;
+	box-shadow: none !important;
+}
+.tab-background[selected] {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+/* Remove window control buttons */
+.titlebar-buttonbox-container {
+	display: none !important;
+}
+.titlebar-close {
+	display: none !important;
+}
