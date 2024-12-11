@@ -3,9 +3,11 @@
     enable = true;
     font = "DejaVu Sans Mono 12";
     borderSize = 2;
-    borderRadius = 4;
+    borderRadius = 2;
+    icons = true;
     padding = "10";
     defaultTimeout = 3000;
+    width = 400;
 
     textColor = "#${theme.fg}";
     backgroundColor = "#${theme.bg}";
