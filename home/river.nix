@@ -62,12 +62,16 @@ in {
         normal =
           {
             "Super Return" = "spawn foot";
-            "Super D" = "spawn fuzzel";
+            "Super D" = "spawn 'fuzzel --counter'";
             "Super I" = "spawn ~/.local/bin/noteshow";
             "Super B" = "spawn firefox";
             "Super P" = "spawn 'riverctl toggle-focused-tags ${keepassxc_tag} && riverctl focus-view up'";
             # semicolon
             "Super 0x003b" = "spawn 'riverctl toggle-focused-tags ${dropterm_tag} && riverctl focus-view up'";
+
+            "Print" = "spawn grimshot screen";
+            "Shift Print" = "spawn grimshot area";
+            "Super Print" = "spawn grimshot area --copy";
 
             "Super Q" = "close";
 

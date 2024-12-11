@@ -7,7 +7,6 @@
         prompt = "' '";
         # until I find a good icon theme
         icons-enabled = false;
-        match-counter = true;
         line-height = 20;
         inner-pad = 40;
         horizontal-pad = 80;
