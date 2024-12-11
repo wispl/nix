@@ -1,16 +1,4 @@
-{...}: let
-  foreground = "c5c9c5";
-  background = "181616";
-  light-background = "282727";
-
-  # black, red, green, yellow, blue, magenta, cyan, white
-  red = "c4746e";
-  green = "8a9a7b";
-  yellow = "c4b28a";
-  blue = "8ba4b0";
-  magenta = "a292a3";
-  cyan = "8ea4a2";
-in {
+{theme, ...}: {
   programs.fuzzel = {
     enable = true;
     settings = {
@@ -30,15 +18,15 @@ in {
         width = 6;
       };
       colors = {
-        prompt = "${yellow}ff";
-        placeholder = "${foreground}90";
-        background = "${background}ff";
-        text = "${foreground}ff";
-        match = "${red}ff";
-        selection = "${magenta}ff";
-        selection-text = "${background}ff";
-        counter = "${magenta}ff";
-        border = "${light-background}ff";
+        prompt = "${theme.yellow}ff";
+        placeholder = "${theme.fg}90";
+        background = "${theme.bg}ff";
+        text = "${theme.fg}ff";
+        match = "${theme.red}ff";
+        selection = "${theme.magenta}ff";
+        selection-text = "${theme.bg}ff";
+        counter = "${theme.magenta}ff";
+        border = "${theme.bgL}ff";
       };
     };
   };

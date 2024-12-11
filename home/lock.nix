@@ -1,15 +1,13 @@
-{...}: let
+{theme, ...}: let
   blank = "00000000";
-  foreground = "c5c9c5";
-  background = "181616";
+  foreground = "${theme.fg}ff";
+  background = "${theme.bg}ff";
 
-  # red, green, yellow, blue, magenta, cyan, white
-  red = "c4746eff";
-  green = "8a9a7bff";
-  yellow = "c4b28aff";
-  blue = "8ba4b0ff";
-  magenta = "a292a390";
-  cyan = "8ea4a2ff";
+  red = "${theme.red}ff";
+  green = "${theme.green}ff";
+  yellow = "${theme.yellow}ff";
+  blue = "${theme.blue}ff";
+  magenta = "${theme.magenta}90";
 in {
   programs.swaylock = {
     enable = true;

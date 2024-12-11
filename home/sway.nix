@@ -8,11 +8,11 @@ with pkgs; let
   wallpaper_dir = "$XDG_PICTURES_DIR/wallpapers/";
   filename = "hk_room.png";
   mod4 = "Mod4";
-  bg = "#181616";
-  fg = "#c5c9c5";
-  border = "#282727";
-  inactive = "#1d1c19";
-  urgent = "#c4746e";
+  bg = "#${theme.bg}181616";
+  fg = "#${theme.fg}";
+  border = "#${theme.bgL}";
+  inactive = "#${theme.bgD}";
+  urgent = "#${theme.red}";
 in {
   wayland = {
     windowManager = {

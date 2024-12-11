@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: let
+{config, ...}: let
 in {
   programs.neovim = {
     defaultEditor = true;

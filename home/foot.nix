@@ -1,34 +1,4 @@
-{...}: let
-  foreground = "c5c9c5";
-  background = "181616";
-
-  selection-foreground = "c8c093";
-  selection-background = "2d4f67";
-
-  # black, red, green, yellow, blue, magenta, cyan, white
-  c0 = "0d0c0c";
-  c1 = "c4746e";
-  c2 = "8a9a7b";
-  c3 = "c4b28a";
-  c4 = "8ba4b0";
-  c5 = "a292a3";
-  c6 = "8ea4a2";
-  c7 = "c8c093";
-
-  # bright varians
-  b0 = "a6a69c";
-  b1 = "e46876";
-  b2 = "87a987";
-  b3 = "e6c384";
-  b4 = "7fb4ca";
-  b5 = "938aa9";
-  b6 = "7aa89f";
-  b7 = "c5c9c5";
-
-  # extra colors
-  ex16 = "b6927b";
-  ex17 = "b98d7b";
-in {
+{theme, ...}: {
   programs.foot = {
     enable = true;
     settings = {
@@ -40,25 +10,32 @@ in {
       };
       colors = {
         alpha = "0.97";
-        foreground = foreground;
-        background = background;
-        regular0 = c0;
-        regular1 = c1;
-        regular2 = c2;
-        regular3 = c3;
-        regular4 = c4;
-        regular5 = c5;
-        regular6 = c6;
-        regular7 = c7;
+        foreground = "${theme.fg}";
+        background = "${theme.bg}";
 
-        bright0 = b0; # bright black
-        bright1 = b1; # bright red
-        bright2 = b2; # bright green
-        bright3 = b3; # bright yellow
-        bright4 = b4;
-        bright5 = b5; # bright magenta
-        bright6 = b6; # bright cyan
-        bright7 = b7; # bright white
+        selection-foreground = "${theme.selectedFg}";
+        selection-background = "${theme.selectedBg}";
+
+        regular0 = "${theme.black}";
+        regular1 = "${theme.red}";
+        regular2 = "${theme.green}";
+        regular3 = "${theme.yellow}";
+        regular4 = "${theme.blue}";
+        regular5 = "${theme.magenta}";
+        regular6 = "${theme.cyan}";
+        regular7 = "${theme.white}";
+
+        bright0 = "${theme.brightBlack}";
+        bright1 = "${theme.brightRed}";
+        bright2 = "${theme.brightGreen}";
+        bright3 = "${theme.brightYellow}";
+        bright4 = "${theme.brightBlue}";
+        bright5 = "${theme.brightMagenta}";
+        bright6 = "${theme.brightCyan}";
+        bright7 = "${theme.brightWhite}";
+
+        "16" = "${theme.extraColor1}";
+        "17" = "${theme.extraColor2}";
       };
     };
   };

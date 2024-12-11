@@ -1,15 +1,4 @@
-{...}: let
-  foreground = "#c5c9c5";
-  background = "#181616";
-  light-background = "#282727";
-
-  red = "#c4746e";
-  green = "#8a9a7b";
-  yellow = "#c4b28a";
-  blue = "#8ba4b0";
-  magenta = "#a292a3";
-  cyan = "#8ea4a2";
-in {
+{theme, ...}: {
   programs.sioyek = {
     enable = true;
     bindings = {
@@ -17,22 +6,29 @@ in {
       "open_document_embedded" = "o";
       "screen_down" = "<C-f>";
       "screen_up" = "<C-b>";
+      "close_window" = "q";
     };
     config = {
+      "should_launch_new_window" = "1";
+      "startup_commands" = "toggle_dark_mode 1";
+
       "status_bar_font_size" = "18";
       "font_size" = "24";
 
-      "text_highlight_color" = yellow;
-      "search_highlight_color" = yellow;
-      "link_highlight_color" = blue;
-      "synctex_highlight_color" = green;
+      "text_highlight_color" = "#${theme.yellow}";
+      "search_highlight_color" = "#${theme.yellow}";
+      "link_highlight_color" = "#${theme.blue}";
+      "synctex_highlight_color" = "#${theme.green}";
 
-      "ui_selected_background_color" = light-background;
-      "status_bar_color" = light-background;
-      "status_bar_text_color" = magenta;
+      "status_bar_color" = "#${theme.bgL}";
+      "status_bar_text_color" = "#${theme.fg}";
 
-      "default_dark_mode" = "1";
-      "dark_mode_background_color" = background;
+      "dark_mode_background_color" = "#${theme.bg}";
+
+      "ui_text_color" = "#${theme.fg}";
+      "ui_background_color" = "#${theme.bg}";
+      "ui_selected_text_color" = "#${theme.bg}";
+      "ui_selected_background_color" = "#${theme.yellow}";
     };
   };
 }

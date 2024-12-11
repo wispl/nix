@@ -59,6 +59,7 @@
     nvme-cli
     pandoc
     pfetch
+    fastfetch
     ripgrep
     smartmontools
     tree

@@ -1,12 +1,11 @@
-{pkgs, ...}:
+{
+  pkgs,
+  theme,
+  ...
+}:
 with pkgs; let
   wallpaper_dir = "$XDG_PICTURES_DIR/wallpapers/";
   filename = "hk_room.png";
-
-  background = "0x181616";
-  border = "0x282727";
-  inactive = "0x1d1c19";
-  urgent = "0xc4746e";
 
   scratch_tag = "$((1 << 19))";
   # until keepassxc gets wayland autotype
@@ -31,7 +30,12 @@ in {
   wayland.windowManager.river = {
     enable = true;
     settings = {
-      background-color = background;
+      border-width = 4;
+
+      background-color = "0x${theme.bg}";
+      border-color-focused = "0x${theme.bgL}";
+      border-color-unfocused = "0x${theme.bgD}";
+      border-color-urgent = "0x${theme.red}";
 
       default-layout = "rivertile";
       spawn = [
@@ -41,10 +45,6 @@ in {
         "'foot -a dropterm'"
         "keepassxc"
       ];
-      border-width = 4;
-      border-color-focused = border;
-      border-color-unfocused = inactive;
-      border-color-urggent = urgent;
 
       set-repeat = "25 300";
       keyboard-layout = "-options 'ctrl:swapcaps' us";
