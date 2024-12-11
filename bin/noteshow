@@ -33,8 +33,8 @@
 # added without collision.
 #
 # This script depends on
-# 	fuzzel  (change MENU)
-# 	sioyek  (change PDF_VIEWER)
+# 	fuzzel  (change menu())
+# 	sioyek  (change view())
 # 	foot    (changes required for other terminals)
 # 	bash with support for extglob
 #
@@ -48,8 +48,25 @@ NOTES_MAIN="main.tex"
 # name of the compiled pdf
 NOTES_MAIN_PDF="main.pdf"
 
-MENU="fuzzel"
-PDF_VIEWER="sioyek"
+# Passes all arguments to the chosen menu.
+#
+# The menu must support setting a prompt using '-p PROMPT'. Change all such
+# lines if it does not.
+#
+# The menu must support a dmenu mode where it accepts all stdin.
+menu() {
+	fuzzel --counter -d $@
+}
+
+# Passes all arguments to the chosen pdf viewer
+view() {
+	sioyek $@
+}
+
+# Passes all arguments to the chosen editor
+edit() {
+	foot -D "${NOTES_DIR}/${dir}/" $EDITOR $@
+}
 
 shopt -s extglob
 
@@ -57,20 +74,20 @@ shopt -s extglob
 dirs=("${NOTES_DIR}"*/*)
 dirnames=("${dirs[@]#"${NOTES_DIR}"}")
 
-dir=$(IFS=$'\n'; echo "${dirnames[*]}" | $MENU -d -p "Course ")
+dir=$(IFS=$'\n'; echo "${dirnames[*]}" | menu -p "Course ")
 
 # View: view the pdf
 # Edit: edit main.tex
 # Section: edit a specific section
 # Add: adds a new section, if the last section was 7.tex, 8.tex will be created
 if [[ -n "$dir" ]]; then
-	choice=$(echo -e "View\nEdit\nSection\nAdd" | $MENU -d -i -p "$dir ")
+	choice=$(echo -e "View\nEdit\nSection\nAdd" | menu -i -p "$dir ")
 	case $choice in
 		"View")
-			"$PDF_VIEWER" "${NOTES_DIR}/${dir}/${NOTES_MAIN_PDF}"
+			view "${NOTES_DIR}/${dir}/${NOTES_MAIN_PDF}"
 			;;
 		"Edit")
-			foot -D "${NOTES_DIR}/${dir}/" "$EDITOR" "${NOTES_DIR}/${dir}/${NOTES_MAIN}"
+			edit "${NOTES_DIR}/${dir}/${NOTES_MAIN}"
 			;;
 		"Section")
 			# get all tex files representing sections and convert
@@ -78,9 +95,9 @@ if [[ -n "$dir" ]]; then
 			files=("${NOTES_DIR}${dir}"/[0-9]*.tex)
 			filenames=("${files[@]#"${NOTES_DIR}${dir}/"}")
 
-			file=$(IFS=$'\n'; echo "${filenames[*]}" | $MENU -d -p "$dir ")
+			file=$(IFS=$'\n'; echo "${filenames[*]}" | menu -p "$dir ")
 
-			foot -D "${NOTES_DIR}/${dir}/" $EDITOR "${NOTES_DIR}/${dir}/${file}"
+			edit "${NOTES_DIR}/${dir}/${file}"
 			;;
 		"Add")
 			# find the most recent tex file via sorting, then
@@ -88,7 +105,7 @@ if [[ -n "$dir" ]]; then
 			files=("${NOTES_DIR}${dir}"/[0-9]*.tex)
 			last=$(IFS=$'\n'; sort -n <<< "${files[*]##*/}" | tail -n 1)
 			next=$(( ${last%.*} + 1))
-			foot -D "${NOTES_DIR}/${dir}/" "$EDITOR" "${NOTES_DIR}/${dir}/${next}.tex"
+			edit "${NOTES_DIR}/${dir}/${next}.tex"
 			;;
 	esac
 fi
