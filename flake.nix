@@ -22,7 +22,6 @@
       snow = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
-
         modules = [
           ./nixos/configuration.nix
           impermanence.nixosModules.impermanence
@@ -31,6 +30,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {theme = import ./themes/kanagawa.nix;};
             home-manager.users.wisp = import ./home/home.nix;
           }
         ];

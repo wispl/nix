@@ -1,5 +1,9 @@
-{pkgs, ...}: {
-  imports = [
+{
+  pkgs,
+  specialArgs,
+  ...
+}: {
+  imports = with specialArgs.theme; [
     ./waybar
     ./firefox
 
