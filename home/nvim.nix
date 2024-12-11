@@ -8,7 +8,7 @@ in {
   };
   # TODO: :(
   xdg.configFile.nvim = {
-    source = config.lib.file.mkOutOfStoreSymlink "/home/wisp/dots/.config/nvim/";
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/flakes/nvim/";
     recursive = true;
   };
 }
