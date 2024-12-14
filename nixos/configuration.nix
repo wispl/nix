@@ -41,6 +41,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelParams = ["quiet" "splash" "nowatchdog"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.bcache.enable = false;
 
   environment.variables.XCURSOR_SIZE = "32";
 
@@ -95,7 +96,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
+  # services.libinput.enable = true;
 
   security.polkit.enable = true;
   security.pam.services.swaylock = {};

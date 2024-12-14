@@ -37,6 +37,9 @@
         "16" = "${theme.extraColor1}";
         "17" = "${theme.extraColor2}";
       };
+      tweak = {
+        box-drawing-base-thickness = 0.08;
+      };
     };
   };
 }

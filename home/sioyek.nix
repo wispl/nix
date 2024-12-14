@@ -11,6 +11,7 @@
     config = {
       "should_launch_new_window" = "1";
       "startup_commands" = "toggle_dark_mode 1";
+      "collapsed_toc" = "1";
 
       "status_bar_font_size" = "18";
       "font_size" = "24";
