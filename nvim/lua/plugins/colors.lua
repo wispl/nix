@@ -25,6 +25,10 @@ return {
 					PmenuSbar = { bg = theme.ui.bg_m1 },
 					PmenuThumb = { bg = theme.ui.bg_p2 },
 
+					BlinkCmpMenu =  { link = "Pmenu" },
+					BlinkCmpMenuSelection = {  link = "PmenuSel" },
+					BlinkCmpLabelMatch = { fg = theme.syn.fun },
+
 					StatusNormal = { bg = theme.syn.fun, fg = theme.ui.bg_m3 },
 					StatusInsert = { bg = theme.diag.ok, fg = theme.ui.bg },
 					StatusVisual = { bg = theme.syn.keyword, fg = theme.ui.bg },

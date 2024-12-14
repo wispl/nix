@@ -33,43 +33,32 @@ return {
 	},
 	-- autocompletion
 	{
-		"hrsh7th/nvim-cmp",
-		version = false,
+		"saghen/blink.cmp",
 		event = "InsertEnter",
-		dependencies = {
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-nvim-lsp",
-		},
-		opts = function()
-			local cmp = require("cmp")
-			return {
-				window = {
-					completion = {
-						winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None",
-					}
+		version = "*",
+		-- build = "nix run .#build-plugin",
+		opts = {
+			completion = {
+				menu = {
+					draw = {
+						treesitter = { "lsp" },
+						columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
+						components = {
+							source_name = {
+								text = function(ctx) return "  (" .. ctx.source_name .. ")" end,
+							},
+						}
+					},
 				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-				}),
-				formatting = {
-					format = function(entry, vim_item)
-						vim_item.kind = string.format("     (%s) ", vim_item.kind)
-						return vim_item
-					end,
+				documentation = {
+					auto_show = true,
+					auto_show_delay_ms = 500,
 				},
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "path" },
-					{ name = "buffer" },
-				}),
-				experimental = { ghost_text = true }
-			}
-		end,
+				ghost_text = { enabled = true },
+			},
+			keymap = { preset = "enter" },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+		}
 	},
 	-- git
 	{
