@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Menu to control power profile states using powerprofile daemon (ppd)
+
+# options
+POWERSAVE="Powersave"
+BALANCED="Balanced"
+PERFORMANCE="Performance"
+OPTIONS="$POWERSAVE\n$BALANCED\n$PERFORMANCE"
+CURRENT=$(powerprofilesctl get)
+
+menu() {
+	fuzzel -d $@
+}
+
+die() {
+	notify-send "Power Profiles" "$1"
+	exit 2
+}
+
+set_profile() {
+	powerprofilesctl set "$1" || die "Unable to set profile, profile remains as \"${CURRENT}\"."
+}
+
+CHOICE=$(echo -e "$OPTIONS" | menu -d -p "$CURRENT")
+case "$CHOICE" in
+	"$POWERSAVE")
+		set_profile power-saver
+		;;
+	"$BALANCED")
+		set_profile balanced
+		;;
+	"$PERFORMANCE")
+		set_profile performance
+		;;
+	*)
+		die "Selection aborted, current profile remains as \"${CURRENT}\"."
+		;;
+esac
+notify-send "Power Profiles" "Profile set to ${CHOICE}".

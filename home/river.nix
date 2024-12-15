@@ -66,6 +66,7 @@ in {
             "Super I" = "spawn ~/.local/bin/noteshow";
             "Super B" = "spawn firefox";
             "Super P" = "spawn 'riverctl toggle-focused-tags ${keepassxc_tag} && riverctl focus-view up'";
+            "Super M" = "spawn powerprofilesmenu";
             # semicolon
             "Super 0x003b" = "spawn 'riverctl toggle-focused-tags ${dropterm_tag} && riverctl focus-view up'";
 
