@@ -2,6 +2,7 @@ return {
 	-- snippets
 	{
 		"L3MON4D3/LuaSnip",
+		version = "*",
 		event = "InsertEnter",
 		keys = {
 			{ "<tab>",
@@ -34,8 +35,8 @@ return {
 	-- autocompletion
 	{
 		"saghen/blink.cmp",
-		event = "InsertEnter",
 		version = "*",
+		event = "InsertEnter",
 		-- build = "nix run .#build-plugin",
 		opts = {
 			completion = {
@@ -56,8 +57,23 @@ return {
 				},
 				ghost_text = { enabled = true },
 			},
+			snippets = {
+				expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
+				active = function(filter)
+					if filter and filter.direction then
+						return require("luasnip").jumpable(filter.direction)
+					end
+					return require("luasnip").in_snippet()
+				end,
+				jump = function(direction) require("luasnip").jump(direction) end,
+			},
 			keymap = { preset = "enter" },
-			sources = { default = { "lsp", "path", "snippets", "buffer" } },
+			-- TODO: change this to sources = { default = {...} } on blink.cmp 0.7.6 is used
+			sources = {
+				completion = {
+					enabled_providers = { "lsp", "path", "luasnip", "buffer" },
+				}
+			},
 		}
 	},
 	-- git
