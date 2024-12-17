@@ -31,6 +31,7 @@
     XCURSOR_THEME = "BreezeX-RosePine-Linux";
     XCURSOR_SIZE = "32";
     TERMINAL = "foot";
+    DIRENV_LOG_FORMAT = "$'\033[2mdirenv: %s\033[0m'";
   };
 
   home.sessionPath = ["$HOME/.local/bin"];
@@ -42,6 +43,7 @@
     inkscape
     keepassxc
     syncthing
+    musikcube
 
     # commandline tools
     bc
@@ -94,6 +96,8 @@
     # appearance
     dconf
     rose-pine-cursor
+    # graphite-kde-theme
+    # graphite-gtk-theme
   ];
 
   home.pointerCursor = {
