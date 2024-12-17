@@ -125,6 +125,12 @@
     home-manager.enable = true;
     git.enable = true;
 
+    direnv = {
+      enable = true;
+      enableBashIntegration = true;
+      nix-direnv.enable = true;
+    };
+
     bash = {
       enable = true;
       profileExtra = "[[ $(tty) == /dev/tty1 ]] && river";
