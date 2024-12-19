@@ -70,9 +70,9 @@ in {
             # semicolon
             "Super 0x003b" = "spawn 'riverctl toggle-focused-tags ${dropterm_tag} && riverctl focus-view up'";
 
-            "Print" = "spawn grimshot screen";
-            "Shift Print" = "spawn grimshot area";
-            "Super Print" = "spawn grimshot area --copy";
+            "None  Print" = "spawn 'grimshot screen'";
+            "Shift Print" = "spawn 'grimshot area'";
+            "Super Print" = "spawn 'grimshot area --copy'";
 
             "Super Q" = "close";
 
