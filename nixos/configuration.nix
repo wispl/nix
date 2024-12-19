@@ -126,7 +126,6 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     dbus # We still need dbus even if using dbus-broker, something about dbus references
     gcc
-    gnumake
   ];
 
   environment.persistence."/nix/persist" = {

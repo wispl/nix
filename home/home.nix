@@ -48,6 +48,7 @@
     bc
     btop
     chafa
+    fastfetch
     fd
     file
     ghostscript
@@ -57,25 +58,24 @@
     libnotify
     mpv
     ncdu
+    nix-tree
     nvme-cli
     pandoc
     pfetch
-    fastfetch
     ripgrep
-    smartmontools
     tree
     unzip
     yt-dlp
-    nix-tree
 
     # hardware related
     amdgpu_top
-    powertop
-    pciutils
-    mesa-demos
-    vulkan-tools
     libva-utils
+    mesa-demos
+    pciutils
+    powertop
+    smartmontools
     vdpauinfo
+    vulkan-tools
 
     # window manager related
     brightnessctl
@@ -90,9 +90,6 @@
     # coding
     chicken
     alejandra
-    cmake
-    gdb
-    valgrind
 
     # appearance
     dconf

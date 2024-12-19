@@ -18,6 +18,10 @@
       default = pkgs.mkShell {
         packages = with pkgs; [
           # add packages
+          cmake
+          gnumake
+          gdb
+          valgrind
         ];
         env = {
           # change env

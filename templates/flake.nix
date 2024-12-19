@@ -1,13 +1,12 @@
 {
-	description = "Flake templates!";
+  description = "Flake templates!";
 
-	outputs = { self }: {
+  outputs = {self}: {
+    templates.c = {
+      path = ./c;
+      description = "Basic environment for C";
+    };
 
-		templates.c = {
-			path = ./c;
-			description = "Basic environment for C";
-		};
-
-		templates.default = self.templates.c;
-	};
+    templates.default = self.templates.c;
+  };
 }
