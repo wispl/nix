@@ -31,7 +31,6 @@
     XCURSOR_THEME = "BreezeX-RosePine-Linux";
     XCURSOR_SIZE = "32";
     TERMINAL = "foot";
-    DIRENV_LOG_FORMAT = "\033[2mdirenv: %s\033[0m";
   };
 
   home.sessionPath = ["$HOME/.local/bin"];
@@ -141,7 +140,10 @@
 
     bash = {
       enable = true;
-      profileExtra = "[[ $(tty) == /dev/tty1 ]] && river";
+      profileExtra = ''
+        DIRENV_LOG_FORMAT=$'\033[2mdirenv: %s\033[0m'
+        [ $(tty) == /dev/tty1 ]] && river
+      '';
       historyControl = ["ignoredups"];
       bashrcExtra = "PS1='\\[\\e[34m\\]\\W\\[\\e[m\\] '";
       shellAliases = {
