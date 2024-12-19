@@ -124,13 +124,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    brightnessctl
-
+    dbus # We still need dbus even if using dbus-broker, something about dbus references
     gcc
     gnumake
-    dbus # We still need dbus even if using dbus-broker, something about dbus references
-    qemu
   ];
 
   environment.persistence."/nix/persist" = {

@@ -31,7 +31,7 @@
     XCURSOR_THEME = "BreezeX-RosePine-Linux";
     XCURSOR_SIZE = "32";
     TERMINAL = "foot";
-    DIRENV_LOG_FORMAT = "$'\033[2mdirenv: %s\033[0m'";
+    DIRENV_LOG_FORMAT = "\033[2mdirenv: %s\033[0m";
   };
 
   home.sessionPath = ["$HOME/.local/bin"];
@@ -67,6 +67,7 @@
     tree
     unzip
     yt-dlp
+    nix-tree
 
     # hardware related
     amdgpu_top
@@ -78,6 +79,7 @@
     vdpauinfo
 
     # window manager related
+    brightnessctl
     grim
     slurp
     swaybg
@@ -98,6 +100,8 @@
     rose-pine-cursor
     # graphite-kde-theme
     # graphite-gtk-theme
+
+    qemu
   ];
 
   home.pointerCursor = {
