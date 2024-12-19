@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-# Menu for selecting a flake template to copy from a specified template
-# directory to the current directory.
-#
-# If a flake.nix already exists, prompts the user to overwrite it.
+# Utility for initializing a nix template from a custom template_dir directory.
+# If no argument is supplied, a menu is used to display and search for
+# templates. Aborting the search results in no templates being created.
 
 # Directory where flake templates are searched, override as desired
 template_dir="${HOME}/flakes/templates/"
@@ -18,32 +17,16 @@ menu() {
 	fuzzel --counter -d $@
 }
 
-# Get all files the template directory as an absolute path
-files=("${template_dir}"*)
-# Change path to have only the path name instead
-filenames=("${files[@]#"${template_dir}"}")
-# Remove .nix suffix
-filenames=("${filenames[@]%%.*}")
+template=$1
 
-choice=$(IFS=$'\n'; echo "${filenames[*]}" | menu -p "Template ")
-# Convert back to absolute path
-template="${template_dir}${choice}.nix"
+if [ -z "$template" ]; then
+	# Get all templates
+	templates=("${template_dir}"*/)
+	# Make paths relative to $template_dir
+	templates=("${templates[@]#"${template_dir}"}")
+	template=$(IFS=$'\n'; echo "${templates[*]}" | menu -p "Template ")
+fi
 
-flake="flake.nix"
-envrc=".envrc"
-
-if [ -e "$flake" ]; then
-	echo "flake.nix already exists in this directory! Overwrite it? [y/N]"
-	read -e reply
-	case "$reply" in
-		[yY]*)
-			cp "$template" "$flake"
-			;;
-		*)
-			echo "No template was copied."
-			exit 0
-			;;
-	esac
-else
-	cp "$template" "$flake"
+if [ -n "$template" ]; then
+	nix flake init -t "${template_dir}#${template::-1}"
 fi
