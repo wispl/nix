@@ -138,7 +138,7 @@
     bash = {
       enable = true;
       profileExtra = ''
-        DIRENV_LOG_FORMAT=$'\033[2mdirenv: %s\033[0m'
+        export DIRENV_LOG_FORMAT=$'\033[2mdirenv: %s\033[0m'
         [ $(tty) == /dev/tty1 ]] && river
       '';
       historyControl = ["ignoredups"];
