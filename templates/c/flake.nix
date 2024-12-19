@@ -17,15 +17,9 @@
     devShells = forEachSupportedSystem ({pkgs}: {
       default = pkgs.mkShell {
         packages = with pkgs; [
-          # add packages
+          clang-tools
           cmake
-          gnumake
-          gdb
-          valgrind
         ];
-        env = {
-          # change env
-        };
       };
     });
   };

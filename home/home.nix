@@ -88,8 +88,10 @@
     xdg-utils
 
     # coding
-    chicken
+    gdb
+    valgrind
     alejandra
+    chicken
 
     # appearance
     dconf
@@ -138,8 +140,8 @@
     bash = {
       enable = true;
       profileExtra = ''
-        export DIRENV_LOG_FORMAT=$'\033[2mdirenv: %s\033[0m'
-        [ $(tty) == /dev/tty1 ]] && river
+               export DIRENV_LOG_FORMAT=$'\033[2mdirenv: %s\033[0m'
+        [[ $(tty) == /dev/tty1 ]] && river
       '';
       historyControl = ["ignoredups"];
       bashrcExtra = "PS1='\\[\\e[34m\\]\\W\\[\\e[m\\] '";

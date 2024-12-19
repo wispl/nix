@@ -125,7 +125,6 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     dbus # We still need dbus even if using dbus-broker, something about dbus references
-    gcc
   ];
 
   environment.persistence."/nix/persist" = {
@@ -182,7 +181,7 @@
 
   services.udev.packages = [
     pkgs.platformio-core
-    pkgs.openocd
+    # pkgs.openocd
   ];
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
