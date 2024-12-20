@@ -4,19 +4,16 @@
   ...
 }: {
   imports = with specialArgs.theme; [
-    ./waybar
+    ./desktop
     ./firefox
+    ./waybar
 
-    ./lock.nix
     ./foot.nix
     ./fuzzel.nix
-    ./mako.nix
 
     ./nvim.nix
     ./lf.nix
 
-    # ./sway.nix
-    ./river.nix
     ./scripts.nix
 
     ./texlive.nix
@@ -77,17 +74,10 @@
     vdpauinfo
     vulkan-tools
 
-    # window manager related
-    brightnessctl
-    grim
-    slurp
-    swaybg
-    wf-recorder
-    wl-clipboard
-    wlopm
     xdg-utils
 
     # coding
+    gcc
     gdb
     valgrind
     alejandra
@@ -190,26 +180,6 @@
 
   services = {
     ssh-agent.enable = true;
-    swayidle = {
-      enable = true;
-      events = [
-        {
-          event = "before-sleep";
-          command = "${pkgs.swaylock}/bin/swaylock -f";
-        }
-      ];
-      timeouts = [
-        {
-          timeout = 300;
-          command = "${pkgs.swaylock}/bin/swaylock -f";
-        }
-        {
-          timeout = 330;
-          command = "${pkgs.wlopm}/bin/wlopm  --off '*'";
-          resumeCommand = "${pkgs.wlopm}/bin/wlopm  --on '*'";
-        }
-      ];
-    };
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
