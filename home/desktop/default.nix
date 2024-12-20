@@ -18,6 +18,7 @@ in {
   home.packages = with pkgs; [
     brightnessctl
     grim
+    libnotify
     slurp
     swaybg
     wf-recorder

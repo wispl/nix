@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   pkgs,
   ...
 }:
@@ -14,6 +15,8 @@ with pkgs; let
   inactive = "#${theme.bgD}";
   urgent = "#${theme.red}";
 in {
+  imports = [./wayland.nix];
+
   wayland = {
     windowManager = {
       sway = {

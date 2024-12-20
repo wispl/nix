@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   theme,
   ...
 }:
@@ -27,6 +28,8 @@ with pkgs; let
     "None XF86MonBrightnessDown" = "spawn 'brightnessctl set 5%-'";
   };
 in {
+  imports = [./wayland.nix];
+
   wayland.windowManager.river = {
     enable = true;
     settings = {
@@ -113,22 +116,24 @@ in {
         };
       };
       extraConfig = ''
-        allowed_tags=$(( ((1 << 32) - 1) ^ ${scratch_tag} ^ ${keepassxc_tag} ^ ${dropterm_tag}))
-        riverctl spawn-tagmask ''${allowed_tags}
-        for i in $(seq 1 9)
-        do
-        	tags=$((1 << ($i - 1)))
-        	riverctl map normal Super $i set-focused-tags $tags
-        	riverctl map normal Super+Shift $i set-view-tags $tags
-        	riverctl map normal Super+Control $i toggle-focused-tags $tags
-        	riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
-        done
+      allowed_tags=$(( ((1 << 32) - 1) ^ ${scratch_tag} ^ ${keepassxc_tag} ^ ${dropterm_tag}))
+      riverctl spawn-tagmask ''${allowed_tags}
+      for i in $(seq 1 9)
+      do
+        tags=$((1 << ($i - 1)))
+        riverctl map normal Super $i set-focused-tags $tags
+        riverctl map normal Super+Shift $i set-view-tags $tags
+        riverctl map normal Super+Control $i toggle-focused-tags $tags
+        riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+      done
 
-        riverctl rule-add -app-id dropterm float
-        riverctl rule-add -app-id dropterm tags "${dropterm_tag}"
+      xcursor-theme ${config.gtk.cursorTheme.name} ${toString config.gtk.cursorTheme.size}
 
-        riverctl rule-add -app-id org.keepassxc.KeePassXC float
-        riverctl rule-add -app-id org.keepassxc.KeePassXC tags "${keepassxc_tag}"
+      riverctl rule-add -app-id dropterm float
+      riverctl rule-add -app-id dropterm tags "${dropterm_tag}"
+
+      riverctl rule-add -app-id org.keepassxc.KeePassXC float
+      riverctl rule-add -app-id org.keepassxc.KeePassXC tags "${keepassxc_tag}"
       '';
     };
   };

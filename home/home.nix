@@ -19,14 +19,13 @@
     ./texlive.nix
     ./sioyek.nix
   ];
+
   home = {
     username = "wisp";
     homeDirectory = "/home/wisp";
   };
 
   home.sessionVariables = {
-    XCURSOR_THEME = "BreezeX-RosePine-Linux";
-    XCURSOR_SIZE = "32";
     TERMINAL = "foot";
   };
 
@@ -48,11 +47,11 @@
     fastfetch
     fd
     file
+    fzf
     ghostscript
     imagemagick
     imv
     jq
-    libnotify
     mpv
     ncdu
     nix-tree
@@ -83,25 +82,8 @@
     alejandra
     chicken
 
-    # appearance
-    dconf
-    rose-pine-cursor
-    # graphite-kde-theme
-    # graphite-gtk-theme
-
     qemu
   ];
-
-  home.pointerCursor = {
-    gtk.enable = true;
-    size = 32;
-    package = pkgs.rose-pine-cursor;
-    name = "BreezeX-RosePine-Linux";
-  };
-
-  gtk = {
-    enable = true;
-  };
 
   xdg = {
     userDirs = {
