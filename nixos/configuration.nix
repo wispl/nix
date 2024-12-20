@@ -42,6 +42,7 @@
   boot.kernelParams = ["quiet" "splash" "nowatchdog"];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.bcache.enable = false;
+  boot.tmp.useTmpfs = true;
 
   environment.variables.XCURSOR_SIZE = "32";
 
