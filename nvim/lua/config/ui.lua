@@ -65,7 +65,17 @@ local function mode()
 end
 
 local function git()
-	return (vim.b.minigit_summary_string or "") .. " " .. (vim.b.minidiff_summary_string or "")
+	return " " .. (vim.b.minigit_summary and vim.b.minigit_summary.head_name or "")
+end
+
+local function gitdiff()
+	local str = " "
+	local summary = vim.b.minidiff_summary
+	if summary == nil or summary.source == nil then return "" end
+	if summary.add > 0 then str = str .. "%#GitSignsAdd#" .. '+' .. summary.add .. ' ' end
+	if summary.change > 0 then str = str .. "%#GitSignsChange#" .. '~' .. summary.change  .. ' 'end
+	if summary.delete > 0 then str = str .. "%#GitSignsDelete#" .. '-' .. summary.delete .. ' ' end
+	return str
 end
 
 local function file()
@@ -73,11 +83,11 @@ local function file()
 	if filename == "" then
 		filename = "No Name"
 	end
-	return string.format("%s %s ", "%#Normal#", filename)
+	return string.format("%s %s", "%#Normal#", filename)
 end
 
 local function filestate()
-	return string.format("%s %s %s", "%#Comment#", "%m", "%r")
+	return string.format("%s %s", "%#Comment#", "%m")
 end
 
 local function lsp()
@@ -127,6 +137,7 @@ function _G.custom_statusline()
 		file(),
 		filestate(),
 		git(),
+		gitdiff(),
 		"%=",
 		lsp(),
 		filetype(),
