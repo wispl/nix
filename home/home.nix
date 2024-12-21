@@ -7,17 +7,11 @@
     ./desktop
     ./firefox
     ./waybar
-
-    ./foot.nix
-    ./fuzzel.nix
-
+    ./packages
     ./nvim.nix
-    ./lf.nix
 
     ./scripts.nix
-
     ./texlive.nix
-    ./sioyek.nix
   ];
 
   home = {

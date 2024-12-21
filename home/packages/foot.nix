@@ -5,7 +5,7 @@
       main = {
         # font = "Deja Vu Sans Mono:size=16";
         # font = "Iosevka Term SS04 Extended:size=20,Symbols Nerd Font:size=18";
-        font = "Julia Mono:size=18, Symbols Nerd Font:size=18";
+        font = "Julia Mono:size=18, Symbols Nerd Font Mono:size=18";
         pad = "40x40center";
       };
       colors = {
