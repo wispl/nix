@@ -68,11 +68,9 @@ return {
 				jump = function(direction) require("luasnip").jump(direction) end,
 			},
 			keymap = { preset = "enter" },
-			-- TODO: change this to sources = { default = {...} } on blink.cmp 0.7.6 is used
 			sources = {
-				completion = {
-					enabled_providers = { "lsp", "path", "luasnip", "buffer" },
-				}
+				default = { "lsp", "path", "luasnip", "buffer" },
+				cmdline = {},
 			},
 		}
 	},
