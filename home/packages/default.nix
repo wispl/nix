@@ -17,5 +17,6 @@
 
     # packages with no configuration
     ./texlive.nix
+    ./apps.nix
   ];
 }

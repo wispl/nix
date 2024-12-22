@@ -26,13 +26,6 @@
 
   # TODO: move and sepatate these
   home.packages = with pkgs; [
-    # applications
-    blender
-    inkscape
-    keepassxc
-    syncthing
-    musikcube
-
     # commandline tools
     bc
     btop
