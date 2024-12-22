@@ -1,6 +1,6 @@
-{pkgs, ...}:
-with pkgs; let
-in {
+# Tex and Latex packages, nix is so awesome for letting me declare this instead
+# of manually updating the TexLive installation each year.
+{pkgs, ...}: {
   programs.texlive = {
     enable = true;
     extraPackages = tpkgs: {

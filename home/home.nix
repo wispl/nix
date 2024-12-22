@@ -11,7 +11,6 @@
     ./nvim.nix
 
     ./scripts.nix
-    ./texlive.nix
   ];
 
   home = {
