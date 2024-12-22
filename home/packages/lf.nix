@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  # For file previews
+  home.packages = with pkgs; [chafa file];
   programs.lf = {
     enable = true;
     settings = {

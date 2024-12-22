@@ -24,15 +24,13 @@
 
   home.sessionPath = ["$HOME/.local/bin"];
 
-  # TODO: move and sepatate these
+  # Shell packages
   home.packages = with pkgs; [
-    # commandline tools
+    amdgpu_top
     bc
     btop
-    chafa
     fastfetch
     fd
-    file
     fzf
     ghostscript
     imagemagick
@@ -41,25 +39,13 @@
     mpv
     ncdu
     nix-tree
-    nvme-cli
     pandoc
     pfetch
+    powertop
     ripgrep
     tree
     unzip
     yt-dlp
-
-    # hardware related
-    amdgpu_top
-    libva-utils
-    mesa-demos
-    pciutils
-    powertop
-    smartmontools
-    vdpauinfo
-    vulkan-tools
-
-    xdg-utils
 
     # coding
     gcc
@@ -68,6 +54,7 @@
     alejandra
     chicken
 
+    xdg-utils
     qemu
   ];
 
