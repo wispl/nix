@@ -3,16 +3,17 @@
 #	screen idle
 #	notification
 #	window manager
+#	bar
 {
   pkgs,
   specialArgs,
   ...
-}: let
-in {
+}: {
   imports = with specialArgs.theme; [
     ./lock.nix
     ./mako.nix
     ./river.nix
+    ./waybar.nix
   ];
 
   home.packages = with pkgs; [

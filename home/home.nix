@@ -6,7 +6,6 @@
   imports = with specialArgs.theme; [
     ./desktop
     ./firefox
-    ./waybar
     ./packages
     ./nvim.nix
 

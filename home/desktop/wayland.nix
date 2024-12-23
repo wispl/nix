@@ -1,4 +1,5 @@
-# Set up some common configurations for wayland compositors
+# Nix files for wayland compositors should import this file, which sets up some
+# common configurations for wayland compositors
 #	cursors
 #	gtk
 #	qt
