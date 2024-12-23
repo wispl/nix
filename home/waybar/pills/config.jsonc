@@ -1,0 +1,105 @@
+{
+    "modules-left": ["custom/rocket", "river/tags", "memory"],
+    "modules-center": ["river/window"],
+    "modules-right": ["pulseaudio", "pulseaudio/slider", "custom/space", "backlight", "backlight/slider", "network", "clock", "battery"],
+
+    "river/tags": {
+	"num-tags": 6,
+	"tag-labels": ["", "", "", "", "", ""]
+    },
+
+    "river/window": {
+	"max-length": 20
+    },
+
+    "mpd": {
+	"format": "{stateIcon} <{title}>",
+	"format-disconnected": "Disconnected",
+	"format-stopped": "Stopped",
+	"unknown-tag": "N/A",
+	"interval": 2,
+	"state-icons": {
+	    "paused": "",
+	    "playing": ""
+	},
+	"tooltip-format": "MPD (connected)",
+	"tooltip-format-disconnected": "MPD (disconnected)"
+    },
+
+    "clock": {
+        "interval": 60,
+        "format": "󰥔 {:%R}",
+        "format-alt": " {:%a, %e %b %R}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "cpu": {
+	"interval": 10,
+	"format": " {usage}% "
+    },
+
+    "memory": {
+	"interval": 10,
+	"format": " {used} GB"
+    },
+
+    "backlight": {
+        "device": "amdgpu_bl0",
+        "format": "{icon}",
+        "format-icons": ["󰃝", "󰃞", "󰃟", "󰃠"],
+        "tooltip": false
+    },
+
+    "backlight/slider": {
+	"min": 0,
+	"max": 100,
+	"orientation": "horizontal"
+    },
+
+    "battery": {
+	"interval": 60,
+	"states": {
+	    "good": 80,
+	    "warning": 30,
+	    "critical": 15
+	},
+
+	"format": "{icon} {capacity}%",
+	"format-charging": "󰂄 {capacity}%",
+	"format-icons": ["󰂎", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
+    },
+
+    "network": {
+	"format-wifi": "󰤨 {essid}",
+	"format-disconnected": "󰤭",
+	"tooltip": false
+    },
+
+    "pulseaudio": {
+	"format": "{icon}",
+	"format-icons": {
+	    "headphone": "󰋋",
+	    "default": ["󰕿", "󰖀", "󰕾"]
+	},
+	"format-muted": "󰸈",
+	"tooltip": false,
+	"scroll-step": 1
+    },
+
+    "pulseaudio/slider": {
+	"min": 0,
+	"max": 100,
+	"orientation": "horizontal"
+    },
+
+    "custom/space": {
+	"format": "  ",
+	"tooltip": false
+    },
+
+    "custom/rocket": {
+	"format": "",
+	"tooltip": false,
+	"on-click": "fuzzel --counter"
+    }
+}

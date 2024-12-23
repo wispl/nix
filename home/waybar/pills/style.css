@@ -1,0 +1,225 @@
+/* Kanagawa Dragon */
+@define-color fg #c5c9c5;
+
+/* bg from dark to light */
+@define-color bg0 #0d0c0c;
+@define-color bg1 #12120f;
+@define-color bg2 #1D1C19;
+@define-color bg  #181616;
+@define-color bg4 #282727;
+@define-color bg5 #393836;
+@define-color bg6 #625e5a;
+
+@define-color red #c4746e;
+@define-color green #87a987;
+@define-color yellow #c4b28a;
+@define-color orange #b6927b;
+@define-color blue #8ba4b0;
+@define-color magenta #a292a3;
+@define-color cyan #8ea4a2;
+
+* {
+    border: none;
+    border-radius: 0px;
+    margin: 0px;
+    min-height: 0px;
+
+    /* HACK: set a small font-size globally since tag workspaces are not
+     * affected by a locally defined font-size for some reason. */
+    font-family: "FantasqueSansM Nerd Font Propo";
+    font-size: 4px;
+}
+
+window#waybar {
+    background-color: @bg;
+    border-bottom: 2px solid @bg1;
+}
+
+/* Set all other module to desired font size. */
+#battery,
+#network,
+#memory,
+#power-profiles-daemon,
+#layout,
+#window,
+#clock,
+#pulseaudio,
+#backlight,
+#pulseaudio-slider,
+#backlight-slider {
+    font-size: 22px;
+}
+
+tooltip {
+    font-size: 22px;
+    background: @bg4;
+    border-radius: 8px;
+}
+
+/* Set tooltip to desired font-size. */
+tooltip label {
+    font-size: 22px;
+}
+
+#custom-rocket {
+    color: @cyan;
+
+    font-size: 18px;
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+#network {
+    color: @blue;
+    margin-left: 16px;
+    margin-right: 12px;
+}
+
+#memory {
+    color: @red;
+    margin-left: 20px;
+}
+
+#battery {
+    color: @fg;
+    margin-right: 24px;
+    margin-left: 16px;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+}
+
+#battery.charging, #battery.plugged {
+    color: @green;
+}
+
+#clock {
+    color: @green;
+    background-color: @bg2;
+
+    margin: 8px;
+    padding: 2px 16px;
+    border-radius: 16px;
+}
+
+/* The pulseaudio and backlight modules are merged together into one pill, so
+ * border-radius is set on a single side. */
+#pulseaudio {
+    color: @magenta;
+    background-color: @bg2;
+
+    margin: 8px 0px;
+    padding: 2px;
+    padding-left: 12px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+}
+
+#pulseaudio-slider {
+    background-color: @bg2;
+
+    margin: 8px 0px;
+}
+
+#pulseaudio-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    background-color: @bg5;
+
+    min-height: 5px;
+    min-width: 60px;
+    border-radius: 5px;
+}
+
+#pulseaudio-slider highlight {
+    background-color: @magenta;
+
+    min-height: 5px;
+    border-radius: 5px;
+}
+
+#backlight {
+    color: @yellow;
+    background-color: @bg2;
+
+    margin: 8px 0px;
+    padding-left: 8px;
+}
+
+#backlight-slider {
+    background-color: @bg2;
+
+    margin: 8px 0px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+#backlight-slider slider {
+    min-width: 0px;
+    min-height: 0px;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#backlight-slider trough {
+    background-color: @bg5;
+
+    min-height: 5px;
+    min-width: 60px;
+    border-radius: 5px;
+}
+
+#backlight-slider highlight {
+    background-color: @yellow;
+
+    min-height: 5px;
+    border-radius: 5px;
+}
+
+/* For tags, we draw pills ourselves instead of using a text or icon */
+#tags {
+    background-color: @bg2;
+
+    margin: 8px;
+    padding: 8px;
+    border-radius: 16px;
+}
+
+#tags button {
+    background-color: @bg5;
+
+    /* Set these to zero to get rid of any additional space, the size of the
+     * pill is managed using padding. */
+    min-height: 0px;
+    min-width: 0px;
+
+    margin: 2px 4px;
+    padding: 0px 10px;
+    border-radius: 16px;
+}
+
+#tags button.occupied {
+    background-color: @bg6;
+}
+
+#tags button.urgent {
+    background-color: @red;
+}
+
+#tags button.focused {
+    background-color: @blue;
+
+    padding: 0px 14px;
+}
