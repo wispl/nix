@@ -44,8 +44,6 @@
   boot.bcache.enable = false;
   boot.tmp.useTmpfs = true;
 
-  environment.variables.XCURSOR_SIZE = "32";
-
   networking.hostName = "snow";
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
