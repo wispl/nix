@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   specialArgs,
   ...
@@ -15,13 +16,14 @@
   home = {
     username = "wisp";
     homeDirectory = "/home/wisp";
+    sessionPath = ["$HOME/.local/bin"];
+    sessionVariables = {
+      TERMINAL = "foot";
+      # PATH to the directory of the root flake.nix. This is used for
+      # mkOutOfStoreSymlinks for configs like neovim.
+      FLAKE = "${config.home.homeDirectory}/flakes";
+    };
   };
-
-  home.sessionVariables = {
-    TERMINAL = "foot";
-  };
-
-  home.sessionPath = ["$HOME/.local/bin"];
 
   # Shell packages
   home.packages = with pkgs; [

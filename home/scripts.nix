@@ -1,8 +1,7 @@
-{config, ...}: let
-in {
+{config, ...}: {
   home.file = {
     ".local/bin" = {
-      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/flakes/bin";
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/bin";
       recursive = true;
     };
   };
