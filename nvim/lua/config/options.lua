@@ -67,10 +67,6 @@ vim.filetype.add({
 		vert = "glsl",
 		frag = "glsl",
 	},
-	pattern = {
-		[".*/waybar/config"] = "jsonc",
-		[".*/mako/config"] = "dosini"
-	}
 })
 
 vim.diagnostic.config({

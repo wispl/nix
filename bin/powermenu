@@ -11,11 +11,10 @@ logout="Logout"
 options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
 
 # get user choice
-choice=$(echo -e "$options" | rofi -theme "$theme" -dmenu -p $HOSTNAME -mesg "$(uptime -p)")
-
+choice=$(echo -e "$options" | fuzzel -d -p "Bye! ")
 case $choice in
 	$lock)
-		lock
+		swaylock -f
 		;;
 	$suspend)
 		systemctl suspend

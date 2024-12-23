@@ -4,8 +4,8 @@
     "modules-right": ["pulseaudio", "pulseaudio/slider", "custom/space", "backlight", "backlight/slider", "network", "clock", "battery"],
 
     "river/tags": {
-	"num-tags": 6,
-	"tag-labels": ["", "", "", "", "", ""]
+	"num-tags": 5,
+	"tag-labels": ["", "", "", "", ""]
     },
 
     "river/window": {
