@@ -49,6 +49,12 @@ in {
         "keepassxc"
       ];
 
+      rule-add = {
+        "-app-id" = {
+          "'*'" = "ssd";
+        };
+      };
+
       set-repeat = "25 300";
       keyboard-layout = "-options 'ctrl:swapcaps' us";
       input = {
@@ -60,6 +66,7 @@ in {
         };
       };
 
+      xcursor-theme = "${config.gtk.cursorTheme.name} ${toString config.gtk.cursorTheme.size}";
       declare-mode = ["normal" "locked"];
       map = {
         normal =
@@ -126,8 +133,6 @@ in {
           riverctl map normal Super+Control $i toggle-focused-tags $tags
           riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
         done
-
-        xcursor-theme ${config.gtk.cursorTheme.name} ${toString config.gtk.cursorTheme.size}
 
         riverctl rule-add -app-id dropterm float
         riverctl rule-add -app-id dropterm tags "${dropterm_tag}"
