@@ -40,24 +40,13 @@ return {
 			}
 		end,
 	},
-	-- async commmands for building and running
-	{
-		"tpope/vim-dispatch",
-		cmd = { "Dispatch", "Make", "Start" },
-		keys = {
-			{ "<leader>cc", "<cmd>Make<cr>", desc = "[C]ode [C]ompile" },
-			{ "<leader>rr", "<cmd>Dispatch<cr>", desc = "[R]un [R]un" },
-		},
-		init = function()
-			vim.g.dispatch_no_maps = 1
-		end
-	},
 	-- latex
 	{
 		"lervag/vimtex",
 		lazy = false,
 		config = function()
 			vim.g.vimtex_view_method = "sioyek"
+			vim.g.vimtex_format_enabled = 1
 		end,
 	}
 }
