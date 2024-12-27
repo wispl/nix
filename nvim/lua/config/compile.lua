@@ -20,6 +20,12 @@ M.compilers_by_ft = {
 }
 
 function M.quickfixtext(opts)
+	local type = {
+		h = "hint: ",
+		i = "info: ",
+		w = "warning: ",
+		e = "error: ",
+	}
   if opts.quickfix == 0 then
     return nil
   end
@@ -28,13 +34,14 @@ function M.quickfixtext(opts)
   for i, item in pairs(qflist.items) do
     if i >= opts.start_idx and i <= opts.end_idx then
 			if item.lnum == 0 and item.col == 0 then
-				table.insert(result, "    " .. item.text)
+				table.insert(result, string.format("%s", item.text))
 			else
-				table.insert(result, string.format("%s %s %5d:%-3d %s",
-					item.type ~= "" and item.type or " ",
+				local text = type[item.type]
+				table.insert(result, string.format("%s:%d:%d %s%s",
 					vim.fn.bufname(item.bufnr),
 					item.lnum,
 					item.col,
+					text and text or "",
 					item.text
 				))
 			end
