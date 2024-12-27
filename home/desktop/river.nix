@@ -3,8 +3,7 @@
   config,
   theme,
   ...
-}:
-with pkgs; let
+}: let
   wallpaper_dir = "$XDG_PICTURES_DIR/wallpapers/";
   filename = "hk_room.png";
 
@@ -29,6 +28,7 @@ with pkgs; let
   };
 in {
   imports = [./wayland.nix];
+  home.packages = with pkgs; [rivercarro];
 
   wayland.windowManager.river = {
     enable = true;
@@ -40,9 +40,9 @@ in {
       border-color-unfocused = "0x${theme.bgD}";
       border-color-urgent = "0x${theme.red}";
 
-      default-layout = "rivertile";
+      default-layout = "rivercarro";
       spawn = [
-        "'rivertile -view-padding 8 -outer-padding 0'"
+        "'rivercarro -no-smart-gaps -inner-gaps 8 -outer-gaps 8'"
         "waybar"
         "'swaybg --mode fill -i ${wallpaper_dir}${filename}'"
         "'foot -a dropterm'"
@@ -76,9 +76,9 @@ in {
             "Super I" = "spawn ~/.local/bin/noteshow";
             "Super B" = "spawn firefox";
             "Super P" = "spawn 'riverctl toggle-focused-tags ${keepassxc_tag} && riverctl focus-view up'";
-            "Super M" = "spawn powerprofilesmenu";
-            # semicolon
-            "Super 0x003b" = "spawn 'riverctl toggle-focused-tags ${dropterm_tag} && riverctl focus-view up'";
+            # u for upower I guess...
+            "Super U" = "spawn powerprofilesmenu";
+            "Super semicolon" = "spawn 'riverctl toggle-focused-tags ${dropterm_tag} && riverctl focus-view up'";
 
             "None  Print" = "spawn 'grimshot screen'";
             "Shift Print" = "spawn 'grimshot area'";
@@ -100,15 +100,18 @@ in {
 
             "Super Space" = "zoom";
 
-            "Super Up" = "send-layout-cmd rivertile 'main-location top'";
-            "Super Right" = "send-layout-cmd rivertile 'main-location right'";
-            "Super Down" = "send-layout-cmd rivertile 'main-location bottom'";
-            "Super Left" = "send-layout-cmd rivertile 'main-location left'";
+            "Super Up" = "send-layout-cmd rivercarro 'main-location top'";
+            "Super Right" = "send-layout-cmd rivercarro 'main-location right'";
+            "Super Down" = "send-layout-cmd rivercarro 'main-location bottom'";
+            "Super Left" = "send-layout-cmd rivercarro 'main-location left'";
 
-            # equal sign
-            "Super 0x003d" = "send-layout-cmd rivertile 'main-count +1'";
-            # minus sign
-            "Super 0x002d" = "send-layout-cmd rivertile 'main-count -1'";
+            "Super M" = "send-layout-cmd rivercarro 'main-location-cycle left,monocle'";
+
+            "Super bracketright" = "send-layout-cmd rivercarro 'main-ratio +0.05'";
+            "Super bracketleft" = "send-layout-cmd rivercarro 'main-ratio -0.05'";
+
+            "Super equal" = "send-layout-cmd rivercarro 'main-count +1'";
+            "Super minus" = "send-layout-cmd rivercarro 'main-count -1'";
 
             "Super F" = "toggle-float";
             "Super+Shift F" = "toggle-fullscreen";
