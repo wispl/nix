@@ -57,7 +57,7 @@ end
 function M.compile(makeprg, compiler)
 	-- TODO: reset the compiler after all the variables are gathered.
 	if compiler then
-		vim.api.nvim_command("compiler " .. compiler)
+		vim.cmd.compiler(compiler)
 	end
 
 	-- TODO: compiler seems to set errorformat globally as well?
@@ -75,9 +75,9 @@ function M.compile(makeprg, compiler)
 	-- Make a new qflist and open it, this allows for using :colder to get the
 	-- previous compilation errors.
 	vim.fn.setqflist({}, " ", { title = cmd, nr = "$", quickfixtextfunc = M.quickfixtext })
-	vim.api.nvim_command("copen 10")
+	vim.cmd("copen 10")
 	-- Focus back to the current window since :copen takes focus.
-	vim.api.nvim_command("wincmd p")
+	vim.cmd.wincmd("p")
 
 	-- Live update the compilation window otherwise it would just be blank.
 	local collect = function(err, data)
@@ -95,7 +95,7 @@ function M.compile(makeprg, compiler)
 
 	local on_exit = function(obj)
 		vim.notify("Compilation exited with status " .. obj.code)
-		vim.schedule(function() vim.api.nvim_command("doautocmd QuickFixCmdPost") end)
+		vim.schedule(function() vim.cmd.doautocmd("QuickFixCmdPost") end)
 	end
 
 	vim.system(
