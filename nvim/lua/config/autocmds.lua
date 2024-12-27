@@ -98,7 +98,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 			root_cache[path] = root
 		end
 
-		vim.notify("Auto cding to " .. root)
 		vim.cmd.tchdir(root)
 	end
 })

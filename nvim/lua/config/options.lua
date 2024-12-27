@@ -69,6 +69,14 @@ vim.filetype.add({
 	},
 })
 
+vim.diagnostic.handlers.loclist = {
+	show = function(_, _, _, opts)
+		local winid = vim.api.nvim_get_current_win()
+		vim.diagnostic.setloclist({ open = false })
+		vim.api.nvim_set_current_win(winid)
+	end
+}
+
 vim.diagnostic.config({
 	signs = {
 		text = {

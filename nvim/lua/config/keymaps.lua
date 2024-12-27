@@ -23,7 +23,9 @@ map("n", "<leader>ow", function() vim.opt_local.wrap = not(vim.opt_local.wrap:ge
 -- diagnostic and quickfix
 map("n", "]q", "<cmd>cnext<cr>")
 map("n", "[q", "<cmd>cprev<cr>")
-map("n", "<leader>cd", function() vim.diagnostic.setloclist() end)
+map("n", "]l", "<cmd>lnext<cr>")
+map("n", "[l", "<cmd>lprev<cr>")
+map("n", "<leader>ol", "<cmd>lopen<cr>")
 
 -- system clipboard
 map({ "n", "x" }, "gy", '"+y')
