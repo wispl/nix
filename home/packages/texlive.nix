@@ -36,6 +36,8 @@
         xkeyval
         fontaxes
         sectsty
+        # formatter
+        latexindent
         # fonts
         erewhon
         newtx

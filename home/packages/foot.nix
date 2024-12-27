@@ -9,7 +9,7 @@
         pad = "40x40center";
       };
       colors = {
-        alpha = "0.97";
+        alpha = "0.99";
         foreground = "${theme.fg}";
         background = "${theme.bg}";
 

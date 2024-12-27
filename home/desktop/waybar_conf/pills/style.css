@@ -12,7 +12,6 @@
 
 window#waybar {
     background-color: @bg;
-    border-bottom: 2px solid @bg1;
 }
 
 /* Set all other module to desired font size. */
@@ -80,7 +79,7 @@ tooltip label {
 
 #clock {
     color: @green;
-    background-color: @bg2;
+    background-color: @bg0;
 
     margin: 8px;
     padding: 2px 16px;
@@ -91,7 +90,7 @@ tooltip label {
  * border-radius is set on a single side. */
 #pulseaudio {
     color: @magenta;
-    background-color: @bg2;
+    background-color: @bg0;
 
     margin: 8px 0px;
     padding: 2px;
@@ -101,7 +100,7 @@ tooltip label {
 }
 
 #pulseaudio-slider {
-    background-color: @bg2;
+    background-color: @bg0;
 
     margin: 8px 0px;
 }
@@ -131,14 +130,14 @@ tooltip label {
 
 #backlight {
     color: @yellow;
-    background-color: @bg2;
+    background-color: @bg0;
 
     margin: 8px 0px;
     padding-left: 8px;
 }
 
 #backlight-slider {
-    background-color: @bg2;
+    background-color: @bg0;
 
     margin: 8px 0px;
     border-top-right-radius: 16px;
@@ -170,7 +169,7 @@ tooltip label {
 
 /* For tags, we draw pills ourselves instead of using a text or icon */
 #tags {
-    background-color: @bg2;
+    background-color: @bg0;
 
     margin: 8px;
     padding: 8px;

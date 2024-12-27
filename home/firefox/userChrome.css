@@ -14,6 +14,12 @@
 	filter: brightness(85%);
 }
 
+/* Remove border around urlbar */
+#urlbar:not([open]):not([breakout-extend]) > #urlbar-background  {
+    border: none !important;
+    box-shadow: none !important;
+}
+
 /* Swap tab background colors to be same as toolbar */
 #tabbrowser-tabs {
 	background: var(--toolbar-field-background-color) !important;
@@ -35,4 +41,20 @@
 }
 .titlebar-close {
 	display: none !important;
+}
+
+/* Hide line between vertical tab and content */
+#tabbrowser-tabbox {
+	outline: none !important;
+	box-shadow: none !important;
+}
+
+/* Hide line under the toolbox */
+#navigator-toolbox {
+	border-bottom: 0.01px solid transparent !important;
+}
+
+/* Make the tool and extensions backgorund the same as the rest of the sidebar. */
+.tools-and-extensions {
+	background: var(--toolbar-field-background-color) !important;
 }

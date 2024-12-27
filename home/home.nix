@@ -49,11 +49,14 @@
     yt-dlp
 
     # coding
+    clang-tools
+    shellcheck-minimal
+    alejandra
+    cargo
+    chicken
     gcc
     gdb
     valgrind
-    alejandra
-    chicken
 
     xdg-utils
     qemu
