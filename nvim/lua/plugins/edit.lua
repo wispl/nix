@@ -109,5 +109,29 @@ return {
 			},
 		},
 		opts = {},
-	}
+	},
+	{
+		"rgroli/other.nvim",
+		keys = {
+			{ "<leader>a", "<cmd>Other<cr>", desc = "[A]lt file" }
+		},
+		config = function()
+			require("other-nvim").setup({
+				mappings = {
+					"c",
+					"rust",
+					{
+						-- context = "C header",
+						pattern = "(.*).cpp$",
+						target = "%1.h",
+					},
+					{
+						-- context = "C source file",
+						pattern = "(.*).h$",
+						target = "%1.cpp",
+					},
+				}
+			})
+		end
+	},
 }

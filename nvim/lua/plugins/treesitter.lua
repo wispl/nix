@@ -37,5 +37,14 @@ return {
 		config = function(_, opts)
 			require("nvim-treesitter.configs").setup(opts)
 		end
+	},
+	-- latex
+	{
+		"lervag/vimtex",
+		lazy = false,
+		config = function()
+			vim.g.vimtex_view_method = "sioyek"
+			vim.g.vimtex_format_enabled = 1
+		end,
 	}
 }
