@@ -1,36 +1,36 @@
 local modes = {
-	["n"] = "Normal",
-	["no"] = "Operator",
-	["nov"] = "Operator",
-	["noV"] = "Operator",
-	["no"] = "Operator",
-	["niI"] = "Normal",
-	["niR"] = "Normal",
-	["niV"] = "Normal",
-	["v"] = "Visual",
-	["vs"] = "Visual",
-	["V"] = "Visual",
-	["Vs"] = "Visual",
-	[""] = "Visual",
-	["s"] = "Select",
-	["s"] = "Select",
-	["S"] = "Select",
-	["i"] = "Insert",
-	["ic"] = "Insert",
-	["ix"] = "Insert",
-	["R"] = "Replace",
-	["Rc"] = "Replace",
-	["Rv"] = "Replace",
-	["Rx"] = "Replace",
-	["c"] = "Command",
-	["cv"] = "Command",
-	["ce"] = "Command",
-	["r"] = "More",
-	["rm"] = "Confirm",
-	["r?"] = "Next",
-	["!"] = "Shell",
-	["t"] = "Terminal",
-	["nt"] = "Terminal",
+	["n"] = "NO",
+	["niI"] = "NO",
+	["niR"] = "NO",
+	["niV"] = "NO",
+	["no"] = "**",
+	["nov"] = "**",
+	["noV"] = "**",
+	["no"] = "**",
+	["v"] = "VIS",
+	["vs"] = "VIS",
+	["V"] = "VIS",
+	["Vs"] = "VIS",
+	[""] = "VIS",
+	["s"] = "SEL",
+	["s"] = "SEL",
+	["S"] = "SEL",
+	["i"] = "INS",
+	["ic"] = "INS",
+	["ix"] = "INS",
+	["R"] = "RE",
+	["Rc"] = "RE",
+	["Rv"] = "RE",
+	["Rx"] = "RE",
+	["c"] = "EX",
+	["cv"] = "EX",
+	["ce"] = "EX",
+	["r"] = "MORE",
+	["rm"] = "CONFIRM",
+	["r?"] = "NEXT",
+	["!"] = "SHELL",
+	["t"] = "TERM",
+	["nt"] = "TERM",
 	["null"] = "??"
 }
 
@@ -48,30 +48,35 @@ local function mode()
 	local mode = modes[vim.api.nvim_get_mode().mode] or "??"
 	local color = "%#Normal#"
 
-	if mode == "Normal" then
+	if mode == "NO" then
     color = "%#StatusNormal#"
-	elseif mode == "Insert" then
+	elseif mode == "INS" then
 		color = "%#StatusInsert#"
-	elseif mode == "Visual" then
+	elseif mode == "VIS" then
 		color = "%#StatusVisual#"
-	elseif mode == "Replace" then
+	elseif mode == "RE" then
 		color = "%#StatusReplace#"
-	elseif mode == "Command" then
+	elseif mode == "EX" then
     color = "%#StatusCommand#"
-	elseif mode == "Terminal" then
+	elseif mode == "TERM" then
 		color = "%#StatusTerminal#"
+	else
+    color = "%#StatusNormal#"
 	end
 	return string.format("%s %s ", color, mode)
 end
 
 local function git()
-	return " " .. (vim.b.minigit_summary and vim.b.minigit_summary.head_name or "")
+	if vim.b.minigit_summary and vim.b.minigit_summary.head_name  then
+		return string.format("(#%s)", vim.b.minigit_summary.head_name)
+	end
+	return ""
 end
 
 local function gitdiff()
 	local str = " "
 	local summary = vim.b.minidiff_summary
-	if summary == nil or summary.source == nil then return "" end
+	if summary == nil then return "" end
 	if summary.add > 0 then str = str .. "%#GitSignsAdd#" .. '+' .. summary.add .. ' ' end
 	if summary.change > 0 then str = str .. "%#GitSignsChange#" .. '~' .. summary.change  .. ' 'end
 	if summary.delete > 0 then str = str .. "%#GitSignsDelete#" .. '-' .. summary.delete .. ' ' end
