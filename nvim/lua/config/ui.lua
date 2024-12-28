@@ -77,9 +77,15 @@ local function gitdiff()
 	local str = " "
 	local summary = vim.b.minidiff_summary
 	if summary == nil then return "" end
-	if summary.add > 0 then str = str .. "%#GitSignsAdd#" .. '+' .. summary.add .. ' ' end
-	if summary.change > 0 then str = str .. "%#GitSignsChange#" .. '~' .. summary.change  .. ' 'end
-	if summary.delete > 0 then str = str .. "%#GitSignsDelete#" .. '-' .. summary.delete .. ' ' end
+	if summary.add and summary.add > 0 then
+		str = str .. "%#GitSignsAdd#" .. "+" .. summary.add .. " "
+	end
+	if summary.change and summary.change > 0 then 
+		str = str .. "%#GitSignsChange#" .. "~" .. summary.change  .. " "
+	end
+	if summary.delete and summary.delete > 0 then
+		str = str .. "%#GitSignsDelete#" .. "-" .. summary.delete .. " "
+	end
 	return str
 end
 
