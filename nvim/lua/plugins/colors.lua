@@ -50,10 +50,10 @@ return {
 
 					NoiceMini = { bg = theme.ui.bg },
 
-					-- ModesCopy =	{ bg = colors.palette.dragonOrange },
-					-- ModesDelete =	{ bg = colors.palette.dragonRed },
-					-- ModesInsert =	{ bg = colors.palette.dragonTeal },
-					-- ModesVisual =	{ bg = colors.palette.dragonPink },
+					ModesInsert =	{ bg = colors.palette.oniViolet },
+					ModesVisual =	{ bg = colors.palette.dragonBlue },
+					ModesDelete =	{ bg = colors.palette.dragonRed },
+					ModesCopy		=	{ bg = colors.palette.dragonGreen },
 				}
 			end
 		},

@@ -121,6 +121,24 @@ return {
 			}
 		},
 	},
+	-- icons
+	{
+		"echasnovski/mini.icons",
+		lazy = true,
+		init = function()
+			package.preload["nvim-web-devicons"] = function()
+				require("mini.icons").mock_nvim_web_devicons()
+				return package.loaded["nvim-web-devicons"]
+			end
+		end,
+	},
+	{
+		"mvllow/modes.nvim",
+		event = "InsertEnter",
+		opts = {
+			line_opacity = 0.25,
+		}
+	}
 	-- {
 	-- 	"mvllow/modes.nvim",
 	-- 	event = "VeryLazy",
