@@ -27,7 +27,6 @@
 
   # Shell packages
   home.packages = with pkgs; [
-    amdgpu_top
     bc
     btop
     fastfetch
@@ -139,8 +138,9 @@
     };
   };
 
-  services = {
-    ssh-agent.enable = true;
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
