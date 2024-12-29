@@ -41,10 +41,11 @@ o.conceallevel = 2
 o.signcolumn = "yes:1"
 o.cursorline = true
 o.list = true
+o.foldcolumn = "1"
 opt.fillchars = {
   fold = " ",
-	foldclose = "",
-	foldopen = "",
+	foldclose = "",
+	foldopen = "",
   diff = "╱",
   eob = " ",
 	vert = " ",
@@ -90,3 +91,8 @@ vim.diagnostic.config({
 	},
 	severity_sort = true
 })
+
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3
+vim.g.netrw_altv = 1
+vim.g.netrw_winsize = 20

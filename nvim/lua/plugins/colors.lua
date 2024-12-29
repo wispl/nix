@@ -19,6 +19,7 @@ return {
 					FloatBorder = { bg = "none" },
 					FloatTitle = { bg = "none" },
 					WinSeparator = { fg = theme.ui.bg_p2 },
+					FoldColumn = { fg = theme.ui.bg_p1 },
 
 					Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
 					PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
