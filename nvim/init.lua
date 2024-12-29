@@ -44,6 +44,7 @@ require("lazy").setup("plugins", {
 				"tutor",
 				"rplugin",
 				"zipPlugin",
+				"matchit"
 			},
 		}
 	},
@@ -63,6 +64,8 @@ vim.api.nvim_create_autocmd("User", {
 		pcall(vim.cmd.rshada, { bang = true })
 
 		vim.opt.clipboard = clipboard
+		-- TODO: Not too sure about this, going to try it out a little
+		vim.cmd.packadd("matchit")
 	end
 })
 vim.cmd.colorscheme("kanagawa")
