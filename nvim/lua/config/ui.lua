@@ -118,17 +118,17 @@ function _G.tabline()
 	for i = 1, vim.fn.tabpagenr("$") do
 		local winnum = vim.fn.tabpagewinnr(i)
 		local buflist = vim.fn.tabpagebuflist(i)
-		local bufname = vim.fn.bufname(buflist[winnum])
-		local buf_hl = (i == curr and "%#NonText#" or "%#Text#")
 
-		local file = vim.fn.fnamemodify(bufname, ":t")
-		if file == "" then
-			file = "[No Name]"
+		local bufname = vim.fn.bufname(buflist[winnum])
+		local bufname = vim.fn.fnamemodify(bufname, ":t")
+		if bufname == "" then
+			bufname = "[No Name]"
 		end
 
+		local buf_hl = (i == curr and "%#Text#" or "%#NonText#")
 		local icon, _, _ = icons.get("file", bufname)
 
-		tabs = string.format("%s %s %s %s ", tabs, buf_hl, icon, file)
+		tabs = string.format("%s %s %s %s ", tabs, buf_hl, icon, bufname)
 	end
 	return tabs
 end
