@@ -34,16 +34,6 @@ local modes = {
 	["null"] = "??"
 }
 
--- This should work for most colorschemes
-local function set_tabsep_hl()
-		-- setup highlights for the separators
-		local TabLine_bg = vim.api.nvim_get_hl(0, { name = "TabLine" }).bg
-		local TabLineSel_bg = vim.api.nvim_get_hl(0, { name = "TabLineSel" }).bg
-		local TabLineFill_bg = vim.api.nvim_get_hl(0, { name = "TabLineFill" }).bg
-		vim.api.nvim_set_hl(0, "TabSep", { fg = TabLine_bg, bg = TabLineFill_bg })
-		vim.api.nvim_set_hl(0, "TabSelSep", { fg = TabLineSel_bg, bg = TabLineFill_bg })
-end
-
 local function mode()
 	local mode = modes[vim.api.nvim_get_mode().mode] or "??"
 	local color = "%#Normal#"
@@ -120,29 +110,30 @@ local function filepos()
 	return string.format("%s %s:%s ", "%#ColorColumn#", "%l", "%c")
 end
 
--- inspired by nanozuki/tabby.nvim
-function _G.custom_tabline()
-	local tabs = "%#TabLine# Tabs: %#TabSep#"
+function _G.tabline()
+	local icons = require("mini.icons")
+	local tabs = ""
 	local curr = vim.fn.tabpagenr()
 
 	for i = 1, vim.fn.tabpagenr("$") do
 		local winnum = vim.fn.tabpagewinnr(i)
 		local buflist = vim.fn.tabpagebuflist(i)
 		local bufname = vim.fn.bufname(buflist[winnum])
-		local sep_hl = (i == curr and "%#TabSelSep#" or "%#TabSep#")
-		local buf_hl = (i == curr and "%#TabLineSel#" or "%#TabLine#")
+		local buf_hl = (i == curr and "%#NonText#" or "%#Text#")
+
 		local file = vim.fn.fnamemodify(bufname, ":t")
 		if file == "" then
 			file = "[No Name]"
 		end
 
-		tabs = string.format("%s%s%s %s %s", tabs, sep_hl, buf_hl, file, sep_hl)
-	end
+		local icon, _, _ = icons.get("file", bufname)
 
-	return tabs .. "%= %#TabSep#%#TabLine#" .. string.rep(" ", 10)
+		tabs = string.format("%s %s %s %s ", tabs, buf_hl, icon, file)
+	end
+	return tabs
 end
 
-function _G.custom_statusline()
+function _G.statusline()
 	return table.concat({
 		mode(),
 		file(),
@@ -156,12 +147,5 @@ function _G.custom_statusline()
 	})
 end
 
-vim.api.nvim_create_autocmd("Colorscheme", {
-	group = vim.api.nvim_create_augroup("TabLineSep", {}),
-	desc = "Refresh TabLine Separator colors on colorscheme change",
-	callback = function(opts) set_tabsep_hl() end
-})
-
-set_tabsep_hl()
-vim.o.statusline = "%!v:lua.custom_statusline()"
-vim.o.tabline = "%!v:lua.custom_tabline()"
+vim.o.statusline = "%!v:lua.statusline()"
+vim.o.tabline = "%!v:lua.tabline()"
