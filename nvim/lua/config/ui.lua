@@ -122,15 +122,15 @@ function _G.tabline()
 		local bufname = vim.fn.bufname(buflist[winnum])
 		local bufname = vim.fn.fnamemodify(bufname, ":t")
 		if bufname == "" then
-			bufname = "[No Name]"
+			bufname = "No Name"
 		end
 
-		local buf_hl = (i == curr and "%#Text#" or "%#NonText#")
+		local buf_hl = (i == curr and "%#Normal#" or "%#NonText#")
 		local icon, _, _ = icons.get("file", bufname)
 
 		tabs = string.format("%s %s %s %s ", tabs, buf_hl, icon, bufname)
 	end
-	return tabs
+	return "%#Normal#" .. tabs .. "%#Normal#"
 end
 
 function _G.statusline()
