@@ -1,3 +1,4 @@
+# The best shell, only because it is the default... I think.
 {
   programs.bash = {
     enable = true;

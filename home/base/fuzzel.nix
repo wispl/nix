@@ -1,3 +1,4 @@
+# Launcher, menu, fuzzy matcher, and probably also a rudimentary ui.
 {theme, ...}: {
   programs.fuzzel = {
     enable = true;
