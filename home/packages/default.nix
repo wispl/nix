@@ -7,11 +7,12 @@
   ...
 }: {
   imports = with specialArgs.theme; [
-    ./firefox.nix
-    ./lf.nix
-    ./sioyek.nix
     ./apps.nix
+    ./firefox.nix
+    ./gpg.nix
+    ./lf.nix
     ./shell.nix
+    ./sioyek.nix
     ./system.nix
     ./texlive.nix
   ];
