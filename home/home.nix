@@ -13,7 +13,6 @@
     ./dev/sh.nix
     ./dev/rust.nix
 
-    ./firefox
     ./packages
     ./nvim.nix
   ];

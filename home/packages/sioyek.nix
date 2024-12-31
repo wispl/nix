@@ -1,4 +1,9 @@
+# PDF viewer... no funny quirks for this one... because pdfs are no joke.
 {theme, ...}: {
+  xdg.mimeApps.defaultApplications = {
+    "application/pdf" = ["sioyek.desktop"];
+  };
+
   programs.sioyek = {
     enable = true;
     bindings = {

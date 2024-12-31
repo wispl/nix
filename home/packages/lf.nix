@@ -1,3 +1,4 @@
+# TUI file manager for when mashing mv, cp, and rm is no longer fun.
 {pkgs, ...}: {
   # For file previews
   home.packages = with pkgs; [chafa file];

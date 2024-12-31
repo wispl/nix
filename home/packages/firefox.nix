@@ -1,5 +1,4 @@
-{...}: let
-in {
+{
   programs.firefox = {
     enable = true;
     profiles = {
@@ -7,7 +6,7 @@ in {
         id = 0;
         name = "default";
         isDefault = true;
-        userChrome = builtins.readFile ./userChrome.css;
+        userChrome = builtins.readFile ./firefox/userChrome.css;
       };
       spare = {
         id = 1;
