@@ -8,13 +8,13 @@
     ./base
 
     ./desktop/river.nix
+    ./editors/nvim.nix
+
+    ./packages
 
     ./dev/cc.nix
     ./dev/sh.nix
     ./dev/rust.nix
-
-    ./packages
-    ./nvim.nix
   ];
 
   home = {
