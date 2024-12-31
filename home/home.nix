@@ -24,26 +24,12 @@
     sessionVariables = {
       TERMINAL = "foot";
       # PATH to the directory of the root flake.nix. This is used for
-      # mkOutOfStoreSymlinks for configs like neovim.
+      # mkOutOfStoreSymlinks for configs like neovim and scripts.
       FLAKE = "${config.home.homeDirectory}/flakes";
     };
   };
 
-  home.packages = with pkgs; [alejandra xdg-utils];
-
-  xdg = {
-    userDirs = {
-      enable = true;
-      desktop = "\$HOME/";
-      documents = "\$HOME/documents";
-      download = "\$HOME/tmp";
-      music = "\$HOME/music";
-      pictures = "\$HOME/pictures";
-    };
-    mimeApps = {
-      enable = true;
-    };
-  };
+  home.packages = with pkgs; [alejandra];
 
   systemd.user.startServices = "sd-switch";
 

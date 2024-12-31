@@ -5,6 +5,7 @@
 #	notification
 #	idle daemon
 #	bar
+#	xdg-user-dirs and mimeApps
 {
   lib,
   pkgs,
@@ -34,6 +35,8 @@ in {
     wf-recorder # screen record
     wl-clipboard # clipboard
 
+    xdg-utils # mime and xdg-open
+
     adwaita-icon-theme # icons
   ];
 
@@ -42,6 +45,20 @@ in {
     size = 32;
     package = pkgs.rose-pine-cursor;
     name = "BreezeX-RosePine-Linux";
+  };
+
+  xdg = {
+    userDirs = {
+      enable = true;
+      desktop = "\$HOME/";
+      documents = "\$HOME/documents";
+      download = "\$HOME/tmp";
+      music = "\$HOME/music";
+      pictures = "\$HOME/pictures";
+    };
+    mimeApps = {
+      enable = true;
+    };
   };
 
   gtk = {
