@@ -27,26 +27,6 @@
 
   # Shell packages
   home.packages = with pkgs; [
-    bc
-    btop
-    fastfetch
-    fd
-    fzf
-    ghostscript
-    imagemagick
-    imv
-    jq
-    mpv
-    ncdu
-    nix-tree
-    pandoc
-    pfetch
-    powertop
-    ripgrep
-    tree
-    unzip
-    yt-dlp
-
     # coding
     clang-tools
     shellcheck-minimal

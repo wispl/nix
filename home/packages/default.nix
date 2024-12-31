@@ -2,7 +2,7 @@
 # is a package, it is going to be packed here, which is why it is really packed
 # here. Alright, no more usage of the word packed or packages now. Imported files
 # are either individual packages with configuration or a collection of zero
-# configuration packages.
+# configuration packages. This is kind of like a catch all.
 {
   pkgs,
   specialArgs,
@@ -16,8 +16,9 @@
     ./sioyek.nix
 
     # packages with no configuration
-    ./texlive.nix
     ./apps.nix
+    ./shell.nix
     ./system.nix
+    ./texlive.nix
   ];
 }
