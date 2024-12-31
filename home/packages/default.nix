@@ -11,8 +11,6 @@
   imports = with specialArgs.theme; [
     # packages with configuration
     ./lf.nix
-    ./foot.nix
-    ./fuzzel.nix
     ./sioyek.nix
 
     # packages with no configuration

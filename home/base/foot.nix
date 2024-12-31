@@ -5,7 +5,7 @@
       main = {
         # font = "Deja Vu Sans Mono:size=16";
         # font = "Iosevka Term SS04 Extended:size=20,Symbols Nerd Font:size=18";
-        font = "Julia Mono:size=18, Symbols Nerd Font Mono:size=18";
+        font = "FantasqueSansM Nerd Font Mono:size=20,Julia Mono:size=18";
         pad = "40x40center";
       };
       colors = {
@@ -38,7 +38,7 @@
         "17" = "${theme.extraColor2}";
       };
       tweak = {
-        box-drawing-base-thickness = 0.08;
+        box-drawing-base-thickness = 0.06;
       };
     };
   };
