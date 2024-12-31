@@ -29,12 +29,7 @@
     };
   };
 
-  home.packages = with pkgs; [
-    alejandra
-
-    xdg-utils
-    qemu
-  ];
+  home.packages = with pkgs; [alejandra xdg-utils];
 
   xdg = {
     userDirs = {
