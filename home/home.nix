@@ -8,6 +8,11 @@
     ./base
 
     ./desktop/river.nix
+
+    ./dev/cc.nix
+    ./dev/sh.nix
+    ./dev/rust.nix
+
     ./firefox
     ./packages
     ./nvim.nix
@@ -25,17 +30,8 @@
     };
   };
 
-  # Shell packages
   home.packages = with pkgs; [
-    # coding
-    clang-tools
-    shellcheck-minimal
     alejandra
-    cargo
-    chicken
-    gcc
-    gdb
-    valgrind
 
     xdg-utils
     qemu
