@@ -5,7 +5,7 @@
   ...
 }: {
   imports = with specialArgs.theme; [
-    ./desktop
+    ./desktop/river.nix
     ./firefox
     ./packages
     ./nvim.nix

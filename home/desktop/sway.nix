@@ -3,9 +3,7 @@
   config,
   pkgs,
   ...
-}:
-with lib;
-with pkgs; let
+}: let
   wallpaper_dir = "$XDG_PICTURES_DIR/wallpapers/";
   filename = "hk_room.png";
   mod4 = "Mod4";
@@ -15,7 +13,7 @@ with pkgs; let
   inactive = "#${theme.bgD}";
   urgent = "#${theme.red}";
 in {
-  imports = [./wayland.nix];
+  imports = with specialArgs.theme; [./wayland.nix];
 
   wayland = {
     windowManager = {

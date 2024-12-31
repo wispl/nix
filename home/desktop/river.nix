@@ -27,7 +27,7 @@
     "None XF86MonBrightnessDown" = "spawn 'brightnessctl set 5%-'";
   };
 in {
-  imports = [./wayland.nix];
+  imports = with theme; [./wayland.nix];
   home.packages = with pkgs; [rivercarro];
 
   wayland.windowManager.river = {
