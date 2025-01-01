@@ -39,15 +39,6 @@ return {
 
 					DashboardHeader = { fg = theme.syn.comment },
 
-					TelescopePromptTitle = { fg = theme.ui.bg_dim, bg = theme.syn.keyword, bold = true },
-					TelescopePromptNormal = { bg = theme.ui.bg_m1 },
-					TelescopePromptBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
-					TelescopeResultsNormal = { fg = theme.ui.fg, bg = theme.ui.bg_dim },
-					TelescopeResultsBorder = { fg = theme.ui.bg_dim, bg = theme.ui.bg_dim },
-					TelescopePreviewTitle = { fg = theme.ui.bg_dim, bg = theme.syn.constant, bold = true },
-					TelescopePreviewNormal = { bg = theme.ui.bg_dim },
-					TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
-
 					NoiceMini = { bg = theme.ui.bg },
 
 					ModesInsert =	{ bg = colors.palette.oniViolet },

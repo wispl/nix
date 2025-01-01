@@ -1,46 +1,43 @@
 return {
-	-- Telescope
+	-- fuzzy finder
 	{
-		"nvim-telescope/telescope.nvim",
-		cmd = "Telescope",
-		version = false,
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "make",
-				config = function()
-					require("telescope").load_extension("fzf")
-				end
-			}
-		},
+		"ibhagwan/fzf-lua",
+		cmd = "FzfLua",
 		keys = {
-			{ "<leader>f", "<cmd>Telescope find_files<cr>" },
-			{ "<leader>b", "<cmd>Telescope buffers sort_mru=true<cr>" },
-			{ "<leader>g", "<cmd>Telescope live_grep<cr>" },
-			{ "<leader>/", "<cmd>Telescope grep_string<cr>" },
-			{ "<leader>;", "<cmd>Telescope command_history<cr>" },
-			{ "<leader>m", "<cmd>Telescope marks mark_type=global<cr>" },
+			{ "<leader>f", "<cmd>FzfLua files<cr>" },
+			{ "<leader>b", "<cmd>FzfLua buffers sort_mru=true<cr>" },
+			{ "<leader>g", "<cmd>FzfLua live_grep<cr>" },
+			{ "<leader>/", "<cmd>FzfLua grep_cWORD<cr>" },
+			{ "<leader>;", "<cmd>FzfLua command_history<cr>" },
+			{ "<leader>m", "<cmd>FzfLua marks" },
 		},
 		opts = {
-			defaults = {
-				prompt_prefix = " ",
-				layout_strategy = "flex",
-				selection_caret = "  ",
-				entry_prefix = "  ",
-				dynamic_preview_title = true,
-				results_title = "",
-				sorting_strategy = "ascending",
-				layout_config = {
-					horizontal = {
-						prompt_position = "top",
-						preview_width = 0.55
-					},
-					width = 0.80,
-					height = 0.85
+      "default-title",
+			winopts = {
+				row = 1,
+				col = 1,
+				height = 0.60,
+				border = "empty",
+				width = 1.00,
+				preview = {
+					scrollbar = false,
+					layout = "horizontal",
 				}
+			},
+			hls = {
+				border = "PmenuSbar",
+				title = "PmenuSel",
+				preview_border = "PmenuSbar",
+				preview_normal = "PmenuSbar",
+				preview_title = "PmenuSel",
+				scrollfloat_e = "",
+				scrollfloat_f = "PmenuSel",
+			},
+			fzf_colors = {
+				["gutter"] = { "bg", "PmenuSbar" },
+				["bg"] = { "bg", "PmenuSbar" },
 			}
-		}
+		},
 	},
 	-- surround
 	{
