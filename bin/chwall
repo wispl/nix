@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+
+# Small script for changing the wallpaper using a $WALLPAPER env variable and a symlink
+
+# Need absolute path for the symlink
+new_wallpaper=$(realpath $1)
+
+# Set the new wallpaper
+ln -sf "$new_wallpaper" "$WALLPAPER"
+
+# Hopefully there is only one instance of swaybg running...
+# Store the old PID
+pid=$(ps -e | grep "swaybg" | awk '{ print $1 }')
+
+# Start a new instance to avoid the default grey wall of death
+swaybg --mode fill -i "$WALLPAPER" &
+
+kill $pid
