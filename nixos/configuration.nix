@@ -36,6 +36,8 @@
 
   zramSwap.enable = true;
 
+  # Enable systemd for initrd stage 1, might need further tweaks on some systems
+  boot.initrd.systemd.enable = true;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
