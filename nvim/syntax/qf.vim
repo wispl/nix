@@ -14,8 +14,8 @@ syn match	qfText		"^.*"
 syn match	qfCode		"\s*\d*\s*|.*"
 
 " Actual quick fix items
-syn match	qfItem		"\w*\.\w*:\d*:\d*" nextgroup=qfError,qfWarning,qfInfo,qfHint contains=qfFileName,qfLineCol
-syn match	qfFileName	"\w*\.\w*" contained
+syn match	qfItem		"[^:]*:\d*:\d*" nextgroup=qfError,qfWarning,qfInfo,qfHint contains=qfFileName,qfLineCol
+syn match	qfFileName	"[^:]*" contained
 syn match	qfLineCol	"\d*:\d*" contained
 
 syn match	qfError		" error:" nextgroup=qfMessage contained
@@ -29,9 +29,9 @@ syn match	qfHint		" hint:" nextgroup=qfMessage contained
 syn match 	qfVariable	"`\|‘[^’`]*" contains=qfVarName
 syn match 	qfVarName	"\w*" contained
 
-" Match inside brackets, which tells us the error code usually
+" Match inside brackets, which usually tells us the error code
 syn match 	qfErrGroup	"\[.\+\]" contains=qfErrCode
-syn match 	qfErrCode	"[^\[\]]\+" contained
+syn match 	qfErrCode	"#[^\[\]]\+" contained
 
 " Highlights
 
