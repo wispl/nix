@@ -4,9 +4,6 @@
   theme,
   ...
 }: let
-  wallpaper_dir = "$XDG_PICTURES_DIR/wallpapers/";
-  filename = "hk_room.png";
-
   scratch_tag = "$((1 << 19))";
   # until keepassxc gets wayland autotype
   keepassxc_tag = "$((1 << 20))";
@@ -44,7 +41,7 @@ in {
       spawn = [
         "'rivercarro -no-smart-gaps -inner-gaps 8 -outer-gaps 8'"
         "waybar"
-        "'swaybg --mode fill -i ${wallpaper_dir}${filename}'"
+        "'swaybg --mode fill -i $WALLPAPER'"
         "'foot -a dropterm'"
         "keepassxc"
       ];

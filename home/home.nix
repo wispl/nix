@@ -23,6 +23,8 @@
     sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {
       TERMINAL = "foot";
+      # Wallpaper symlink, so switching wallpapers do not take a rebuild
+      WALLPAPER = "${config.xdg.stateHome}/wallpaper";
       # PATH to the directory of the root flake.nix. This is used for
       # mkOutOfStoreSymlinks for configs like neovim and scripts.
       FLAKE = "${config.home.homeDirectory}/flakes";

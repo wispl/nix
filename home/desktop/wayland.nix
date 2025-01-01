@@ -133,13 +133,13 @@ in {
     events = [
       {
         event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        command = "${pkgs.swaylock}/bin/swaylock -f -i $WALLPAPER";
       }
     ];
     timeouts = [
       {
         timeout = 300;
-        command = "${pkgs.swaylock}/bin/swaylock -f";
+        command = "${pkgs.swaylock}/bin/swaylock -f -i $WALLPAPER";
       }
       {
         timeout = 330;
@@ -153,7 +153,7 @@ in {
   # Bar
   programs.waybar = {
     enable = true;
-    settings.mainBar = lib.importJSON ./waybar_conf/pills/config.jsonc;
+    settings.mainBar = lib.importJSON ./waybar/pills/config.jsonc;
     style = ''
       @define-color fg #${theme.fg};
 
@@ -178,7 +178,7 @@ in {
       @define-color bright-blue    #${theme.brightBlue};
       @define-color bright-magenta #${theme.brightMagenta};
       @define-color bright-cyan    #${theme.brightCyan};
-      ${builtins.readFile ./waybar_conf/pills/style.css}
+      ${builtins.readFile ./waybar/pills/style.css}
     '';
   };
 }

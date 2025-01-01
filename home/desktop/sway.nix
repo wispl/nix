@@ -4,8 +4,6 @@
   pkgs,
   ...
 }: let
-  wallpaper_dir = "$XDG_PICTURES_DIR/wallpapers/";
-  filename = "hk_room.png";
   mod4 = "Mod4";
   bg = "#${theme.bg}181616";
   fg = "#${theme.fg}";
@@ -26,7 +24,7 @@ in {
             outer = 0;
           };
           startup = [
-            {command = "${swaybg}/bin/swaybg --mode fill -i ${wallpaper_dir}${filename}";}
+            {command = "${swaybg}/bin/swaybg --mode fill -i $WALLPAPER";}
           ];
           input = {
             "type:touchpad" = {
