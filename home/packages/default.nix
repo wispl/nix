@@ -11,6 +11,7 @@
     ./firefox.nix
     ./gpg.nix
     ./lf.nix
+    ./mpd.nix
     ./qemu.nix
     ./shell.nix
     ./sioyek.nix
