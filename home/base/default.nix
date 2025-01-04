@@ -12,6 +12,7 @@
   imports = with specialArgs.theme; [
     ./bash.nix
     ./foot.nix
+    ./direnv.nix
     ./scripts.nix
     ./fuzzel.nix
   ];
