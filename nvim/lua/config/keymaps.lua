@@ -3,6 +3,7 @@ local map = vim.keymap.set
 map("i", "jk", "<Esc>")
 
 map("n", "<leader>cc", function() require("config.compile").make() end)
+map("n", "<leader>t", function() require("config.compile").toggle_terminal() end)
 
 -- better movement for wrapped lines
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
@@ -32,8 +33,6 @@ map({ "n", "x" }, "gy", '"+y')
 map("n","gp", '"+p')
 
 -- tabs
-map("n", "<leader>tn", "<cmd>tabnew<cr>")
-map("n", "<leader>tc", "<cmd>tcd %:h<cr>")
 map("n", "]t", "<cmd>tabnext<cr>")
 map("n", "[t", "<cmd>tabprev<cr>")
 -- notes tab

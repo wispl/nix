@@ -13,11 +13,14 @@ local M = {}
 --	These are defaults/fallbacks and can be overriden.
 M.compilers_by_ft = {
 	c = { compiler = "gcc", makeprg = "make" },
-	cpp = { compiler = "gcc", makeprg = "cmake --build /build" },
+	cpp = { compiler = "gcc", makeprg = "cmake --build build" },
 	zig = { compiler = "zig" },
 	-- cargo also pulls in errorformats from rustc
 	rust = { compiler = "cargo" },
 }
+
+local termjob = nil
+local termwin = nil
 
 function M.quickfixtext(opts)
 	local type = {
@@ -130,6 +133,36 @@ function M.make()
 	end
 
 	M.compile(makeprg, compiler)
+end
+
+-- Toggles a terminal
+--	from: https://github.com/mfussenegger/dotfiles/blob/master/vim/dot-config/nvim/lua/me/term.lua
+function M.toggle_terminal()
+	if termjob == nil then
+		vim.cmd("belowright new")
+		vim.cmd.resize("10")
+		vim.cmd.startinsert()
+
+		termwin = vim.api.nvim_get_current_win()
+		vim.bo.buftype = "nofile"
+		vim.bo.bufhidden = "wipe"
+		vim.bo.buflisted = false
+		vim.bo.swapfile = false
+		vim.wo.statuscolumn = ""
+		vim.wo.signcolumn = "no"
+
+		-- This is deprecated in 0.11, change to jobstart
+		termjob = vim.fn.termopen(vim.o.shell, {
+			on_exit = function() termjob = nil end
+		})
+		-- vim.fn.jobstart(vim.o.shell, { term = true })
+	else
+		vim.fn.jobstop(termjob)
+		if termwin and vim.api.nvim_win_is_valid(termwin) then
+			pcall(vim.api.nvim_win_close, termwin, true)
+		end
+		termwin = nil
+	end
 end
 
 return M

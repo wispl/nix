@@ -14,6 +14,15 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- start in insert mode when entering a terminal
+vim.api.nvim_create_autocmd("BufEnter", {
+	group = vim.api.nvim_create_augroup("terminal_insert", { clear = true} ),
+	pattern = "term://*",
+	callback = function()
+		vim.cmd.startinsert()
+	end,
+})
+
 -- from LazyVim, tries to render a file as quickly as possible when first
 -- opening from cmdline, colors may flicker but it is better than flickering
 -- from the text
@@ -98,6 +107,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 			root_cache[path] = root
 		end
 
-		vim.cmd.tchdir(root)
+		vim.fn.chdir(root)
 	end
 })
