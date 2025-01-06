@@ -68,6 +68,30 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- quit if the last windows are quickfix or terminal windows
+vim.api.nvim_create_autocmd("QuitPre", {
+	group = vim.api.nvim_create_augroup("autoquit", { clear = true} ),
+  callback = function()
+    local invalid_win = {}
+    local wins = vim.api.nvim_list_wins()
+		local count = #wins
+    for i, w in ipairs(wins) do
+      local buf = vim.api.nvim_win_get_buf(w)
+			local bufname = vim.api.nvim_buf_get_name(buf)
+			local ft = vim.bo[buf].filetype
+			if ft == "noice" then
+				count = count - 1
+			end
+      if ft == "qf" or bufname:find("term://", 1, true) == 1 then
+        table.insert(invalid_win, w)
+      end
+    end
+    if #invalid_win == count - 1 then
+      for _, w in ipairs(invalid_win) do vim.api.nvim_win_close(w, true) end
+    end
+  end
+})
+
 -- From LazyVim, check if file has to be reloaded
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = vim.api.nvim_create_augroup("reload_file", { clear = true} ),
