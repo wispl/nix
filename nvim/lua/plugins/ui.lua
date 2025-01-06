@@ -1,4 +1,3 @@
-
 return {
 	-- ui for cmdheight = 0
 	{
@@ -132,24 +131,10 @@ return {
 			end
 		end,
 	},
+	-- colorful cursorline highlights
 	{
 		"mvllow/modes.nvim",
 		event = "InsertEnter",
-		opts = {
-			line_opacity = 0.25,
-		}
-	}
-	-- {
-	-- 	"mvllow/modes.nvim",
-	-- 	event = "VeryLazy",
-	-- 	opts = {
-	-- 		colors = {
-	-- 			copy = "#dca561",
-	-- 			delete = "#c4746e",
-	-- 			insert = "#949fb5",
-	-- 			visual = "#957fb8",
-	-- 		},
-	-- 		set_signcolumn = false
-	-- 	}
-	-- }
+		opts = { line_opacity = 0.25 }
+	},
 }
