@@ -80,10 +80,10 @@ return {
 				config = {
 					header = logo,
 					center = {
-						{ key = "f", action = "Telescope find_files", desc = "Find file",   },
+						{ key = "f", action = "FzfLua find_files", desc = "Find file",   },
 						{ key = "n", action = "ene | startinsert",    desc = "New file",    },
-						{ key = "r", action = "Telescope oldfiles",   desc = "Recent files",},
-						{ key = "p", action = "Telescope marks",      desc = "Projects",    },
+						{ key = "r", action = "FzfLua oldfiles",   desc = "Recent files",},
+						{ key = "p", action = "FzfLua marks",      desc = "Projects",    },
 						{ key = "q", action = "qa",                   desc = "Quit",        }
 					},
 					footer = function()
