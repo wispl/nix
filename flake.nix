@@ -1,3 +1,4 @@
+# TODO: https://jnsgr.uk/2024/04/nixos-secure-boot-tpm-fde/
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -23,7 +24,7 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./nixos/configuration.nix
+          ./machines/configuration.nix
           impermanence.nixosModules.impermanence
           home-manager.nixosModules.home-manager
           nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
