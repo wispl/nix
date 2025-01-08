@@ -21,6 +21,7 @@ return {
 				width = 1.00,
 				preview = {
 					scrollbar = false,
+					border = "empty",
 					layout = "horizontal",
 				}
 			},

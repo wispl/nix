@@ -68,7 +68,9 @@ return {
 				jump = function(direction) require("luasnip").jump(direction) end,
 			},
 			keymap = { preset = "enter" },
+			snippets = { preset = "luasnip" },
 			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
 				default = { "lsp", "path", "luasnip", "buffer" },
 				cmdline = {},
 			},
