@@ -98,7 +98,12 @@ function M.compile(makeprg, compiler)
 
 	local on_exit = function(obj)
 		vim.notify("Compilation exited with status " .. obj.code)
-		vim.schedule(function() vim.cmd.doautocmd("QuickFixCmdPost") end)
+		vim.schedule(function()
+			vim.cmd.doautocmd("QuickFixCmdPost")
+			if obj.code == 0 then
+				vim.cmd.cclose()
+			end
+		end)
 	end
 
 	vim.system(
