@@ -12,12 +12,7 @@ vim.o.shada = ""
 -- lazy load clipboard
 local clipboard = vim.opt.clipboard
 vim.opt.clipboard = ""
--- lazy load autocmds if not opening a file
-local lazy_autocmds = vim.fn.argc(-1) == 0
-if not lazy_autocmds then
-	config("autocmds.lua")
-end
-
+--
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -50,15 +45,32 @@ require("lazy").setup("plugins", {
 	},
 })
 
+-- from LazyVim, tries to render a file as quickly as possible when first
+-- opening from cmdline, colors may flicker a little, but the text shows up
+-- much faster show the overall flickering is not as jarring.
+if vim.v.vim_did_enter ~= 1 and vim.fn.argc(-1) ~= 0 then
+	local buf = vim.api.nvim_get_current_buf()
+	-- Try to guess the filetype (may change later on during Neovim startup)
+	local ft = vim.filetype.match({ buf = buf })
+	if ft then
+		-- Add treesitter highlights and fallback to syntax
+		local lang = vim.treesitter.language.get_lang(ft)
+		if not (lang and pcall(vim.treesitter.start, buf, lang)) then
+			vim.bo[buf].syntax = ft
+		end
+
+		-- Trigger early redraw
+		vim.cmd.redraw()
+	end
+end
+
 --- source rest of configs
 vim.api.nvim_create_autocmd("User", {
 	group = vim.api.nvim_create_augroup("SourceConfig", { clear = true }),
 	pattern = "VeryLazy",
 	callback = function()
-		if lazy_autocmds then
-			config("autocmds.lua")
-		end
 		config("keymaps.lua")
+		config("autocmds.lua")
 
 		vim.o.shada = shada
 		pcall(vim.cmd.rshada, { bang = true })
