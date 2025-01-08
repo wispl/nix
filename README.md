@@ -12,13 +12,14 @@ Highlights are mainly:
 - btrfs with lzo compression
 - zram
 - impermanence
-- root on tmpfs, `/home` and `/nix` on btrfs subvolume
+- root on tmpfs, `/home` and `/nix` on btrfs subvolumes
 - LUKS encryption
+- home-manager
 
 Other minor changes are
 
 - dbus-broker instead of regular dbus
-- configuration using home-manager
+- systemd in initrd stage 1
 - iwd and resolved for networking
 - nftables instead iptables for firewall
 
