@@ -23,6 +23,12 @@
   yellow = "${theme.yellow}ff";
   blue = "${theme.blue}ff";
   magenta = "${theme.magenta}90";
+
+  css = ''
+    window, decoration, decoration-overlay, headerbar, .titlebar {
+     	border-radius: 0px;
+    }
+  '';
 in {
   home.packages = with pkgs; [
     dconf # ...
@@ -63,6 +69,12 @@ in {
 
   gtk = {
     enable = true;
+    theme = {
+      name = "adw-gtk3";
+      package = pkgs.adw-gtk3;
+    };
+    gtk3.extraCss = css;
+    gtk4.extraCss = css;
   };
 
   # Screenlock
