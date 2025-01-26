@@ -45,17 +45,22 @@
 
   zramSwap.enable = true;
 
-  # Enable systemd for initrd stage 1, might need further tweaks on some systems
-  boot.initrd.systemd.enable = true;
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelParams = ["quiet" "splash" "nowatchdog"];
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.bcache.enable = false;
-  boot.tmp.useTmpfs = true;
+  boot = {
+    # Enable systemd for initrd stage 1, might need further tweaks on some systems
+    initrd.systemd.enable = true;
+    # Use the systemd-boot EFI boot loader.
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+
+    kernelParams = ["quiet" "splash" "nowatchdog"];
+    kernelPackages = pkgs.linuxPackages_latest;
+    bcache.enable = false;
+    tmp.useTmpfs = true;
+  };
 
   networking.hostName = "snow";
+  # use nftables for firewall
+  networking.nftables.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   networking.wireless.iwd.enable = true; # Enables wireless support via iwd.
@@ -85,29 +90,15 @@
   #     useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "ctrl:swapcaps";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
-
+  security.rtkit.enable = true;
   security.polkit.enable = true;
   security.pam.services.swaylock = {};
   security.pam.loginLimits = [
@@ -150,14 +141,6 @@
     ];
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   services.flatpak.enable = true;
   xdg.portal = {
     enable = true;
@@ -179,12 +162,9 @@
     julia-mono
     fantasque-sans-mono
   ];
-  # List services that you want to enable:
 
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  # Services
   services.power-profiles-daemon.enable = true;
-
   # Use dbus broker as the dbus implementation, this comes a with the caveat of
   # a lot of ignored "..." file errors, which are apparantly harmless.
   services.dbus.implementation = "broker";
@@ -198,9 +178,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # use nftables for firewall
-  networking.nftables.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
