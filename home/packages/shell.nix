@@ -32,6 +32,7 @@
     pfetch
 
     # media
+    ffmpeg
     yt-dlp
     imv
     mpv

@@ -3,6 +3,8 @@
   services.mpd = {
     enable = true;
     network.startWhenNeeded = true;
+    # TODO: for some reason the default is broken
+    musicDirectory = "~/music/";
   };
 
   # I did not
@@ -48,6 +50,7 @@
     ];
     settings = {
       lyrics_directory = "~/music/lyrics";
+      progressbar_look = "━━╸";
     };
   };
 }
