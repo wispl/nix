@@ -5,10 +5,7 @@
   pkgs,
   ...
 }: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
+  imports = [./hardware-configuration.nix];
 
   #
   # Nix settings
