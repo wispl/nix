@@ -86,7 +86,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Good enough
-local root_names = { ".git", "Makefile" }
+local root_names = { "main.tex", ".git", "Makefile" }
 local root_cache = {}
 
 vim.api.nvim_create_autocmd("BufEnter", {

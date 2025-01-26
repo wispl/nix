@@ -16,7 +16,7 @@ M.compilers_by_ft = {
 	cpp = { compiler = "gcc", makeprg = "cmake --build build" },
 	zig = { compiler = "zig" },
 	-- cargo also pulls in errorformats from rustc
-	rust = { compiler = "cargo" },
+	rust = { compiler = "cargo", makeprg = "cargo build" },
 }
 
 local termjob = nil
@@ -123,7 +123,7 @@ function M.make()
 	local compiler = vim.b.current_compiler
 
 	if config then
-		if makeprg == "" and config.makeprg then
+		if config.makeprg then
 			makeprg = config.makeprg
 		end
 		-- TODO: check if makeprg can be nil as well...
