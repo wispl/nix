@@ -8,6 +8,7 @@
         (pkgs.texlive)
         scheme-basic
         amsmath
+        enumitem
         geometry
         graphics
         hyperref

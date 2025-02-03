@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# TODO: actual filebrowsing
+
+# Lists and opens a file under the specified directory
+# Passes all arguments to the chosen menu.
+
+# The menu must support setting a prompt using '-p PROMPT'. Change all such
+# lines if it does not.
+#
+# The menu must support a dmenu mode where it accepts all stdin.
+menu() {
+	fuzzel -d $@
+}
+
+# Initial path to search in
+path=$1
+while [[ -d "$path" ]]; do
+	files=("$path"/*)
+	choice=$(printf "%s\n" "${files[@]#"$path/"}" | menu -p "$path/")
+	if [[ -n "$choice" ]]; then
+		path="$path/$choice"
+	else
+		exit
+	fi
+done
+
+xdg-open "$path"

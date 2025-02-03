@@ -136,6 +136,7 @@
 
   services = {
     flatpak.enable = true;
+    fwupd.enable = true;
     power-profiles-daemon.enable = true;
     # Use dbus broker as the dbus implementation, this comes with the caveat of
     # a lot of ignored "..." file errors, which are apparantly harmless.
