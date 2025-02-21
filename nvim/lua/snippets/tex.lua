@@ -120,8 +120,8 @@ return {
 	-- General Snippets --
 	----------------------
 
-	s({ trig = "SI", snippetType = "autosnippet" },
-		fmta("\\SI{<>}{<>}", { i(1), i(2) })
+	s({ trig = "qty", snippetType = "autosnippet" },
+		fmta("\\qty{<>}{<>}", { i(1), i(2) })
 	),
 
 	-------------------
@@ -171,6 +171,10 @@ return {
 	),
 	s({ trig = "(%w)bar", regTrig = true, snippetType = "autosnippet" },
 		fmta("\\overline{<>}", { f(function(_, snip) return snip.captures[1] end) }),
+		{ condition = in_mathzone }
+	),
+	s({ trig = "(%w)dot", regTrig = true, snippetType = "autosnippet" },
+		fmta("\\dot{<>}", { f(function(_, snip) return snip.captures[1] end) }),
 		{ condition = in_mathzone }
 	),
 	s({ trig = "(%a)%.,", wordTrig = false, regTrig = true, snippetType = "autosnippet" },
@@ -299,10 +303,6 @@ return {
 	),
 	s({ trig = "td", wordTrig = false, snippetType = "autosnippet" },
 		fmta("^{<>}", { i(1) }),
-		{ condition = in_mathzone }
-	),
-	s({ trig = "rd", wordTrig = false, snippetType = "autosnippet" },
-		fmta("^{(<>)}", { i(1) }),
 		{ condition = in_mathzone }
 	),
 	-- a0 -> a_{0}

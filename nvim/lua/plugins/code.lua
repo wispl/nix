@@ -38,6 +38,10 @@ return {
 		version = "*",
 		event = "InsertEnter",
 		-- build = "nix run .#build-plugin",
+		dependencies = {
+			  -- With the dev option, you can easily switch between the local and installed version of a plugin
+			-- { "wispl/blink-src", dev = true },
+		},
 		opts = {
 			completion = {
 				menu = {
@@ -69,10 +73,11 @@ return {
 			},
 			keymap = { preset = "enter" },
 			snippets = { preset = "luasnip" },
+			cmdline = {
+				enabled = false
+			},
 			sources = {
 				default = { "lsp", "path", "snippets", "buffer" },
-				default = { "lsp", "path", "luasnip", "buffer" },
-				cmdline = {},
 			},
 		}
 	},
