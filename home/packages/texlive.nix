@@ -12,6 +12,7 @@
         geometry
         graphics
         hyperref
+        listings
         lm
         parskip
         url
@@ -37,12 +38,14 @@
         xkeyval
         fontaxes
         sectsty
+        upquote
         # formatter
         latexindent
         # fonts
         erewhon
         newtx
         cabin
+        inconsolata
         ;
     };
   };

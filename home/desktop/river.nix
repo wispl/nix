@@ -72,7 +72,7 @@ in {
             "Super D" = "spawn 'fuzzel --counter'";
             "Super I" = "spawn ~/.local/bin/noteshow";
             "Super B" = "spawn firefox";
-            "Super S" = "spawn 'filebrowse ~/documents/books/'";
+            "Super S" = "spawn 'filebrowse ~'";
             "Super P" = "spawn 'riverctl toggle-focused-tags ${keepassxc_tag} && riverctl focus-view up'";
             # u for upower I guess...
             "Super U" = "spawn powerprofilesmenu";
