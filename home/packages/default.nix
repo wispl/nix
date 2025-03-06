@@ -8,7 +8,6 @@
 }: {
   imports = with specialArgs.theme; [
     ./apps.nix
-    ./firefox.nix
     ./gpg.nix
     ./lf.nix
     ./mpd.nix

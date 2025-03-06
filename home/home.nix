@@ -11,6 +11,8 @@
     ./editors/nvim.nix
 
     ./packages
+    ./packages/firefox.nix
+    ./packages/psd.nix
 
     ./dev/cc.nix
     ./dev/sh.nix
