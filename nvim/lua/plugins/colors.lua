@@ -26,8 +26,12 @@ return {
 					PmenuSbar = { bg = theme.ui.bg_m1 },
 					PmenuThumb = { bg = theme.ui.bg_p2 },
 
-					BlinkCmpMenu =  { link = "Pmenu" },
+					BlinkCmpMenu =  { link = "PmenuSbar" },
+					BlinkCmpMenuBorder = { link = "PmenuSbar" },
 					BlinkCmpMenuSelection = {  link = "PmenuSel" },
+					BlinkCmpDoc = { link = "PmenuSbar" },
+					BlinkCmpDocSeparator = { link = "PmenuSbar" },
+					BlinkCmpDocBorder = { link = "PmenuSbar" },
 					BlinkCmpLabelMatch = { fg = theme.syn.fun },
 
 					StatusNormal = { bg = theme.syn.fun, fg = theme.ui.bg_m3 },
