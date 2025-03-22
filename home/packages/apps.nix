@@ -5,5 +5,6 @@
     inkscape
     keepassxc
     syncthing
+    openconnect
   ];
 }

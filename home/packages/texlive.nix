@@ -33,12 +33,15 @@
         zref
         needspace
         siunitx
-        mhchem
         xstring
         xkeyval
         fontaxes
         sectsty
         upquote
+	# chem
+        mhchem
+        chemfig
+	simplekv
         # formatter
         latexindent
         # fonts

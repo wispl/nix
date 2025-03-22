@@ -142,7 +142,7 @@
     # a lot of ignored "..." file errors, which are apparantly harmless.
     dbus.implementation = "broker";
     # TODO: see if we need pkgs.openocd
-    udev.packages = [pkgs.platformio-core];
+    udev.packages = [pkgs.platformio-core.udev];
   };
 
   # We still need dbus even if using dbus-broker, something about dbus references
