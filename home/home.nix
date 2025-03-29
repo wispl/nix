@@ -30,6 +30,7 @@
     git.enable = true;
   };
 
+  # kanagawa
   colors = {
     fg = "c5c9c5";
 
