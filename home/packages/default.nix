@@ -8,9 +8,7 @@
 }: {
   imports = with specialArgs.theme; [
     ./lf.nix
-    ./shell.nix
     ./sioyek.nix
-    ./system.nix
     ./texlive.nix
   ];
 }

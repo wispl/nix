@@ -55,6 +55,14 @@
       qemu.enable = true;
     };
 
+    shell = {
+      enable = true;
+      formats.enable = true;
+      storage.enable = true;
+      media.enable = true;
+      system.enable = true;
+    };
+
     services = {
       mpd.enable = true;
       psd.enable = true;
