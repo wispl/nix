@@ -13,8 +13,6 @@
       ./editors/nvim.nix
 
       ./packages
-      # ./packages/firefox.nix
-      ./packages/psd.nix
 
       ./dev/cc.nix
       ./dev/sh.nix
@@ -54,6 +52,11 @@
     renderdoc.enable = true;
     firefox.enable = true;
     qemu.enable = true;
+  };
+
+  modules.services = {
+    mpd.enable = true;
+    psd.enable = true;
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

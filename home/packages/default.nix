@@ -7,9 +7,7 @@
   ...
 }: {
   imports = with specialArgs.theme; [
-    ./gpg.nix
     ./lf.nix
-    ./mpd.nix
     ./shell.nix
     ./sioyek.nix
     ./system.nix

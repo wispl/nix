@@ -38,10 +38,10 @@
         fontaxes
         sectsty
         upquote
-	# chem
+        # chem
         mhchem
         chemfig
-	simplekv
+        simplekv
         # formatter
         latexindent
         # fonts
