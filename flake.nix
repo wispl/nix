@@ -19,6 +19,7 @@
   } @ inputs: let
     inherit (self) outputs;
   in {
+    homeModules = import ./modules;
     nixosConfigurations = {
       snow = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";

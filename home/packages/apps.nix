@@ -6,5 +6,6 @@
     keepassxc
     syncthing
     openconnect
+    renderdoc
   ];
 }

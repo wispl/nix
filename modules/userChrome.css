@@ -44,17 +44,17 @@
 }
 
 /* Hide line between vertical tab and content */
-#tabbrowser-tabbox {
-	outline: none !important;
-	box-shadow: none !important;
-}
+/* #tabbrowser-tabbox { */
+/* 	outline: none !important; */
+/* 	box-shadow: none !important; */
+/* } */
 
 /* Hide line under the toolbox */
-#navigator-toolbox {
-	border-bottom: 0.01px solid transparent !important;
-}
+/* #navigator-toolbox { */
+/* 	border-bottom: 0.01px solid transparent !important; */
+/* } */
 
-/* Make the tool and extensions backgorund the same as the rest of the sidebar. */
-.tools-and-extensions {
-	background: var(--toolbar-field-background-color) !important;
-}
+/* /* Make the tool and extensions backgorund the same as the rest of the sidebar. */ */
+/* .tools-and-extensions { */
+/* 	background: var(--toolbar-field-background-color) !important; */
+/* } */

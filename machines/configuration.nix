@@ -1,5 +1,6 @@
 {
   inputs,
+  outputs,
   config,
   lib,
   pkgs,
@@ -175,7 +176,10 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {theme = import ../themes/kanagawa.nix;};
+    extraSpecialArgs = {
+      inherit inputs outputs;
+      theme = import ../themes/kanagawa.nix;
+    };
     users.wisp = import ../home/home.nix;
   };
 

@@ -1,23 +1,26 @@
 {
   config,
   pkgs,
+  outputs,
   specialArgs,
   ...
 }: {
-  imports = with specialArgs.theme; [
-    ./base
+  imports = with specialArgs.theme;
+    [
+      ./base
 
-    ./desktop/river.nix
-    ./editors/nvim.nix
+      ./desktop/river.nix
+      ./editors/nvim.nix
 
-    ./packages
-    ./packages/firefox.nix
-    ./packages/psd.nix
+      ./packages
+      # ./packages/firefox.nix
+      ./packages/psd.nix
 
-    ./dev/cc.nix
-    ./dev/sh.nix
-    ./dev/rust.nix
-  ];
+      ./dev/cc.nix
+      ./dev/sh.nix
+      ./dev/rust.nix
+    ]
+    ++ (builtins.attrValues outputs.homeModules);
 
   home = {
     username = "wisp";
@@ -40,6 +43,17 @@
   programs = {
     home-manager.enable = true;
     git.enable = true;
+  };
+
+  apps = {
+    blender.enable = true;
+    inkscape.enable = true;
+    keepassxc.enable = true;
+    syncthing.enable = true;
+    openconnect.enable = true;
+    renderdoc.enable = true;
+    firefox.enable = true;
+    qemu.enable = true;
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
