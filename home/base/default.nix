@@ -11,7 +11,6 @@
 }: {
   imports = with specialArgs.theme; [
     ./foot.nix
-    ./scripts.nix
     ./fuzzel.nix
   ];
 }

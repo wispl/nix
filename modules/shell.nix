@@ -10,6 +10,7 @@ in {
   options.modules.shell = {
     enable = mkEnableOption "bash configuration and general shell programs";
     direnv.enable = mkEnableOption "direnv";
+    scripts.enable = mkEnableOption "custom scripts in .local/bin/";
     formats.enable = mkEnableOption "formatting programs";
     storage.enable = mkEnableOption "storage programs";
     media.enable = mkEnableOption "media programs";
@@ -89,6 +90,15 @@ in {
         enable = true;
         enableBashIntegration = true;
         nix-direnv.enable = true;
+      };
+    })
+
+    (mkIf cfg.scripts.enable {
+      home.file = {
+        ".local/bin" = {
+          source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/bin";
+          recursive = true;
+        };
       };
     })
 
