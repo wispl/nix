@@ -5,7 +5,10 @@
   pkgs,
   ...
 }: {
-  imports = [./hardware-configuration.nix];
+  imports = [
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   #
   # Nix settings
@@ -167,6 +170,13 @@
         "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
       };
     };
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {theme = import ../themes/kanagawa.nix;};
+    users.wisp = import ../home/home.nix;
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,

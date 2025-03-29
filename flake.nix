@@ -28,12 +28,6 @@
           impermanence.nixosModules.impermanence
           home-manager.nixosModules.home-manager
           nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = {theme = import ./themes/kanagawa.nix;};
-            home-manager.users.wisp = import ./home/home.nix;
-          }
         ];
       };
     };
