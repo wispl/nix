@@ -22,11 +22,15 @@ map("n", "<leader>os", function() vim.opt_local.spell = not(vim.opt_local.spell:
 map("n", "<leader>ow", function() vim.opt_local.wrap = not(vim.opt_local.wrap:get()) end)
 
 -- diagnostic and quickfix
-map("n", "]q", "<cmd>cnext<cr>")
-map("n", "[q", "<cmd>cprev<cr>")
-map("n", "]l", "<cmd>lnext<cr>")
-map("n", "[l", "<cmd>lprev<cr>")
 map("n", "<leader>ol", "<cmd>lopen<cr>")
+
+-- LSP mappings, these are the defaults
+-- grn: vim.lsp.buf.rename()
+-- grr: vim.lsp.buf.references()
+-- gri: vim.lsp.buf.implementation()
+-- gO:  vim.lsp.buf.document_symbol()
+-- gra: vim.lsp.buf.code_action()
+-- K:   lsp.buf.hover
 
 -- system clipboard
 map({ "n", "x" }, "gy", '"+y')
