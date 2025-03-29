@@ -36,7 +36,7 @@ return {
 	{
 		"saghen/blink.cmp",
 		version = "*",
-		event = "InsertEnter",
+		event = "VeryLazy",
 		-- build = "nix run .#build-plugin",
 		dependencies = {
 			  -- With the dev option, you can easily switch between the local and installed version of a plugin
