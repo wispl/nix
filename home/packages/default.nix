@@ -9,6 +9,5 @@
   imports = with specialArgs.theme; [
     ./lf.nix
     ./sioyek.nix
-    ./texlive.nix
   ];
 }

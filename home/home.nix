@@ -13,10 +13,6 @@
       ./editors/nvim.nix
 
       ./packages
-
-      ./dev/cc.nix
-      ./dev/sh.nix
-      ./dev/rust.nix
     ]
     ++ (builtins.attrValues outputs.homeModules);
 
@@ -53,6 +49,13 @@
       renderdoc.enable = true;
       firefox.enable = true;
       qemu.enable = true;
+    };
+
+    dev = {
+      cc.enable = true;
+      sh.enable = true;
+      rust.enable = true;
+      tex.enable = true;
     };
 
     shell = {
