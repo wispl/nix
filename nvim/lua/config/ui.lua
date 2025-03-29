@@ -95,7 +95,7 @@ local function lsp()
 	local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
 	local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
 
-	return string.format(" %s%s %s%s ",
+	return string.format(" %s%s %s%s",
 		"%#DiagnosticError#",
 		errors,
 		"%#DiagnosticWarn#",
@@ -103,11 +103,11 @@ local function lsp()
 end
 
 local function filetype()
-	return string.format("%s %s ", "%#NormalNC#", vim.bo.filetype)
+	return string.format("%s %s", "%#NormalNC#", vim.bo.filetype)
 end
 
 local function filepos()
-	return string.format("%s %s:%s ", "%#ColorColumn#", "%l", "%c")
+	return string.format("%s %s:%s ", "%#Statusline#", "%l", "%c")
 end
 
 function _G.tabline()
@@ -136,6 +136,7 @@ end
 function _G.statusline()
 	return table.concat({
 		mode(),
+		"%#Statusline#",
 		file(),
 		filestate(),
 		git(),
