@@ -8,7 +8,6 @@
   imports = with specialArgs.theme;
     [
       ./base
-      ./desktop/river.nix
     ]
     ++ (builtins.attrValues outputs.homeModules);
 
@@ -74,6 +73,11 @@
   };
 
   modules = {
+    desktop = {
+      enable = true;
+      riverwm.enable = true;
+    };
+
     editors = {
       nvim.enable = true;
     };
