@@ -8,10 +8,7 @@
   imports = with specialArgs.theme;
     [
       ./base
-
       ./desktop/river.nix
-      ./editors/nvim.nix
-
       ./packages
     ]
     ++ (builtins.attrValues outputs.homeModules);
@@ -40,6 +37,10 @@
   };
 
   modules = {
+    editors = {
+      nvim.enable = true;
+    };
+
     apps = {
       blender.enable = true;
       inkscape.enable = true;
