@@ -76,6 +76,9 @@
     desktop = {
       enable = true;
       riverwm.enable = true;
+      term = {
+        foot.enable = true;
+      };
     };
 
     editors = {

@@ -10,7 +10,6 @@
   ...
 }: {
   imports = with specialArgs.theme; [
-    ./foot.nix
     ./fuzzel.nix
   ];
 }
