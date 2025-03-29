@@ -47,7 +47,6 @@ in {
       };
     })
 
-    # TODO: fix this later
     (mkIf cfg.sioyek.enable {
       xdg.mimeApps.defaultApplications = {
         "application/pdf" = ["sioyek.desktop"];
@@ -70,20 +69,20 @@ in {
           "status_bar_font_size" = "18";
           "font_size" = "24";
 
-          "text_highlight_color" = "#${theme.yellow}";
-          "search_highlight_color" = "#${theme.yellow}";
-          "link_highlight_color" = "#${theme.blue}";
-          "synctex_highlight_color" = "#${theme.green}";
+          "text_highlight_color" = "#${config.colors.yellow}";
+          "search_highlight_color" = "#${config.colors.yellow}";
+          "link_highlight_color" = "#${config.colors.blue}";
+          "synctex_highlight_color" = "#${config.colors.green}";
 
-          "status_bar_color" = "#${theme.bgL}";
-          "status_bar_text_color" = "#${theme.fg}";
+          "status_bar_color" = "#${config.colors.bgL}";
+          "status_bar_text_color" = "#${config.colors.fg}";
 
-          "dark_mode_background_color" = "#${theme.bg}";
+          "dark_mode_background_color" = "#${config.colors.bg}";
 
-          "ui_text_color" = "#${theme.fg}";
-          "ui_background_color" = "#${theme.bg}";
-          "ui_selected_text_color" = "#${theme.bg}";
-          "ui_selected_background_color" = "#${theme.yellow}";
+          "ui_text_color" = "#${config.colors.fg}";
+          "ui_background_color" = "#${config.colors.bg}";
+          "ui_selected_text_color" = "#${config.colors.bg}";
+          "ui_selected_background_color" = "#${config.colors.yellow}";
         };
       };
     })

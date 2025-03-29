@@ -4,4 +4,5 @@
   shell = import ./shell.nix;
   dev = import ./dev.nix;
   editors = import ./editors.nix;
+  colors = import ./colors.nix;
 }
