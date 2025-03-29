@@ -21,18 +21,17 @@ return {
 					WinSeparator = { fg = theme.ui.bg_p2 },
 					FoldColumn = { fg = theme.ui.bg_p1 },
 
-					Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
+					Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_m1 },
 					PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
 					PmenuSbar = { bg = theme.ui.bg_m1 },
-					PmenuThumb = { bg = theme.ui.bg_p2 },
+					PmenuThumb = { bg = theme.ui.bg_m1 },
+					PmenuExtra = { bg = theme.ui.bg_m1 },
+					BlinkCmpMenuBorder = { link = "Pmenu" },
+					BlinkCmpDoc = { bg = theme.ui.bg_p1 },
+					BlinkCmpDocSeparator = { bg = theme.ui.bg_p1 },
+					BlinkCmpDocBorder = { bg = theme.ui.bg_p1 },
 
-					BlinkCmpMenu =  { link = "PmenuSbar" },
-					BlinkCmpMenuBorder = { link = "PmenuSbar" },
-					BlinkCmpMenuSelection = {  link = "PmenuSel" },
-					BlinkCmpDoc = { link = "PmenuSbar" },
-					BlinkCmpDocSeparator = { link = "PmenuSbar" },
-					BlinkCmpDocBorder = { link = "PmenuSbar" },
-					BlinkCmpLabelMatch = { fg = theme.syn.fun },
+					Statusline = { bg = "none" },
 
 					StatusNormal = { bg = theme.syn.fun, fg = theme.ui.bg_m3 },
 					StatusInsert = { bg = theme.diag.ok, fg = theme.ui.bg },
@@ -44,7 +43,6 @@ return {
 					DashboardHeader = { fg = theme.syn.comment },
 
 					NoiceMini = { bg = theme.ui.bg },
-
 					ModesInsert =	{ bg = colors.palette.oniViolet },
 					ModesVisual =	{ bg = colors.palette.dragonBlue },
 					ModesDelete =	{ bg = colors.palette.dragonRed },

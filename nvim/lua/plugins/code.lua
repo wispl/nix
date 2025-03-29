@@ -45,14 +45,11 @@ return {
 		opts = {
 			completion = {
 				menu = {
+					border = "solid",
 					draw = {
 						treesitter = { "lsp" },
-						columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
-						components = {
-							source_name = {
-								text = function(ctx) return "  (" .. ctx.source_name .. ")" end,
-							},
-						}
+						gap = 3,
+						columns = { { "label", "label_description", gap = 2 }, { "kind", "kind_icon", gap = 1 } },
 					},
 				},
 				documentation = {
@@ -62,24 +59,10 @@ return {
 				},
 				ghost_text = { enabled = true },
 			},
-			snippets = {
-				expand = function(snippet) require("luasnip").lsp_expand(snippet) end,
-				active = function(filter)
-					if filter and filter.direction then
-						return require("luasnip").jumpable(filter.direction)
-					end
-					return require("luasnip").in_snippet()
-				end,
-				jump = function(direction) require("luasnip").jump(direction) end,
-			},
 			keymap = { preset = "enter" },
 			snippets = { preset = "luasnip" },
-			cmdline = {
-				enabled = false
-			},
-			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
-			},
+			cmdline = { enabled = false },
+			sources = { default = { "lsp", "path", "snippets", "buffer" } },
 		}
 	},
 	-- git
