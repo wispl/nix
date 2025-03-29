@@ -39,7 +39,6 @@ return {
 		event = "VeryLazy",
 		-- build = "nix run .#build-plugin",
 		dependencies = {
-			  -- With the dev option, you can easily switch between the local and installed version of a plugin
 			-- { "wispl/blink-src", dev = true },
 		},
 		opts = {
@@ -89,7 +88,8 @@ return {
 				sh = { "shellcheck" },
 				c = { "clangtidy" },
 				cpp = { "clangtidy" },
-				rust = { "clippy" }
+				rust = { "clippy" },
+				node = { "eslint" }
 			}
 			local clippy = require('lint').linters.clippy
 			table.insert(clippy.args, "--")
