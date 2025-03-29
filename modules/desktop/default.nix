@@ -26,7 +26,7 @@ with lib; let
     }
   '';
 in {
-  imports = [./riverwm.nix ./swaywm.nix ./term.nix];
+  imports = [./riverwm.nix ./swaywm.nix ./term.nix ./ui.nix];
   options.modules.desktop = {
     enable = mkEnableOption "wayland desktop";
   };

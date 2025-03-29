@@ -5,11 +5,7 @@
   specialArgs,
   ...
 }: {
-  imports = with specialArgs.theme;
-    [
-      ./base
-    ]
-    ++ (builtins.attrValues outputs.homeModules);
+  imports = (builtins.attrValues outputs.homeModules);
 
   home = {
     username = "wisp";
@@ -78,6 +74,9 @@
       riverwm.enable = true;
       term = {
         foot.enable = true;
+      };
+      ui = {
+        fuzzel.enable = true;
       };
     };
 
