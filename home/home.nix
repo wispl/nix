@@ -43,20 +43,22 @@
     git.enable = true;
   };
 
-  apps = {
-    blender.enable = true;
-    inkscape.enable = true;
-    keepassxc.enable = true;
-    syncthing.enable = true;
-    openconnect.enable = true;
-    renderdoc.enable = true;
-    firefox.enable = true;
-    qemu.enable = true;
-  };
+  modules = {
+    apps = {
+      blender.enable = true;
+      inkscape.enable = true;
+      keepassxc.enable = true;
+      syncthing.enable = true;
+      openconnect.enable = true;
+      renderdoc.enable = true;
+      firefox.enable = true;
+      qemu.enable = true;
+    };
 
-  modules.services = {
-    mpd.enable = true;
-    psd.enable = true;
+    services = {
+      mpd.enable = true;
+      psd.enable = true;
+    };
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

@@ -5,9 +5,9 @@
   ...
 }:
 with lib; let
-  cfg = config.apps;
+  cfg = config.modules.apps;
 in {
-  options.apps = {
+  options.modules.apps = {
     blender.enable = mkEnableOption "blender";
     inkscape.enable = mkEnableOption "inkscape";
     keepassxc.enable = mkEnableOption "keepassxc";
