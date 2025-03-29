@@ -9,6 +9,7 @@ with lib; let
 in {
   options.modules.shell = {
     enable = mkEnableOption "bash configuration and general shell programs";
+    direnv.enable = mkEnableOption "direnv";
     formats.enable = mkEnableOption "formatting programs";
     storage.enable = mkEnableOption "storage programs";
     media.enable = mkEnableOption "media programs";
@@ -82,6 +83,14 @@ in {
         };
       };
     }
+
+    (mkIf cfg.direnv.enable {
+      programs.direnv = {
+        enable = true;
+        enableBashIntegration = true;
+        nix-direnv.enable = true;
+      };
+    })
 
     (mkIf cfg.formats.enable {
       home.packages = with pkgs; [

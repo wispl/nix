@@ -104,6 +104,7 @@
 
     shell = {
       enable = true;
+      direnv.enable = true;
       formats.enable = true;
       storage.enable = true;
       media.enable = true;
