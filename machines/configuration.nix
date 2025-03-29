@@ -89,6 +89,7 @@
     dhcpcd.enable = false; # Use iwd's builtin dhcp client
   };
 
+  virtualisation.containers.enable = true;
   # Persistence
   environment.persistence."/nix/persist" = {
     hideMounts = true;
@@ -176,10 +177,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {
-      inherit inputs outputs;
-      theme = import ../themes/kanagawa.nix;
-    };
+    extraSpecialArgs = { inherit inputs outputs; };
     users.wisp = import ../home/home.nix;
   };
 

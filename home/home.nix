@@ -2,7 +2,6 @@
   config,
   pkgs,
   outputs,
-  specialArgs,
   ...
 }: {
   imports = builtins.attrValues outputs.homeModules;
