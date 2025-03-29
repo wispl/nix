@@ -146,7 +146,6 @@
     # Use dbus broker as the dbus implementation, this comes with the caveat of
     # a lot of ignored "..." file errors, which are apparantly harmless.
     dbus.implementation = "broker";
-    # TODO: see if we need pkgs.openocd
     udev.packages = [pkgs.platformio-core.udev];
   };
 
@@ -178,7 +177,7 @@
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = { inherit inputs outputs; };
-    users.wisp = import ../home/home.nix;
+    users.wisp = import ./home.nix;
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,
