@@ -5,4 +5,5 @@
   dev = import ./dev.nix;
   editors = import ./editors.nix;
   colors = import ./colors.nix;
+  tui = import ./tui.nix;
 }

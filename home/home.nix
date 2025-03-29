@@ -9,7 +9,6 @@
     [
       ./base
       ./desktop/river.nix
-      ./packages
     ]
     ++ (builtins.attrValues outputs.homeModules);
 
@@ -96,6 +95,11 @@
       sh.enable = true;
       rust.enable = true;
       tex.enable = true;
+    };
+
+    tui = {
+      ncmpcpp.enable = true;
+      lf.enable = true;
     };
 
     shell = {
