@@ -5,7 +5,7 @@
   specialArgs,
   ...
 }: {
-  imports = (builtins.attrValues outputs.homeModules);
+  imports = builtins.attrValues outputs.homeModules;
 
   home = {
     username = "wisp";
@@ -77,6 +77,7 @@
       };
       ui = {
         fuzzel.enable = true;
+        waybar.enable = true;
       };
     };
 

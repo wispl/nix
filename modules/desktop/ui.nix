@@ -9,6 +9,7 @@ in {
   options.modules.desktop.ui = {
     # launcher
     fuzzel.enable = mkEnableOption "fuzzel";
+    waybar.enable = mkEnableOption "waybar";
   };
 
   config = mkMerge [
@@ -42,6 +43,39 @@ in {
             border = "${config.colors.bgL}ff";
           };
         };
+      };
+    })
+
+    (mkIf cfg.waybar.enable {
+      programs.waybar = {
+        enable = true;
+        settings.mainBar = lib.importJSON ./waybar/pills/config.jsonc;
+        style = ''
+               @define-color fg #${config.colors.fg};
+
+               @define-color bg0 #${config.colors.bgDDD};
+               @define-color bg1 #${config.colors.bgDD};
+               @define-color bg2 #${config.colors.bgD};
+               @define-color bg  #${config.colors.bg};
+               @define-color bg4 #${config.colors.bgL};
+               @define-color bg5 #${config.colors.bgLL};
+               @define-color bg6 #${config.colors.bgLLL};
+
+               @define-color red     #${config.colors.red};
+               @define-color green   #${config.colors.green};
+               @define-color yellow  #${config.colors.yellow};
+               @define-color blue    #${config.colors.blue};
+               @define-color magenta #${config.colors.magenta};
+               @define-color cyan    #${config.colors.cyan};
+
+               @define-color bright-red     #${config.colors.brightRed};
+               @define-color bright-green   #${config.colors.brightGreen};
+               @define-color bright-yellow  #${config.colors.brightYellow};
+               @define-color bright-blue    #${config.colors.brightBlue};
+               @define-color bright-magenta #${config.colors.brightMagenta};
+               @define-color bright-cyan    #${config.colors.brightCyan};
+          ${builtins.readFile ./waybar/pills/style.css}
+        '';
       };
     })
   ];
