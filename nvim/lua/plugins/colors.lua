@@ -31,7 +31,7 @@ return {
 					BlinkCmpDocSeparator = { bg = theme.ui.bg_p1 },
 					BlinkCmpDocBorder = { bg = theme.ui.bg_p1 },
 
-					Statusline = { bg = "none" },
+					StatusLine = { bg = "none" },
 
 					StatusNormal = { bg = theme.syn.fun, fg = theme.ui.bg_m3 },
 					StatusInsert = { bg = theme.diag.ok, fg = theme.ui.bg },

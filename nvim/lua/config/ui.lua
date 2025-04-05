@@ -107,7 +107,7 @@ local function filetype()
 end
 
 local function filepos()
-	return string.format("%s %s:%s ", "%#Statusline#", "%l", "%c")
+	return string.format("%s %s:%s ", "%#Normal#", "%l", "%c")
 end
 
 function _G.tabline()
@@ -135,8 +135,8 @@ end
 
 function _G.statusline()
 	return table.concat({
-		mode(),
 		"%#Statusline#",
+		mode(),
 		file(),
 		filestate(),
 		git(),
