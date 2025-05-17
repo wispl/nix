@@ -14,13 +14,13 @@
   #
   # Nix settings
   #
-  nix = {
-    # This will add each flake input as a registry
-    # To make nix3 commands consistent with your flake
-    registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
-    # This will additionally add your inputs to the system's legacy channels
-    # Making legacy nix commands consistent as well, awesome!
-    nixPath = ["/etc/nix/path"];
+  nix = let
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+  in {
+    # Make flake registry and nix path match flake inputs
+    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
+    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+    channel.enable = false;
     settings = {
       trusted-users = [
         "root"
@@ -28,6 +28,7 @@
       ];
       experimental-features = ["nix-command" "flakes" "ca-derivations"];
       auto-optimise-store = true;
+      flake-registry = "";
     };
     gc = {
       automatic = true;
@@ -48,6 +49,15 @@
   # Boot and System Configuration
   #
   networking.hostName = "snow";
+  networking.extraHosts = ''
+    127.0.0.1    localhost.edu
+     127.0.0.1    api.localhost.edu
+     127.0.0.1    cas.localhost.edu
+     127.0.0.1    ldap.localhost.edu
+     127.0.0.1    saml.localhost.edu
+     127.0.0.1    admin.localhost.edu
+     127.0.0.1    idp.localhost.edu
+  '';
 
   zramSwap.enable = true;
   time.timeZone = "America/New_York";
@@ -68,6 +78,9 @@
     kernelPackages = pkgs.linuxPackages_latest;
     bcache.enable = false;
     tmp.useTmpfs = true;
+    kernel.sysctl = {
+      "net.ipv4.ip_unprivileged_port_start" = 0;
+    };
   };
 
   services.resolved.enable = true; # Default DNS resolver for iwd, alternative is pure resolveconf
@@ -146,7 +159,6 @@
     # Use dbus broker as the dbus implementation, this comes with the caveat of
     # a lot of ignored "..." file errors, which are apparantly harmless.
     dbus.implementation = "broker";
-    udev.packages = [pkgs.platformio-core.udev];
   };
 
   # We still need dbus even if using dbus-broker, something about dbus references
@@ -176,7 +188,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {inherit inputs outputs;};
     users.wisp = import ./home.nix;
   };
 

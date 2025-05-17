@@ -17,6 +17,7 @@ in {
     firefox.enable = mkEnableOption "firefox";
     qemu.enable = mkEnableOption "qemu";
     sioyek.enable = mkEnableOption "sioyek";
+    openrocket.enable = mkEnableOption "openrocket";
   };
 
   config = mkMerge [
@@ -28,6 +29,7 @@ in {
     (mkIf cfg.openconnect.enable {home.packages = [pkgs.openconnect];})
     (mkIf cfg.renderdoc.enable {home.packages = [pkgs.renderdoc];})
     (mkIf cfg.qemu.enable {home.packages = [pkgs.qemu];})
+    (mkIf cfg.openrocket.enable {home.packages = [pkgs.openrocket];})
 
     (mkIf cfg.firefox.enable {
       programs.firefox = {

@@ -30,6 +30,7 @@ in {
       home.packages = with pkgs; [
         rustfmt
         clippy
+        cargo
       ];
     })
     (mkIf cfg.tex.enable {

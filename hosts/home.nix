@@ -95,6 +95,7 @@
       firefox.enable = true;
       qemu.enable = true;
       sioyek.enable = true;
+      openrocket.enable = true;
     };
 
     dev = {

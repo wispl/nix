@@ -144,20 +144,24 @@ in {
 
     services.mako = {
       enable = true;
-      font = "DejaVu Sans Mono 12";
-      borderSize = 2;
-      borderRadius = 2;
-      icons = true;
-      padding = "10";
-      defaultTimeout = 3000;
-      width = 400;
+      settings = {
+        font = "DejaVu Sans Mono 12";
+        border-size = 2;
+        border-radius = 2;
+        icons = true;
+        padding = "10";
+        default-timeout = 3000;
+        width = 400;
 
-      textColor = "#${config.colors.fg}";
-      backgroundColor = "#${config.colors.bg}";
-      borderColor = "#${config.colors.blue}";
-      progressColor = "over #${config.colors.yellow}";
-
-      extraConfig = "[urgency=high]\nborder-color=#${config.colors.red}\ndefault-timeout=0";
+        text-color = "#${config.colors.fg}";
+        background-color = "#${config.colors.bg}";
+        border-color = "#${config.colors.blue}";
+        progress-color = "over #${config.colors.yellow}";
+        "urgency=high" = {
+          border-color = "#${config.colors.red}";
+          default-timeout = 0;
+        };
+      };
     };
   };
 }
