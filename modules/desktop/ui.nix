@@ -50,7 +50,7 @@ in {
     (mkIf cfg.waybar.enable {
       programs.waybar = {
         enable = true;
-        settings.mainBar = lib.importJSON ./waybar/pills/config.jsonc;
+        settings.mainBar = lib.importJSON ../../config/waybar/pills/config.jsonc;
         style = ''
                @define-color fg #${config.colors.fg};
 
@@ -75,7 +75,7 @@ in {
                @define-color bright-blue    #${config.colors.brightBlue};
                @define-color bright-magenta #${config.colors.brightMagenta};
                @define-color bright-cyan    #${config.colors.brightCyan};
-          ${builtins.readFile ./waybar/pills/style.css}
+          ${builtins.readFile ../../config/waybar/pills/style.css}
         '';
       };
     })

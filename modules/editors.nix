@@ -20,7 +20,7 @@ in {
       };
 
       xdg.configFile.nvim = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/nvim/";
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/config/nvim/";
         recursive = true;
       };
     })

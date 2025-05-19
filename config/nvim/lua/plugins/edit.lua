@@ -13,6 +13,12 @@ return {
 		},
 		opts = {
       "default-title",
+			keymap = {
+				fzf = {
+					true,
+					["ctrl-q"] = "select-all+accept",
+				}
+			},
 			winopts = {
 				row = 1,
 				col = 1,
@@ -132,4 +138,23 @@ return {
 			})
 		end
 	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		lazy = true,
+		cmd = "NvimTreeOpen",
+		config = {
+			view = {
+				width = 25,
+			},
+			git = {
+				enable = false
+			},
+			renderer = {
+				root_folder_label = false,
+				indent_markers = {
+					enable = false
+				}
+			}
+		}
+	}
 }
