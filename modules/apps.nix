@@ -39,7 +39,7 @@ in {
             id = 0;
             name = "default";
             isDefault = true;
-            userChrome = builtins.readFile ./userChrome.css;
+            userChrome = builtins.readFile ../config/firefox/userChrome.css;
           };
           spare = {
             id = 1;
