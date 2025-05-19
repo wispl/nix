@@ -10,6 +10,7 @@ in {
     # launcher
     fuzzel.enable = mkEnableOption "fuzzel";
     waybar.enable = mkEnableOption "waybar";
+    eww.enable = mkEnableOption "eww";
   };
 
   config = mkMerge [
@@ -76,6 +77,17 @@ in {
                @define-color bright-cyan    #${config.colors.brightCyan};
           ${builtins.readFile ./waybar/pills/style.css}
         '';
+      };
+    })
+
+    (mkIf cfg.eww.enable {
+      programs.eww = {
+        enable = true;
+      };
+
+      xdg.configFile.eww = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/config/eww";
+        recursive = true;
       };
     })
   ];
