@@ -29,6 +29,7 @@
       experimental-features = ["nix-command" "flakes" "ca-derivations"];
       auto-optimise-store = true;
       flake-registry = "";
+      use-xdg-base-directories = true;
     };
     gc = {
       automatic = true;
