@@ -65,8 +65,8 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   hardware.graphics.enable = true;
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
 
   boot = {
     # Enable systemd for initrd stage 1, might need further tweaks on some systems
