@@ -31,6 +31,7 @@ return {
 				"regex",
 				"rust",
 				"vim",
+				"yuck",
 				"zig"
 			}
 		},

@@ -119,6 +119,8 @@ in {
 
               "Super F" = "toggle-float";
               "Super+Shift F" = "toggle-fullscreen";
+
+              "Super E" = "spawn ~/.local/bin/toggle_dashboard";
             }
             // commonBinds;
           locked = commonBinds;

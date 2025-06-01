@@ -1,0 +1,63 @@
+(defvar mode "All")
+;;(defpoll notifs :interval "30s" `./scripts/notifications.sh`)
+
+(defwindow notifications
+	:monitor 0
+	:stacking "overlay"
+	:exclusive false
+	:focusable "none"
+	:geometry (geometry
+		:x 8
+		:y 8
+		:width "25%"
+		:height "84%"
+		:anchor "top right")
+	(notification_layout))
+
+(defwidget notification_layout []
+	(box :class "bg"
+		:orientation "v"
+		:space-evenly false
+		(notification_header)
+		(box :class "bg win" :orientation "v" :spacing 12 :space-evenly false
+			(notification_profiles)
+			(notification_stack))))
+
+(defwidget notification_header []
+	(box :class "notification_header" (label :text "Getting busy? Or freaky?" :halign "start")))
+
+(defwidget notification_profiles []
+	(box :class "notification_profiles"
+		(box :class "notification_profiles_bg" :height 58
+			(button
+				:class {mode == "All" ? "notification_profile notification_profile_selected" : "notification_profile"}
+				"All")
+			(button :class {mode == "Some" ? "notification_profile notification_profile_selected" : "notification_profile"}
+				"Some")
+			(button :class {mode == "none" ? "notification_profile notification_profile_selected" : "notification_profile"} 
+				"None"))))
+
+(defwidget notification_stack []
+	(box :class "notification_stack" :orientation "v" :spacing 18 :space-evenly false :vexpand true
+		(box
+			(label :class "notification_stack_title" :text "Notifications" :halign "start")
+			(button :halign "end" :class "notification_clear" (label :text " Clear")))
+		(box :class "notification_stack_content" :orientation "v" :spacing 16
+			;;(for notif in {notifs.data[0]}
+			;;	(notification_box
+			;;		:title {notif.summary.data}
+			;;		:body {notif.body.data}
+			;;		:icon ""))
+
+			(notification_box :title "Screenshot Taken!" :body "Saved to disk." :icon "")
+			(notification_box :title "Notification Test 3" :body "I am actually telling the truth." :icon "")
+			(notification_box :title "Notification Test 2" :body "The notification below is telling the truth" :icon "")
+			(notification_box :title "Notification Test 1" :body "The notification above is lying." :icon "")
+		)))
+
+(defwidget notification_box [title body icon]
+	(box :class "notification_box" :orientation "v" :space-evenly false :spacing 16
+		(box :class "notification_title" (label :text title :halign "start"))
+		(box :class "notification_body" :height 84 :space-evenly false :spacing 24
+			(box :class "stripes" :width 75 :height 75 :valign "start")
+			(label :text body :valign "start" :wrap true))))

@@ -1,0 +1,84 @@
+.notification_header {
+  color: $blue;
+  padding: 12px 16px;
+  font-size: 20px;
+  background-color: $bgDD;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.notification_profiles {
+  background-color: $bgDD;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+.notification_profiles_bg {
+  background-color: $bgD;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+
+.notification_profile {
+  margin: 0px 12px;
+  font-size: 18px;
+}
+
+.notification_profile:hover {
+  background-color: $magenta;
+  border-radius: 8px;
+  color: $bg;
+}
+
+.notification_profile_selected {
+  background-color: $magenta;
+  border-radius: 8px;
+  color: $bg;
+}
+
+.notification_stack_title {
+  font-size: 20px;
+}
+
+.notification_stack {
+  background-color: $bgDD;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.notification_title {
+  font-size: 18px;
+  background-color: darken($magenta, 25%);
+  border-radius: 8px 8px 0px 0px;
+  padding: 10px;
+}
+
+.notification_clear {
+  font-size: 18px;
+  background-color: $red;
+  color: $bg;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.notification_clear:hover {
+  background-color: $magenta;
+}
+
+.notification_box {
+  background-color: $bgD;
+  border-radius: 8px;
+}
+
+.notification_body {
+  padding: 0px 24px;
+}
+
+.stripes {
+  background: repeating-linear-gradient(
+  45deg,
+  $bgD,
+  $bgD 20px,
+  $magenta 20px,
+  $magenta 40px
+  );
+}
