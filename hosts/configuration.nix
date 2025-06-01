@@ -176,14 +176,9 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr];
-    config = {
-      common = {
-        default = ["gtk"];
-        "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
-        "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
-      };
-    };
+    wlr.enable = true;
+    # we can set this for now since we only one portal
+    config.common.default = "*";
   };
 
   home-manager = {
