@@ -28,7 +28,7 @@ Other minor changes are
 These notes are for me, yes me. Note that the `sector-size=4096` is not always
 available. There is also a [risk](https://wiki.archlinux.org/title/Dm-crypt/Specialties#Discard/TRIM_support_for_solid_state_drives_(SSD)) with TRIM regarding encrypted SSD drives.
 
-1. luks encryption with options `--sector-size=4096 --perf-no_read_workqueue --allow-discards` see [this](https://www.reddit.com/r/Fedora/comments/rzvhyg/default_luks_encryption_settings_on_fedora_can_be/)
+1. luks encryption with `--sector-size=4096 --perf-no_read_workqueue --allow-discards` see [this](https://www.reddit.com/r/Fedora/comments/rzvhyg/default_luks_encryption_settings_on_fedora_can_be/)
 2. create two partitions, `/boot` and `/`
 3. format `boot` with fat32
 4. format `/` with btrfs and [lzo compression](https://gist.github.com/braindevices/fde49c6a8f6b9aaf563fb977562aafec) and `noatime`
