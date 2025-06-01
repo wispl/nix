@@ -137,6 +137,7 @@ in {
         smartmontools
         vdpauinfo
         vulkan-tools
+        powertop
       ];
     })
   ]);
