@@ -121,6 +121,7 @@ in {
               "Super+Shift F" = "toggle-fullscreen";
 
               "Super E" = "spawn ~/.local/bin/toggle_dashboard";
+              "Super N" = "spawn ~/.local/bin/toggle_notifications";
             }
             // commonBinds;
           locked = commonBinds;
