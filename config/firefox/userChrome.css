@@ -3,38 +3,6 @@
  * Assorted hacks from https://github.com/MrOtherGuy/firefox-csshacks/
  */
 
-/* Use same color for nav and tab bar */
-#navigator-toolbox:not(:-moz-lwtheme) {
-	background: var(--toolbar-field-background-color) !important;
-}
-
-/* Makes the urlbar a little brighter */
-#urlbar-background {
-	background: var(--tab-selected-bgcolor) !important;
-	filter: brightness(85%);
-}
-
-/* Remove border around urlbar */
-#urlbar:not([open]):not([breakout-extend]) > #urlbar-background  {
-    border: none !important;
-    box-shadow: none !important;
-}
-
-/* Swap tab background colors to be same as toolbar */
-#tabbrowser-tabs {
-	background: var(--toolbar-field-background-color) !important;
-}
-
-/* Remove active tab border */
-.tab-background{
-	outline: none !important;
-	box-shadow: none !important;
-}
-.tab-background[selected] {
-	outline: none !important;
-	box-shadow: none !important;
-}
-
 /* Remove window control buttons */
 .titlebar-buttonbox-container {
 	display: none !important;
@@ -43,18 +11,25 @@
 	display: none !important;
 }
 
-/* Hide line between vertical tab and content */
-/* #tabbrowser-tabbox { */
-/* 	outline: none !important; */
-/* 	box-shadow: none !important; */
-/* } */
+/* remove one pixel line at top of nav-bar */
+#nav-bar {
+	border-top: 1px solid transparent !important;
+}
 
-/* Hide line under the toolbox */
-/* #navigator-toolbox { */
-/* 	border-bottom: 0.01px solid transparent !important; */
-/* } */
+/* remove outline and shadow around the content when using sidebar */
+#tabbrowser-tabbox {
+	outline: none !important;
+	box-shadow: none !important;
+}
 
-/* /* Make the tool and extensions backgorund the same as the rest of the sidebar. */ */
-/* .tools-and-extensions { */
-/* 	background: var(--toolbar-field-background-color) !important; */
-/* } */
+/* TODO: also fix this for when the window is inactive */
+/* make letterbox colors same as the rest of ui and center content */
+.browserStack:not(.exclude-letterboxing) {
+	background-color: var(--lwt-accent-color) !important;
+	place-content: center center !important;
+}
+
+/* round letterboxing content */
+.browserStack:not(.exclude-letterboxing) > browser {
+	border-radius: 8px;
+}
