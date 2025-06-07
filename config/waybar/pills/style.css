@@ -1,4 +1,5 @@
 * {
+    color: @fg;
     border: none;
     border-radius: 0px;
     margin: 0px;
@@ -25,7 +26,8 @@ window#waybar {
 #pulseaudio,
 #backlight,
 #pulseaudio-slider,
-#backlight-slider {
+#backlight-slider,
+tooltip label {
     font-size: 22px;
 }
 
@@ -35,34 +37,72 @@ tooltip {
     border-radius: 8px;
 }
 
-/* Set tooltip to desired font-size. */
-tooltip label {
-    font-size: 22px;
-}
-
-#custom-rocket {
-    color: @cyan;
+#custom-dashboard {
+    background-color: @bg0;
 
     font-size: 18px;
-    margin-left: 12px;
-    margin-right: 12px;
+
+    margin: 6px;
+    margin-right: 2px;
+    margin-left: 8px;
+    padding: 4px 16px;
+
+    border-radius: 6px;
+}
+
+#custom-notifications {
+    color: @yellow;
+    background-color: @bg0;
+
+    font-size: 22px;
+
+    margin: 6px;
+    margin-right: 8px;
+    margin-left: 2px;
+    padding: 4px 8px;
+
+    border-radius: 100%;
+}
+
+#layout {
+    background-color: @bg0;
+
+    font-size: 18px;
+
+    margin: 6px 3px;
+    padding: 4px 16px;
+
+    border-radius: 6px;
 }
 
 #network {
-    color: @blue;
-    margin-left: 16px;
-    margin-right: 12px;
+    background-color: @bg0;
+
+    margin: 6px 0px;
+    margin-left: 8px;
+    padding-right: 12px;
+    padding-left: 12px;
+
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+#network.disconnected {
+    color: @red;
+}
+
+#battery {
+    color: @fg;
+    background-color: @bg0;
+    margin: 6px 0px;
+    padding-right: 8px;
+    border-bottom-right-radius: 6px;
+    border-top-right-radius: 6px;
 }
 
 #memory {
     color: @red;
     margin-left: 20px;
-}
-
-#battery {
-    color: @fg;
-    margin-right: 24px;
-    margin-left: 16px;
 }
 
 #battery.warning:not(.charging) {
@@ -78,12 +118,11 @@ tooltip label {
 }
 
 #clock {
-    color: @green;
     background-color: @bg0;
 
-    margin: 8px;
-    padding: 2px 16px;
-    border-radius: 16px;
+    margin: 6px;
+    padding: 4px 16px;
+    border-radius: 6px;
 }
 
 /* The pulseaudio and backlight modules are merged together into one pill, so
@@ -92,17 +131,20 @@ tooltip label {
     color: @magenta;
     background-color: @bg0;
 
-    margin: 8px 0px;
-    padding: 2px;
+    margin: 6px 0px;
+    padding: 4px;
     padding-left: 12px;
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
+
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
 }
 
 #pulseaudio-slider {
     background-color: @bg0;
 
-    margin: 8px 0px;
+    margin: 6px 0px;
+    padding: 4px;
+    padding-right: 12px;
 }
 
 #pulseaudio-slider slider {
@@ -132,16 +174,20 @@ tooltip label {
     color: @yellow;
     background-color: @bg0;
 
-    margin: 8px 0px;
-    padding-left: 8px;
+    margin: 6px 0px;
+    padding: 4px;
+    padding-left: 12px;
 }
 
 #backlight-slider {
     background-color: @bg0;
 
-    margin: 8px 0px;
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
+    margin: 6px 0px;
+    padding: 4px;
+    padding-right: 12px;
+
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 
 #backlight-slider slider {
@@ -171,9 +217,9 @@ tooltip label {
 #tags {
     background-color: @bg0;
 
-    margin: 8px;
-    padding: 8px;
-    border-radius: 16px;
+    margin: 6px 2px;
+    padding: 10px;
+    border-radius: 6px;
 }
 
 #tags button {
@@ -198,7 +244,7 @@ tooltip label {
 }
 
 #tags button.focused {
-    background-color: @blue;
+    background-color: @yellow;
 
     padding: 0px 14px;
 }

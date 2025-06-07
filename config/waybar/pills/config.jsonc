@@ -1,7 +1,7 @@
 {
-    "modules-left": ["custom/rocket", "river/tags", "memory"],
-    "modules-center": ["river/window"],
-    "modules-right": ["pulseaudio", "pulseaudio/slider", "custom/space", "backlight", "backlight/slider", "network", "clock", "battery"],
+    "modules-left": ["custom/dashboard", "river/layout", "river/tags", "memory"],
+    "modules-center": [],
+    "modules-right": ["pulseaudio", "pulseaudio/slider", "custom/space", "backlight", "backlight/slider", "network", "battery", "clock", "custom/notifications"],
 
     "river/tags": {
 	"num-tags": 5,
@@ -10,6 +10,10 @@
 
     "river/window": {
 	"max-length": 20
+    },
+
+    "river/layout": {
+      "format": ""
     },
 
     "mpd": {
@@ -28,8 +32,8 @@
 
     "clock": {
         "interval": 60,
-        "format": "󰥔 {:%R}",
-        "format-alt": " {:%a, %e %b %R}",
+        "format": "{:%R}",
+        "format-alt": "{:%a, %e %b %R}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
 
@@ -58,12 +62,6 @@
 
     "battery": {
 	"interval": 60,
-	"states": {
-	    "good": 80,
-	    "warning": 30,
-	    "critical": 15
-	},
-
 	"format": "{icon} {capacity}%",
 	"format-charging": "󰂄 {capacity}%",
 	"format-icons": ["󰂎", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"]
@@ -72,7 +70,8 @@
     "network": {
 	"format-wifi": "󰤨",
 	"format-disconnected": "󰤭",
-	"tooltip": false
+	"tooltip": true,
+	"tooltip-format": "{essid}"
     },
 
     "pulseaudio": {
@@ -97,9 +96,15 @@
 	"tooltip": false
     },
 
-    "custom/rocket": {
-	"format": "",
+    "custom/dashboard": {
+	"format": "󰕮",
 	"tooltip": false,
-	"on-click": "fuzzel --counter"
-    }
+	"on-click": "~/.local/bin/toggle_dashboard"
+    },
+
+    "custom/notifications": {
+	"format": "",
+	"tooltip": false,
+	"on-click": "~/.local/bin/toggle_notifications"
+  }
 }
