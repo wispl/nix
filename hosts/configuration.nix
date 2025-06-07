@@ -104,6 +104,11 @@
   };
 
   virtualisation.containers.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    defaultNetwork.settings.dns_enabled = true;
+  };
   # Persistence
   environment.persistence."/nix/persist" = {
     hideMounts = true;
@@ -163,7 +168,7 @@
   };
 
   # We still need dbus even if using dbus-broker, something about dbus references
-  environment.systemPackages = with pkgs; [vim dbus];
+  environment.systemPackages = with pkgs; [vim dbus podman-compose];
 
   fonts.packages = with pkgs; [
     wqy_zenhei
