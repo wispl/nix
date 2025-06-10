@@ -26,7 +26,21 @@
 
   programs = {
     home-manager.enable = true;
-    git.enable = true;
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "wispl";
+    userEmail = "wispl.8qbkk@slmail.me";
+    aliases = {
+      lg = "log --graph --oneline --color";
+    };
+    extraConfig = {
+      init.defaultBranch = "main";
+      diff.algorithm = "histogram";
+      merge.conflictStyle = "zdiff3";
+    };
+    ignores = [".direnv"];
   };
 
   # kanagawa
