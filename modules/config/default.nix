@@ -5,12 +5,11 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   cfg = config.modules;
 in {
-  imports = [./colors.nix ./services.nix ./editors.nix];
+  imports = [./colors.nix ./services.nix ./editors.nix ./theme.nix];
   options.modules = {
     user = lib.mkOption {
       type = lib.types.str;
