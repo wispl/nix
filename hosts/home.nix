@@ -33,6 +33,7 @@
       enable = true;
       riverwm.enable = true;
       term = {
+        default = "foot";
         foot.enable = true;
       };
       ui = {

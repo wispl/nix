@@ -2,16 +2,22 @@
   config,
   lib,
   ...
-}:
-with lib; let
+}: let
   cfg = config.modules.desktop.term;
 in {
   options.modules.desktop.term = {
-    foot.enable = mkEnableOption "foot";
+    default = lib.mkOption {
+      type = lib.types.str;
+    };
+    foot.enable = lib.mkEnableOption "foot";
   };
 
-  config = mkMerge [
-    (mkIf cfg.foot.enable {
+  config = lib.mkMerge [
+    (lib.mkIf (cfg.default != "") {
+      home.sessionVariables.TERMINAL = cfg.default;
+    })
+
+    (lib.mkIf cfg.foot.enable {
       programs.foot = {
         enable = true;
         settings = {
