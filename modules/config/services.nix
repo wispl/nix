@@ -9,7 +9,7 @@ with lib; let
 in {
   options.modules.services = {
     mpd.enable = mkEnableOption "mpd";
-    gpg.enable = mkEnableOption "gpg-agent";
+    ssh-agent.enable = mkEnableOption "ssh-agent";
     psd.enable = mkEnableOption "psd";
   };
 
@@ -25,13 +25,12 @@ in {
       };
     })
 
-    # This thing never works for me
-    (mkIf cfg.gpg.enable {
-      programs.gpg.enable = true;
-      services.gpg-agent = {
+    (mkIf cfg.ssh-agent.enable {
+      programs.ssh = {
         enable = true;
-        enableSshSupport = true;
+        addKeysToAgent = "ask";
       };
+      services.ssh-agent.enable = true;
     })
 
     # Store the browser profile in tmpfs, for flexing and maybe performace

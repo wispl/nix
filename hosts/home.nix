@@ -27,6 +27,7 @@
     services = {
       mpd.enable = true;
       psd.enable = true;
+      ssh-agent.enable = true;
     };
 
     desktop = {
