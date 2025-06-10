@@ -42,6 +42,7 @@ in {
       swaybg # set wallpaper
       wf-recorder # screen record
       wl-clipboard # clipboard
+      chayang # gradually dim screen before locking screen
 
       xdg-utils # mime and xdg-open
 
@@ -132,12 +133,8 @@ in {
       timeouts = [
         {
           timeout = 300;
-          command = "${pkgs.swaylock}/bin/swaylock -f";
-        }
-        {
-          timeout = 330;
-          command = "${pkgs.wlopm}/bin/wlopm  --off '*'";
-          resumeCommand = "${pkgs.wlopm}/bin/wlopm  --on '*'";
+          command = "${pkgs.chayang}/bin/chayang && ${pkgs.wlopm}/bin/wlopm --off '*' && ${pkgs.swaylock}/bin/swaylock -f";
+          resumeCommand = "${pkgs.wlopm}/bin/wlopm --on '*'";
         }
       ];
     };
