@@ -1,19 +1,22 @@
+# tui, the weird cross between cli and ui. Sounds dumb in theory but I think it
+# is pretty tui-fic in practice. This module holds configuration for tui
+# applications, there are also some configuration-less ones inside cli.nix
 {
   config,
   lib,
   pkgs,
   ...
-}:
-with lib; let
-  cfg = config.modules.tui;
+}: let
+  cfg = config.modules.packages.tui;
 in {
-  options.modules.tui = {
-    lf.enable = mkEnableOption "lf";
-    ncmpcpp.enable = mkEnableOption "ncmpcpp";
+  options.modules.packages.tui = {
+    lf.enable = lib.mkEnableOption "lf";
+    ncmpcpp.enable = lib.mkEnableOption "ncmpcpp";
   };
 
-  config = mkMerge [
-    (mkIf cfg.lf.enable {
+  config = lib.mkMerge [
+    # pretty minimal file browser with decent preview support
+    (lib.mkIf cfg.lf.enable {
       home.packages = with pkgs; [chafa file];
       programs.lf = {
         enable = true;
@@ -113,7 +116,8 @@ in {
       };
     })
 
-    (mkIf cfg.ncmpcpp.enable {
+    # impossible to type mpd music player
+    (lib.mkIf cfg.ncmpcpp.enable {
       programs.ncmpcpp = {
         enable = true;
         bindings = [

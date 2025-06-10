@@ -113,10 +113,6 @@
       openrocket.enable = true;
     };
 
-    tui = {
-      ncmpcpp.enable = true;
-      lf.enable = true;
-    };
     packages = {
       cli = {
         common.enable = true;
@@ -131,6 +127,10 @@
         sh.enable = true;
         rust.enable = true;
         tex.enable = true;
+      };
+      tui = {
+        ncmpcpp.enable = true;
+        lf.enable = true;
       };
     };
 
