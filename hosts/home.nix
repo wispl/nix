@@ -6,20 +6,6 @@
 }: {
   imports = builtins.attrValues outputs.homeModules;
 
-  home = {
-    username = "wisp";
-    homeDirectory = "/home/wisp";
-    sessionPath = ["$HOME/.local/bin"];
-    sessionVariables = {
-      TERMINAL = "foot";
-      # Wallpaper symlink, so switching wallpapers do not take a rebuild
-      WALLPAPER = "${config.xdg.stateHome}/wallpaper";
-      # PATH to the directory of the root flake.nix. This is used for
-      # mkOutOfStoreSymlinks for configs like neovim and scripts.
-      FLAKE = "${config.home.homeDirectory}/flakes";
-    };
-  };
-
   home.packages = with pkgs; [
     alejandra
     blender
@@ -31,27 +17,6 @@
     qemu
     openrocket
   ];
-
-  systemd.user.startServices = "sd-switch";
-
-  programs = {
-    home-manager.enable = true;
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "wispl";
-    userEmail = "wispl.8qbkk@slmail.me";
-    aliases = {
-      lg = "log --graph --oneline --color";
-    };
-    extraConfig = {
-      init.defaultBranch = "main";
-      diff.algorithm = "histogram";
-      merge.conflictStyle = "zdiff3";
-    };
-    ignores = [".direnv"];
-  };
 
   # kanagawa
   colors = {
@@ -93,6 +58,15 @@
   };
 
   modules = {
+    user = "wisp";
+    git.enable = true;
+    shell.enable = true;
+    editors.nvim.enable = true;
+    services = {
+      mpd.enable = true;
+      psd.enable = true;
+    };
+
     desktop = {
       enable = true;
       riverwm.enable = true;
@@ -104,10 +78,6 @@
         waybar.enable = true;
         eww.enable = true;
       };
-    };
-
-    editors = {
-      nvim.enable = true;
     };
 
     packages = {
@@ -133,15 +103,6 @@
         ncmpcpp.enable = true;
         lf.enable = true;
       };
-    };
-
-    shell = {
-      enable = true;
-    };
-
-    services = {
-      mpd.enable = true;
-      psd.enable = true;
     };
   };
 
