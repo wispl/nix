@@ -124,15 +124,19 @@
       ncmpcpp.enable = true;
       lf.enable = true;
     };
+    packages = {
+      cli = {
+        common.enable = true;
+        direnv.enable = true;
+        scripts.enable = true;
+        storage.enable = true;
+        media.enable = true;
+        system.enable = true;
+      };
+    };
 
     shell = {
       enable = true;
-      direnv.enable = true;
-      scripts.enable = true;
-      formats.enable = true;
-      storage.enable = true;
-      media.enable = true;
-      system.enable = true;
     };
 
     services = {
