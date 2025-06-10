@@ -72,13 +72,10 @@ in {
     (lib.mkIf cfg.system.enable {
       home.packages = with pkgs; [
         radeontop
-        libva-utils
-        nvme-cli
-        pciutils
-        smartmontools
-        vdpauinfo
-        vulkan-tools
         powertop
+        pciutils
+        nvme-cli
+        smartmontools
       ];
     })
   ];
