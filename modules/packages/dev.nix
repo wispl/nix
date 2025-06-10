@@ -1,24 +1,24 @@
+# Optimistically the polygot module, pessimistically the nogot (nougat) module.
+# Hate half the languages here and love more than half... if that makes sense.
 {
   lib,
   config,
   pkgs,
   ...
-}:
-with lib; let
-  cfg = config.modules.dev;
+}: let
+  cfg = config.modules.packages.dev;
 in {
-  options.modules.dev = {
-    sh.enable = mkEnableOption "sh";
-    rust.enable = mkEnableOption "rust";
-    cc.enable = mkEnableOption "c and cpp";
+  options.modules.packages.dev = {
+    sh.enable = lib.mkEnableOption "sh";
+    rust.enable = lib.mkEnableOption "rust";
+    cc.enable = lib.mkEnableOption "c and cpp";
     # are texnomancers developers?
-    tex.enable = mkEnableOption "texlive";
+    tex.enable = lib.mkEnableOption "texlive";
   };
 
-  config = mkMerge [
-    # TODO: better method?
-    (mkIf cfg.sh.enable {home.packages = [pkgs.shellcheck-minimal];})
-    (mkIf cfg.cc.enable {
+  config = lib.mkMerge [
+    # stockholm c and cpp
+    (lib.mkIf cfg.cc.enable {
       home.packages = with pkgs; [
         clang-tools
         gcc
@@ -26,14 +26,18 @@ in {
         valgrind
       ];
     })
-    (mkIf cfg.rust.enable {
+
+    # evil borrow checker rust
+    (lib.mkIf cfg.rust.enable {
       home.packages = with pkgs; [
         rustfmt
         clippy
         cargo
       ];
     })
-    (mkIf cfg.tex.enable {
+
+    # mandatory tex
+    (lib.mkIf cfg.tex.enable {
       programs.texlive = {
         enable = true;
         extraPackages = tpkgs: {
@@ -85,6 +89,13 @@ in {
             ;
         };
       };
+    })
+
+    # shellfish shell
+    (lib.mkIf cfg.sh.enable {
+      home.packages = [
+        pkgs.shellcheck-minimal
+      ];
     })
   ];
 }

@@ -113,13 +113,6 @@
       openrocket.enable = true;
     };
 
-    dev = {
-      cc.enable = true;
-      sh.enable = true;
-      rust.enable = true;
-      tex.enable = true;
-    };
-
     tui = {
       ncmpcpp.enable = true;
       lf.enable = true;
@@ -132,6 +125,12 @@
         storage.enable = true;
         media.enable = true;
         system.enable = true;
+      };
+      dev = {
+        cc.enable = true;
+        sh.enable = true;
+        rust.enable = true;
+        tex.enable = true;
       };
     };
 

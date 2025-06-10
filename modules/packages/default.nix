@@ -6,7 +6,7 @@
 }: let
   cfg = config.modules.packages;
 in {
-  imports = [./cli.nix];
+  imports = [./cli.nix ./dev.nix];
   # options.modules.packages = {
   # 	extras = mk
   #
