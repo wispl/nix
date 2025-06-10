@@ -20,7 +20,17 @@
     };
   };
 
-  home.packages = with pkgs; [alejandra];
+  home.packages = with pkgs; [
+    alejandra
+    blender
+    inkscape
+    keepassxc
+    syncthing
+    openconnect
+    renderdoc
+    qemu
+    openrocket
+  ];
 
   systemd.user.startServices = "sd-switch";
 
@@ -100,20 +110,11 @@
       nvim.enable = true;
     };
 
-    apps = {
-      blender.enable = true;
-      inkscape.enable = true;
-      keepassxc.enable = true;
-      syncthing.enable = true;
-      openconnect.enable = true;
-      renderdoc.enable = true;
-      firefox.enable = true;
-      qemu.enable = true;
-      sioyek.enable = true;
-      openrocket.enable = true;
-    };
-
     packages = {
+      apps = {
+        firefox.enable = true;
+        sioyek.enable = true;
+      };
       cli = {
         common.enable = true;
         direnv.enable = true;

@@ -1,37 +1,23 @@
+# Sometimes you just have to use big apps with big tookits like gtk and qt and
+# ttt. Maybe not the last one but... this module contains configuration for
+# applications. Applications without configuration should just be passed to
+# home.packages or something like that.
 {
   lib,
   config,
   pkgs,
   ...
-}:
-with lib; let
-  cfg = config.modules.apps;
+}: let
+  cfg = config.modules.packages.apps;
 in {
-  options.modules.apps = {
-    blender.enable = mkEnableOption "blender";
-    inkscape.enable = mkEnableOption "inkscape";
-    keepassxc.enable = mkEnableOption "keepassxc";
-    syncthing.enable = mkEnableOption "syncthing";
-    openconnect.enable = mkEnableOption "openconnect";
-    renderdoc.enable = mkEnableOption "renderdoc";
-    firefox.enable = mkEnableOption "firefox";
-    qemu.enable = mkEnableOption "qemu";
-    sioyek.enable = mkEnableOption "sioyek";
-    openrocket.enable = mkEnableOption "openrocket";
+  options.modules.packages.apps = {
+    firefox.enable = lib.mkEnableOption "firefox";
+    sioyek.enable = lib.mkEnableOption "sioyek";
   };
 
-  config = mkMerge [
-    # TODO: better method?
-    (mkIf cfg.blender.enable {home.packages = [pkgs.blender];})
-    (mkIf cfg.inkscape.enable {home.packages = [pkgs.inkscape];})
-    (mkIf cfg.keepassxc.enable {home.packages = [pkgs.keepassxc];})
-    (mkIf cfg.syncthing.enable {home.packages = [pkgs.syncthing];})
-    (mkIf cfg.openconnect.enable {home.packages = [pkgs.openconnect];})
-    (mkIf cfg.renderdoc.enable {home.packages = [pkgs.renderdoc];})
-    (mkIf cfg.qemu.enable {home.packages = [pkgs.qemu];})
-    (mkIf cfg.openrocket.enable {home.packages = [pkgs.openrocket];})
-
-    (mkIf cfg.firefox.enable {
+  # good browser
+  config = lib.mkMerge [
+    (lib.mkIf cfg.firefox.enable {
       programs.firefox = {
         enable = true;
         profiles = {
@@ -39,7 +25,7 @@ in {
             id = 0;
             name = "default";
             isDefault = true;
-            userChrome = builtins.readFile ../config/firefox/userChrome.css;
+            userChrome = builtins.readFile ../../config/firefox/userChrome.css;
           };
           spare = {
             id = 1;
@@ -49,7 +35,8 @@ in {
       };
     })
 
-    (mkIf cfg.sioyek.enable {
+    # good pdf viewer
+    (lib.mkIf cfg.sioyek.enable {
       xdg.mimeApps.defaultApplications = {
         "application/pdf" = ["sioyek.desktop"];
       };
