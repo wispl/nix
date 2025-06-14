@@ -26,8 +26,6 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           ./hosts/configuration.nix
-          impermanence.nixosModules.impermanence
-          nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
         ];
       };
     };

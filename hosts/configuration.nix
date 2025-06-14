@@ -9,6 +9,8 @@
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
+    inputs.impermanence.nixosModules.impermanence
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
   ];
 
   #
