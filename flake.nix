@@ -24,9 +24,7 @@
       snow = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
-        modules = [
-          ./hosts/configuration.nix
-        ];
+        modules = [./hosts/snow];
       };
     };
   };
