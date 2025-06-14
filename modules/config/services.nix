@@ -38,6 +38,7 @@ in {
       services.psd = {
         enable = true;
         browsers = ["firefox"];
+        backupLimit = 3;
       };
     })
   ];

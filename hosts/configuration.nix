@@ -167,16 +167,14 @@
     dbus.implementation = "broker";
   };
 
-  # We still need dbus even if using dbus-broker, something about dbus references
-  environment.systemPackages = with pkgs; [vim dbus podman-compose];
+  environment.systemPackages = with pkgs; [vim];
 
   fonts.packages = with pkgs; [
-    wqy_zenhei
-    dejavu_fonts
-    nerd-fonts.fantasque-sans-mono
-    nerd-fonts.symbols-only
-    julia-mono
-    fantasque-sans-mono
+    wqy_zenhei # good enough cjk coverage
+    dejavu_fonts # good overall coverage
+    nerd-fonts.fantasque-sans-mono # programming font of choice
+    nerd-fonts.symbols-only # not sure why I have this?
+    julia-mono # extensive math coverage
   ];
 
   xdg.portal = {

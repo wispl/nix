@@ -16,6 +16,7 @@
     renderdoc
     qemu
     openrocket
+    podman-compose
   ];
 
   modules = {
