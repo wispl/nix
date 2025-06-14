@@ -61,7 +61,6 @@ in {
         enable = true;
         # TODO: find a way to not do this...
         profileExtra = ''
-          export DIRENV_LOG_FORMAT=$'\033[2mdirenv: %s\033[0m'
           [[ $(tty) == /dev/tty1 ]] && river
         '';
         historyControl = ["ignoredups"];
