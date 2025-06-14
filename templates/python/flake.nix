@@ -1,5 +1,5 @@
 {
-  description = "Nix flake template for PlatformIO";
+  description = "Nix flake template for Python";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.systems.url = "github:nix-systems/default";
   inputs.flake-utils = {
@@ -15,16 +15,15 @@
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
+        # change python version here
+        pyPkgs = pkgs.python313Packages;
       in {
         devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            cmake
-            platformio
-            # Add more packages here
+          packages = [
+            (pyPkgs.withPackages (python-pkgs: [
+              # python packages go here
+            ]))
           ];
-          shellHook = ''
-            export PLATFORMIO_CORE_DIR=$PWD/.platformio
-          '';
         };
       }
     );

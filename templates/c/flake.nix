@@ -1,26 +1,27 @@
 {
   description = "Nix flake template for C";
-
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  inputs.systems.url = "github:nix-systems/default";
+  inputs.flake-utils = {
+    url = "github:numtide/flake-utils";
+    inputs.systems.follows = "systems";
+  };
 
   outputs = {
-    self,
     nixpkgs,
-  }: let
-    supportedSystems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
-    forEachSupportedSystem = f:
-      nixpkgs.lib.genAttrs supportedSystems (system:
-        f {
-          pkgs = import nixpkgs {inherit system;};
-        });
-  in {
-    devShells = forEachSupportedSystem ({pkgs}: {
-      default = pkgs.mkShell {
-        packages = with pkgs; [
-          clang-tools
-          cmake
-        ];
-      };
-    });
-  };
+    flake-utils,
+    ...
+  }:
+    flake-utils.lib.eachDefaultSystem (
+      system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            cmake
+            # Add more packages here
+          ];
+        };
+      }
+    );
 }

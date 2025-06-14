@@ -10,6 +10,10 @@
       path = ./platformio;
       description = "Basic environment for PlatformIO";
     };
+    templates.python = {
+      path = ./python;
+      description = "Basic environment for Python";
+    };
 
     templates.default = self.templates.c;
   };
