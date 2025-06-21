@@ -16,14 +16,21 @@
       system: let
         pkgs = nixpkgs.legacyPackages.${system};
         # change python version here
-        pyPkgs = pkgs.python313Packages;
+        python = pkgs.python313;
       in {
         devShells.default = pkgs.mkShell {
           packages = [
-            (pyPkgs.withPackages (python-pkgs: [
+            (python.withPackages (python-pkgs: [
               # python packages go here
             ]))
           ];
+          # maybe?
+          # shellHook = ''
+          # 	export PIP_PREFIX=$(pwd)/_build/pip_packages #Dir where built packages are stored
+          # 	export PYTHONPATH="$PIP_PREFIX/${pkgs.python3.sitePackages}:$PYTHONPATH"
+          # 	export PATH="$PIP_PREFIX/bin:$PATH"
+          # 	unset SOURCE_DATE_EPOCH
+          # '';
         };
       }
     );
