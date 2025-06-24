@@ -10,8 +10,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "wispl";
     repo = "riverstream";
-    rev = "a1bc84dcfc62d1297c123b07ae547ae76fab182f";
-    sha256 = "GdJtTy5FRloj4aALyE1LuKNC9Ro7y7SRHoQ4OfgR9D0=";
+    rev = "8eade35fb45a1531d63fd2202b412b0bda0915bf";
+    sha256 = "Opu9xeCo7H4gM+IWq8bdypswtBFDbKSJVjRAs4oA5GY=";
   };
 
   makeFlags = ["PREFIX=${placeholder ''out''}"];
