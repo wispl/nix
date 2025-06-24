@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 with lib; let
@@ -11,6 +12,7 @@ in {
     fuzzel.enable = mkEnableOption "fuzzel";
     waybar.enable = mkEnableOption "waybar";
     eww.enable = mkEnableOption "eww";
+    quickshell.enable = mkEnableOption "quickshell";
   };
 
   config = mkMerge [
@@ -81,12 +83,22 @@ in {
     })
 
     (mkIf cfg.eww.enable {
+      home.packages = [pkgs.inotify-tools];
       programs.eww = {
         enable = true;
       };
 
       xdg.configFile.eww = {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/config/eww";
+        recursive = true;
+      };
+    })
+
+    (mkIf cfg.quickshell.enable {
+      home.packages = [pkgs.quickshell];
+
+      xdg.configFile.quickshell = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/config/quickshell";
         recursive = true;
       };
     })
