@@ -1,0 +1,89 @@
+.bar {
+  background-color: $bg;
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+
+@mixin item {
+  font-size: 18px;
+  color: $fg;
+  background-color: $bgDDD;
+  padding: 6px 16px;
+}
+
+.item {
+  font-size: 18px;
+  color: $fg;
+  padding: 6px 16px;
+}
+
+.bar-item {
+  @include item;
+  border-radius: 6px;
+}
+
+.font {
+  font-size: 20px;
+}
+
+.tag trough {
+  background-color: $bgL;
+  border-radius: 8px;
+}
+
+.tag highlight {
+  // padding-top: 15px;
+  padding: 4px 0px;
+  border-radius: 8px;
+}
+
+.tag-occupied trough {
+  background-color: $bgLLL;
+  border-radius: 8px;
+}
+
+.tag-urgent trough {
+  background-color: $red;
+  border-radius: 8px;
+}
+
+.tag-focused trough {
+  background-color: $yellow;
+  border-radius: 8px;
+}
+
+.controls trough {
+  background-color: $bgLL;
+  border-radius: 8px;
+}
+
+.controls highlight {
+  padding-top: 5px;
+  border-radius: 4px;
+}
+
+.brightness {
+  color: $yellow;
+}
+
+.brightness highlight {
+  background-color: $yellow;
+}
+
+.volume {
+  color: $magenta;
+}
+
+.volume highlight {
+  background-color: $magenta;
+}
+
+.box-left {
+  @include item;
+  border-radius: 6px 0px 0px 6px;
+}
+
+.box-right {
+  @include item;
+  border-radius: 0px 6px 6px 0px;
+}

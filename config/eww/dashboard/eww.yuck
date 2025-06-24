@@ -1,16 +1,16 @@
-;; TODO: severe refractoring and use more deflistens if possible
+;; TODO: severe refractoring
 
 (defpoll time :interval "60s"
 	:initial `date +'%H:%M'`
 	`date +'%H:%M'`)
 
 (defpoll date :interval "24h"
-	:initial `date +'%b, %d'`
-	`date +'%b, %d'`)
+	:initial `date +'%a %b, %d'`
+	`date +'%a %b, %d'`)
 
-(defpoll volume :interval "2s" `./scripts/volume.sh`)
+(deflisten volume `./scripts/volume.sh subscribe`)
 
-(defpoll brightness :interval "2s" `./scripts/brightness.sh`)
+(deflisten brightness `./scripts/brightness.sh subscribe`)
 
 (deflisten song `./scripts/music.sh subscribe`)
 
@@ -76,7 +76,7 @@
 			(label :class "volume_text" :text "Volume" :halign "start")
 			(box :orientation "h" :space-evenly false :spacing 4
 				(label :class "volume_icon" :text "󰕾")
-				(scale :class "volume_bar" :min 0 :max 100 :value {volume * 100} :hexpand true)))))
+				(scale :class "volume_bar" :min 0 :max 100 :value {volume.vol * 100} :hexpand true)))))
 
 ;; Album should really be song, also not sure what happens if there is not a cover art
 (defwidget mpd []

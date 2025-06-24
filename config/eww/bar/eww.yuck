@@ -1,0 +1,80 @@
+(defvar reveal-date false)
+
+; so we don't poll every 2 seconds when using EWW_BATTERY
+(defpoll battery :interval "60s" `./scripts/battery.sh`)
+(deflisten river `riverstream -t 5`)
+
+(defwindow bar
+	:monitor 0
+	:exclusive true
+	:focusable "false"
+	:geometry (geometry
+		:x 0
+		:y 0
+		:width "100%"
+		:height 35
+		:anchor "top center")
+	(bar_layout))
+
+(defwidget bar_layout []
+	(box :class "bar" :space-evenly true (left) (right)))
+
+(defwidget left []
+	(box :space-evenly false :spacing 5 :orientation "h"
+		(button :class "bar-item" :onclick "toggle_dashboard" (label :text "󰕮" :tooltip "toggle dashboard"))
+		(layout)
+		(tags)))
+
+(defwidget layout []
+	(box :class "bar-item" (label :text "${river.layout == "left" ? "" :
+					       river.layout == "right" ? "":
+					       river.layout == "top" ? "󱔓":
+					       river.layout == "bottom" ? "󱂩":
+					       river.layout == "monocle" ? "": ""}" :tooltip "${river.layout}")))
+
+(defwidget tags []
+	(box :class "bar-item tags" :spacing 6 :space-evenly false
+		(for tag in {river.tags}
+			(button (scale :width {tag >= 2 ? 30 : 20} :class "tag ${tag == 0 ? "":
+							       tag < 2 ? "tag-occupied" :
+							       tag < 4 ? "tag-focused" : "tag-urgent"}")))))
+
+(defwidget right []
+	(box :space-evenly false :spacing 5 :orientation "h" :halign "end"
+		(vol-brightness)
+		(network-bat)
+		(time)
+		(button :class "item font" :onclick "toggle_notifications" (label :text "󰗣" :tooltip "toggle notifications"))))
+
+
+(defwidget time []
+	(eventbox :onhover "eww update reveal-date=true" :onhoverlost "eww update reveal-date=false"
+		(box :orientation "h" :class "bar-item" :space-evenly false
+			(revealer :reveal reveal-date :transition "slideleft" (label :class "font" :text "${date} | "))
+			(label :class "font" :text time))))
+
+(defwidget network-bat []
+	(box :class "bar-item font" :spacing 6 :space-evenly false
+		(label :text {bluetooth == "on" ? "󰂯" : "󰂲"})
+		(label :text {wifi == "up" ? "󰤨" : "󰤭"})
+		(label :text "${battery.status == "Charging" ? "󰂄":
+				battery.capacity < 20 ? "󰂎" :
+				battery.capacity < 40 ? "󰁻" :
+				battery.capacity < 60 ? "󰁽" :
+				battery.capacity < 80 ? "󰁿" :
+				battery.capacity < 90 ? "󰂁" : "󰁹"}")
+		(label :text "${battery.capacity}%")))
+
+(defwidget vol-brightness []
+	(box :space-evenly false :spacing 4
+		(box :class "box-left" :space-evenly false :spacing 8
+			(label :class "font volume"
+				:text "${volume.muted ? "󰖁" :
+					volume.vol < 0.33 ? "󰕿" :
+					volume.vol < 0.66 ? "󰖀" : "󰕾"}")
+			(scale :class "controls volume" :width 60 :min 0 :max 100 :value {volume.vol * 100}))
+		(box :class "box-right" :space-evenly false :spacing 8
+			(label :class "font brightness" :text "${brightness < 25 ? "󰃝" :
+				brightness < 50 ? "󰃞" :
+				brightness < 75 ? "󰃟" : "󰃠"}")
+			(scale :class "controls brightness" :width 60 :min 0 :max 100 :value brightness))))
