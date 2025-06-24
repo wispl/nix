@@ -41,7 +41,6 @@
       };
       ui = {
         fuzzel.enable = true;
-        waybar.enable = true;
         eww.enable = true;
       };
     };
