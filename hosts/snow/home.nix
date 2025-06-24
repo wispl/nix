@@ -7,6 +7,7 @@
   imports = builtins.attrValues outputs.homeModules;
 
   home.packages = with pkgs; [
+    outputs.packages.${system}.riverstream
     alejandra
     blender
     inkscape
