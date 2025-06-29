@@ -7,8 +7,8 @@
 	:exclusive false
 	:focusable "none"
 	:geometry (geometry
-		:x 8
-		:y 8
+		:x 16
+		:y 16
 		:width "25%"
 		:height "84%"
 		:anchor "top right")
