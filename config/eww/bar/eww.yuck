@@ -50,8 +50,8 @@
 (defwidget time []
 	(eventbox :onhover "eww update reveal-date=true" :onhoverlost "eww update reveal-date=false"
 		(box :orientation "h" :class "bar-item" :space-evenly false
-			(revealer :reveal reveal-date :transition "slideleft" (label :class "font" :text "${date} | "))
-			(label :class "font" :text time))))
+			(revealer :reveal reveal-date :transition "slideleft" (label :class "font" :text "${substring(time, 0, 11)} | "))
+			(label :class "font" :text "${substring(time, 12, 5)}" ))))
 
 (defwidget network-bat []
 	(box :class "bar-item font" :spacing 6 :space-evenly false
