@@ -31,7 +31,7 @@
 		:orientation "v"
 		:space-evenly false
 		:spacing 8
-		(time)
+		(header)
 		(box :class "win"
 			:orientation "v"
 			:space-evenly false
@@ -41,7 +41,7 @@
 				(mpd)
 				(controls))
 			(stats)
-			(calendar))))
+			(calendarbox))))
 
 (defwidget networks []
 	(box :height 100
@@ -95,12 +95,12 @@
 		(box :class "sidebar-stats" :hexpand true
 			(circular-progress :class "sidebar-cprogress" :clockwise false :value {EWW_BATTERY["BAT0"].capacity} :thickness 6 (label :text "󰁹")))))
 
-(defwidget calendar []
+(defwidget calendarbox []
 	(box :class "sidebar-calendar" :orientation "v" :space-evenly false
 		(label :class "sidebar-cal-text" :text {substring(time, 0, 11)} :halign "start")
 		(calendar :class "sidebar-cal" :show-heading false)))
 
-(defwidget time []
+(defwidget header []
 	(overlay :height 175
 		(box :class "sidebar-header" :style "background-image: url('./assets/banner.png'); background-size: cover;")
 		(label :class "sidebar-time" :text "${substring(time, 12, 5)}" :halign "end" :valign "start")))
