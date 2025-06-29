@@ -8,166 +8,52 @@
   padding: 12px;
 }
 
-.network_box {
+.sidebar-item {
+  background-color: $bgDD;
+  border-radius: 8px;
+}
+
+.magenta_border {
+  border: solid 4px $magenta;
+}
+
+//
+// Time
+//
+
+.sidebar-header {
+  border-radius: 8px 8px 0px 0px;
+}
+
+.sidebar-time {
+  @extend .sidebar-item;
+  font-size: 24px;
+  padding: 8px 16px;
+  margin-right: 16px;
+  margin-top: 12px;
+}
+
+//
+// Network
+//
+
+.sidebar-network {
+  @extend .sidebar-item;
   // compensate for the added border when toggled
   border: 4px solid $bg;
-  background-color: $bgDD;
   padding: 12px;
   padding-left: 20px;
-  border-radius: 8px;
 }
 
-.network_box_on {
+.sidebar-network-on {
   border: 4px solid $bgL;
   background: repeating-linear-gradient(
-  45deg,
-  $bgDD,
-  $bgDD 20px,
-  $magenta 20px,
-  $magenta 40px
+    45deg,
+    $bgDD,
+    $bgDD 20px,
+    $magenta 20px,
+    $magenta 40px
   );
-}
-
-.wifi_label {
-  font-size: 16px;
-  color: $fg;
-  margin-left: 12px;
-  margin-bottom: 12px;
-}
-
-.bluetooth_label {
-  font-size: 16px;
-  color: $fg;
-  margin-left: 12px;
-  margin-bottom: 12px;
-}
-
-.album {
-  background-color: $bgDD;
-  padding: 12px;
-  padding-left: 20px;
-  border-radius: 8px;
-}
-
-.album_text {
-  font-size: 18px;
-}
-
-.mpd_controls_box {
-  background-color: $bgDD;
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.mpd_button {
-  background-color: $bgD;
-  border-radius: 8px;
-  font-size: 36px;
-  color: $fg;
-}
-
-.mpd_button:hover {
-  color: $bg;
-  background-color: $magenta;
-}
-
-.brightness_box {
-  background-color: $bgDD;
-  padding: 12px;
-  padding-left: 20px;
-  border-radius: 8px;
-}
-
-.volume_box {
-  background-color: $bgDD;
-  padding: 12px;
-  padding-left: 20px;
-  border-radius: 8px;
-}
-
-.brightness_icon {
-  color: $fg;
-  font-size: 24px;
-}
-
-.brightness_bar trough {
-  margin-left: 8px;
-  background-color: $bgD;
-  border-radius: 8px;
-}
-
-.brightness_bar highlight {
-  background-color: $magenta;
-  padding-top: 15px;
-  border-radius: 8px;
-}
-
-.volume_icon {
-  color: $fg;
-  font-size: 24px;
-}
-
-.volume_bar trough {
-  margin-left: 8px;
-  background-color: $bgD;
-  border-radius: 8px;
-}
-
-.volume_bar highlight {
-  background-color: $magenta;
-  padding-top: 15px;
-  border-radius: 8px;
-}
-
-.stat_icon {
-  color: $fg;
-  font-size: 24px;
-}
-
-.stat_box {
-  background-color: $bgDD;
-  border-radius: 8px;
-  padding: 24px;
-}
-
-.stat_bar {
-  background-color: $bgD;
-  border-radius: 100%;
-  color: $magenta;
-}
-
-.cal-box {
-  border-radius: 8px;
-  padding: 28px 20px;
-  background-color: $bgDD;
-}
-
-.cal_text {
-  color: $yellow;
-  margin-left: 28px;
-  font-size: 24px;
-}
-
-.cal {
-  color: $fg;
-  background-color: $bgDD;
-  border: none;
-  padding: 6px;
-  font-size: 20px;
-}
-
-.cal:selected {
-  color: $yellow;
-  background-color: transparent;
-  font-weight: 800;
-}
-
-.cal.highlight {
-  color: $magenta;
-}
-
-.cal:indeterminate {
-  color: $bgLLL;
 }
 
 .toggle_button {
@@ -184,19 +70,111 @@
   background-color: $magenta;
 }
 
-.magenta_border {
-  border: solid 4px $magenta;
+//
+// MPD
+//
+
+.sidebar-album {
+  @extend .sidebar-item;
+  font-size: 20px;
+  padding: 12px;
+  padding-left: 20px;
 }
 
-.time_box {
-  border-radius: 8px 8px 0px 0px;
+.sidebar-mpdcontrols {
+  @extend .sidebar-item;
+  padding: 8px;
 }
 
-.time {
-  font-size: 24px;
-  background-color: $bg;
-  padding: 8px 16px;
+.mpd_button {
+  background-color: $bgD;
   border-radius: 8px;
-  margin-right: 16px;
-  margin-top: 12px;
+  font-size: 36px;
+  color: $fg;
+}
+
+.mpd_button:hover {
+  color: $bg;
+  background-color: $magenta;
+}
+
+//
+// Volume and Brightness
+//
+
+.sidebar-controls {
+  @extend .sidebar-item;
+  padding: 12px;
+  padding-left: 20px;
+
+  color: $fg;
+  font-size: 24px;
+}
+
+.sidebar-slider {
+  trough {
+    background-color: $bgD;
+    margin-left: 8px;
+    border-radius: 8px;
+  }
+
+  highlight {
+    background-color: $magenta;
+    padding-top: 15px;
+    border-radius: 8px;
+  }
+}
+
+//
+// Stats
+//
+
+.sidebar-stats {
+  @extend .sidebar-item;
+  padding: 24px;
+
+  color: $fg;
+  font-size: 24px;
+}
+
+.sidebar-cprogress {
+  background-color: $bgD;
+  color: $magenta;
+}
+
+//
+// Calendar
+//
+
+.sidebar-calendar {
+  @extend .sidebar-item;
+  padding: 28px 20px;
+}
+
+.sidebar-cal-text {
+  color: $yellow;
+  margin-left: 28px;
+  font-size: 24px;
+}
+
+.sidebar-cal {
+  color: $fg;
+  background-color: $bgDD;
+  border: none;
+  padding: 6px;
+  font-size: 20px;
+}
+
+.sidebar-cal:selected {
+  color: $yellow;
+  background-color: transparent;
+  font-weight: 800;
+}
+
+.sidebar-cal.highlight {
+  color: $magenta;
+}
+
+.sidebar-cal:indeterminate {
+  color: $bgLLL;
 }

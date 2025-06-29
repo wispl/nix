@@ -1,12 +1,8 @@
-;; TODO: severe refractoring
-
+;; for date: substring(time, 0,11)
+;; for time: substring(time, 12, 5)
 (defpoll time :interval "60s"
-	:initial `date +'%H:%M'`
-	`date +'%H:%M'`)
-
-(defpoll date :interval "24h"
-	:initial `date +'%a %b, %d'`
-	`date +'%a %b, %d'`)
+	:initial `date +'%a, %b %d %H:%M'`
+	`date +'%a, %b %d %H:%M'`)
 
 (deflisten volume `./scripts/volume.sh subscribe`)
 
@@ -23,8 +19,8 @@
 	:exclusive false
 	:focusable "none"
 	:geometry (geometry
-		:x 8
-		:y 8
+		:x "16px"
+		:y "16px"
 		:width "28%"
 		:height "93%"
 		:anchor "top left")
@@ -35,7 +31,7 @@
 		:orientation "v"
 		:space-evenly false
 		:spacing 8
-		(time_box)
+		(time)
 		(box :class "win"
 			:orientation "v"
 			:space-evenly false
@@ -45,19 +41,19 @@
 				(mpd)
 				(controls))
 			(stats)
-			(calendar_box))))
+			(calendar))))
 
 (defwidget networks []
 	(box :height 100
 		:vexpand false :hexpand true :spacing 8
-		(box :class {wifi == "up"? "network_box network_box_on" : "network_box"}
+		(box :class {wifi == "up"? "sidebar-network sidebar-network-on" : "sidebar-network"}
 			(button :class "toggle_button"
 				:valign "end"
 				:halign "start"
 				:onclick "./scripts/wifi.sh toggle"
 				(label
 					:text {wifi == "up" ? "Wifi: On": "Wifi: Off"})))
-		(box :class {bluetooth == "on" ? "network_box network_box_on" : "network_box"}
+		(box :class {bluetooth == "on" ? "sidebar-network sidebar-network-on" : "sidebar-network"}
 			(button :class "toggle_button"
 				:valign "end"
 				:halign "start"
@@ -67,45 +63,44 @@
 
 (defwidget controls []
 	(box :vexpand false :width 268 :orientation "v" :spacing 8
-		(box :class "brightness_box" :orientation "v" :space-evenly false
+		(box :class "sidebar-controls" :orientation "v" :space-evenly false
 			(label :class "brightness_text" :text "Brightness" :halign "start")
 			(box :orientation "h" :space-evenly false :spacing 4
-				(label :class "brightness_icon" :text "󰃠")
-				(scale :class "brightness_bar" :min 0 :max 100 :value brightness :hexpand true)))
-		(box :class "volume_box" :orientation "v" :space-evenly false
+				(label :text "󰃠")
+				(scale :class "sidebar-slider" :min 0 :max 100 :value brightness :hexpand true)))
+		(box :class "sidebar-controls" :orientation "v" :space-evenly false
 			(label :class "volume_text" :text "Volume" :halign "start")
 			(box :orientation "h" :space-evenly false :spacing 4
-				(label :class "volume_icon" :text "󰕾")
-				(scale :class "volume_bar" :min 0 :max 100 :value {volume.vol * 100} :hexpand true)))))
+				(label :text "󰕾")
+				(scale :class "sidebar-slider" :min 0 :max 100 :value {volume.vol * 100} :hexpand true)))))
 
 ;; Album should really be song, also not sure what happens if there is not a cover art
 (defwidget mpd []
 	(box :class "mpd_box" :space-evenly false :spacing 8 :hexpand true
-		(box :class "album" :style "background-image: url('${song.art}'); background-size: contain;" :hexpand true :vexpand true
-			(label :class "album_text"
-				:text {song.name ?: "Offline"}
+		(box :class "sidebar-album" :style "background-image: url('${song.art}'); background-size: contain;" :hexpand true :vexpand true
+			(label :text {song.name ?: "Offline"}
 				:wrap true :limit-width 6 :lines 3
 				:valign "start" :halign "start"))
-		(box :class "mpd_controls_box" :hexpand false :vexpand true :orientation "v" :space-evenly false :spacing 8
+		(box :class "sidebar-mpdcontrols" :hexpand false :vexpand true :orientation "v" :space-evenly false :spacing 8
 				(button :class "mpd_button" :width 45 :height 45 :onclick "./scripts/music.sh prev" "󰒮")
 				(button :class "mpd_button" :width 45 :height 45 :onclick "./scripts/music.sh toggle" {song.state == "paused" ? "󰐊" : "󰏤"})
 				(button :class "mpd_button" :width 45 :height 45 :onclick "./scripts/music.sh next" "󰒭"))))
 
 (defwidget stats []
 	(box :orientation "h" :spacing 8 :space-evenly false :height 150 :hexpand true
-		(box :class "stat_box" :hexpand true
-			(circular-progress :class "stat_bar" :clockwise false :value {EWW_RAM.used_mem_perc} :thickness 6 (label :class "stat_icon" :text "")))
-		(box :class "stat_box" :hexpand true
-			(circular-progress :class "stat_bar" :clockwise false :value {EWW_CPU.avg} :thickness 6 (label :class "stat_icon" :text "")))
-		(box :class "stat_box" :hexpand true
-			(circular-progress :class "stat_bar" :clockwise false :value {EWW_BATTERY["BAT0"].capacity} :thickness 6 (label :class "stat_icon" :text "󰁹")))))
+		(box :class "sidebar-stats" :hexpand true
+			(circular-progress :class "sidebar-cprogress" :clockwise false :value {EWW_RAM.used_mem_perc} :thickness 6 (label :text "")))
+		(box :class "sidebar-stats" :hexpand true
+			(circular-progress :class "sidebar-cprogress" :clockwise false :value {EWW_CPU.avg} :thickness 6 (label :text "")))
+		(box :class "sidebar-stats" :hexpand true
+			(circular-progress :class "sidebar-cprogress" :clockwise false :value {EWW_BATTERY["BAT0"].capacity} :thickness 6 (label :text "󰁹")))))
 
-(defwidget calendar_box []
-	(box :class "cal-box" :orientation "v" :space-evenly false
-		(label :class "cal_text" :text date :halign "start")
-		(calendar :class "cal" :show-heading false)))
+(defwidget calendar []
+	(box :class "sidebar-calendar" :orientation "v" :space-evenly false
+		(label :class "sidebar-cal-text" :text {substring(time, 0, 11)} :halign "start")
+		(calendar :class "sidebar-cal" :show-heading false)))
 
-(defwidget time_box []
+(defwidget time []
 	(overlay :height 175
-		(box :class "time_box" :style "background-image: url('./assets/banner.png'); background-size: cover;")
-		(label :class "time" :text time :halign "end" :valign "start")))
+		(box :class "sidebar-header" :style "background-image: url('./assets/banner.png'); background-size: cover;")
+		(label :class "sidebar-time" :text "${substring(time, 12, 5)}" :halign "end" :valign "start")))
