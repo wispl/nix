@@ -160,7 +160,7 @@ parse_auto({ trig = "tt", condition = m }, "\\text{$1}$0")
 parse_auto({ trig = "case", condition = m }, "\\begin{cases}\n\t$0\n\\end{cases}")
 parse_auto({ trig = "cvec", condition = m }, "\\begin{pmatrix} ${1:x} \\\\ \\vdots \\\\ ${2:x_{n}} \\end{pmatrix}$0")
 
-add_snip({ trig="mat(%d+)x(%d+)", condition = b, regTrig = true },
+add_snip({ trig="mat(%d+)x(%d+)", condition = m, regTrig = true },
 	fmta(
 		[[
 			\begin{<>}
@@ -202,7 +202,7 @@ parse_auto({ trig = "cb", wordTrig = false, condition = m }, "^{3}")
 parse_auto({ trig = "td", wordTrig = false, condition = m }, "^{$1}$0")
 parse_auto({ trig = "_", wordTrig = false, condition = m }, "_{$1}$0")
 -- a0 -> a_{0}
-parse_auto({ trig = "(%a)(%d)", wordTrig = false, regTrig = true, condition = m }, "${LS_CAPTURE_1}_{${LS_CAPTURE_2}}")
+parse_auto({ trig = "(%a)(%d)", regTrig = true, condition = m }, "${LS_CAPTURE_1}_{${LS_CAPTURE_2}}")
 
 parse_auto({ trig = "EE", condition = m }, "\\exists")
 parse_auto({ trig = "AA", condition = m }, "\\forall")
