@@ -15,21 +15,74 @@ return {
 			},
 			{ "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
 			{ "<S-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-			{ "<C-e>",
-				function() return require("luasnip").change_choice(1) end,
+			{ "<C-f>",
+				function()
+					if require("luasnip").choice_active() then
+						return require("luasnip").change_choice(1)
+					else
+						return require("config.luasnip").dynamic_node_external_update(1)
+					end
+				end,
 				silent = true, mode = { "i", "s" },
-			}
+			},
+			{ "<C-b>",
+				function()
+					if require("luasnip").choice_active() then
+						return require("luasnip").change_choice(-1)
+					else
+						return require("config.luasnip").dynamic_node_external_update(2)
+					end
+				end,
+				silent = true, mode = { "i", "s" },
+			},
 		},
 		config = function()
-			require("luasnip.loaders.from_lua").lazy_load({ paths = "./lua/snippets/" })
 			ls = require("luasnip")
+			local types = require("luasnip.util.types")
 			ls.filetype_extend("glsl", { "c" })
 			ls.filetype_extend("cpp",  { "c" })
 			ls.setup({
+				keep_roots = true,
+				link_roots = true,
+				link_children = true,
+				exit_roots = false,
 				enable_autosnippets = true,
-				region_check_events = { "InsertEnter" },
+				update_events = {"InsertLeave"},
+				region_check_events = { "InsertLeave" },
 				delete_check_events = "TextChanged, InsertEnter",
+				ext_opts = {
+					[types.choiceNode] = {
+						active = {
+							virt_text = {{"●", "Identifier"}},
+							priority = 0
+						},
+					},
+				},
+				snip_env = {
+					parse_snip = function(...)
+						local snip = ls.parser.parse_snippet(...)
+						table.insert(getfenv(2).ls_file_snippets, snip)
+					end,
+					parse_auto = function(...)
+						local snip = ls.parser.parse_snippet(...)
+						table.insert(getfenv(2).ls_file_autosnippets, snip)
+					end,
+					add_snip = function(...)
+						local snip = ls.s(...)
+						table.insert(getfenv(2).ls_file_snippets, snip)
+					end,
+					add_auto = function(...)
+						local snip = ls.s(...)
+						table.insert(getfenv(2).ls_file_autosnippets, snip)
+					end,
+					add_post = function(...)
+						local postfix = require("luasnip.extras.postfix").postfix
+						local snip = postfix(...)
+						table.insert(getfenv(2).ls_file_autosnippets, snip)
+					end
+				}
 			})
+			require("luasnip.loaders.from_lua").lazy_load({ paths = "./lua/snippets/" })
 		end
 	},
 	-- autocompletion
