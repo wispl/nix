@@ -142,9 +142,10 @@ in {
     services.mako = {
       enable = true;
       settings = {
-        font = "DejaVu Sans Mono 12";
-        border-size = 2;
-        border-radius = 2;
+        font = "DejaVu Sans Mono 16";
+	outer-margin = 8;
+        border-size = 8;
+        border-radius = 4;
         icons = true;
         padding = "10";
         default-timeout = 3000;
@@ -152,8 +153,9 @@ in {
 
         text-color = "#${config.colors.fg}";
         background-color = "#${config.colors.bg}";
-        border-color = "#${config.colors.blue}";
+        border-color = "#${config.colors.bgDD}";
         progress-color = "over #${config.colors.yellow}";
+
         "urgency=high" = {
           border-color = "#${config.colors.red}";
           default-timeout = 0;

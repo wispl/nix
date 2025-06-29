@@ -39,13 +39,13 @@ in {
         border-width = 4;
 
         background-color = "0x${config.colors.bg}";
-        border-color-focused = "0x${config.colors.bgL}";
+        border-color-focused = "0x${config.colors.bg}";
         border-color-unfocused = "0x${config.colors.bgD}";
         border-color-urgent = "0x${config.colors.red}";
 
         default-layout = "rivercarro";
         spawn = [
-          "'rivercarro -no-smart-gaps -inner-gaps 8 -outer-gaps 8'"
+          "'rivercarro -inner-gaps 8 -outer-gaps 16'"
           "eww open bar"
           "'swaybg --mode fill -i $WALLPAPER'"
           "'foot -a dropterm'"
