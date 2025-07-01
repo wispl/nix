@@ -34,10 +34,11 @@
 
 (defwidget tags []
 	(box :class "bar-item tags" :spacing 6 :space-evenly false
-		(for tag in {river.tags}
-			(button (scale :width {tag >= 2 ? 30 : 20} :class "tag ${tag == 0 ? "":
-							       tag < 2 ? "tag-occupied" :
-							       tag < 4 ? "tag-focused" : "tag-urgent"}")))))
+		(for i in {[0, 1, 2, 3, 4]}
+			(button :onclick "riverctl set-focused-tags $((1 << ${i}))"
+				(scale :width {river.tags[i] >= 2 ? 30 : 20} :class "tag ${river.tags[i] == 0 ? "":
+					river.tags[i] < 2 ? "tag-occupied" :
+					river.tags[i] < 4 ? "tag-focused" : "tag-urgent"}")))))
 
 (defwidget right []
 	(box :space-evenly false :spacing 5 :orientation "h" :halign "end"
