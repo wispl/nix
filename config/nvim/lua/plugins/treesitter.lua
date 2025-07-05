@@ -44,6 +44,9 @@ return {
 		"lervag/vimtex",
 		lazy = false,
 		version = "v2.16",
+		keys = {
+			{ "<leader>lf", '<cmd>silent execute "!inkfig " . b:vimtex.root . "/figures/<cword>.svg"<cr>',  silent = true },
+		},
 		config = function()
 			vim.g.vimtex_view_method = "sioyek"
 			vim.g.vimtex_format_enabled = 1
