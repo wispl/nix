@@ -133,9 +133,9 @@ add_auto({ trig = "enum", condition = b },
 add_auto({ trig = "item", condition = b },
 	fmta(
 		[[
-			\begin{enumerate}
+			\begin{itemize}
 				<>
-			\end{enumerate}
+			\end{itemize}
 		]],
 		{ d(1, reclist, {}, {
 			user_args = {
@@ -158,7 +158,8 @@ parse_auto({ trig = "mcal", condition = m }, "\\mathcal{$1}$0")
 parse_auto({ trig = "tt", condition = m }, "\\text{$1}$0")
 
 parse_auto({ trig = "case", condition = m }, "\\begin{cases}\n\t$0\n\\end{cases}")
-parse_auto({ trig = "cvec", condition = m }, "\\begin{pmatrix} ${1:x} \\\\ \\vdots \\\\ ${2:x_{n}} \\end{pmatrix}$0")
+parse_auto({ trig = "cvec", condition = m }, "\\begin{pmatrix} ${1:x} \\\\\\ \\vdots \\\\\\ ${2:x_{n}} \\end{pmatrix}$0")
+parse_auto({ trig = "pmat", condition = m }, "\\begin{pmatrix}\n\t$1\n\\end{pmatrix}$0")
 
 add_snip({ trig="mat(%d+)x(%d+)", condition = m, regTrig = true },
 	fmta(
@@ -219,8 +220,8 @@ parse_auto({ trig = "inn", condition = m }, "\\in")
 parse_auto({ trig = "notin", condition = m }, "\\not\\in")
 parse_auto({ trig = "nn", condition = m }, "\\cap")
 parse_auto({ trig = "uu", condition = m }, "\\cup")
-parse_auto({ trig = "nnn", condition = m }, "\\bigcap_{$1} $0")
-parse_auto({ trig = "uuu", condition = m }, "\\bigcup_{$1} $0")
+parse_auto({ trig = "NN", condition = m }, "\\bigcap_{$1} $0")
+parse_auto({ trig = "UU", condition = m }, "\\bigcup_{$1} $0")
 
 local ops = { "sin", "cos", "tan", "csc", "sec", "cot", "arccot", "arcsin", "arccos", "ln", "exp", "log", "mid" }
 for _, op in ipairs(ops) do
@@ -247,7 +248,7 @@ parse_auto({ trig = "PP", condition = m }, "\\P")
 --------------------------
 
 parse_auto({ trig = "lrp", condition = m }, "\\left( $1 \\right) $0")
-parse_auto({ trig = "lrb", condition = m }, "\\left{ $1 \\right} $0")
+parse_auto({ trig = "lrb", condition = m }, "\\left\\{ $1 \\right\\\\} $0")
 parse_auto({ trig = "lra", condition = m }, "\\left\\langle $1 \\right\\rangle $0")
 parse_auto({ trig = "lrl", condition = m }, "\\left| $1 \\right| $0")
 
