@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # TODO: move to custom script
 # connect() {
@@ -15,7 +15,7 @@
 
 subscribe() {
 	cat /sys/class/net/wlan0/operstate
-	rfkill event | while read -r line; do
+	while read -r line; do
 		case "$line" in
 			*"type 1 op 2 soft 1"*)
 				echo "down"
@@ -24,7 +24,7 @@ subscribe() {
 				echo "up"
 				;;
 		esac
-	done
+	done < <(rfkill event)
 }
 
 toggle() {

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 get_volume() {
 	# this gives a reuslt in the form Volume: 0.11 [MUTED]
@@ -31,13 +31,13 @@ subscribe() {
 	id="${wp#id }"
 
 	# pw-mon does not output as many lines as pw-cli -m
-	pw-mon -oa | while read -r line; do
+	while read -r line; do
 		case "$line" in
 			*$id*)
 				get_volume
 				;;
 		esac
-	done
+	done < <(pw-mon -oa)
 }
 
 
