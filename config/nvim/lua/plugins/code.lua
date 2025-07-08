@@ -144,17 +144,4 @@ return {
 			table.insert(clippy.args, "clippy::pedantic")
 		end
 	},
-	{
-		"mfussenegger/nvim-dap",
-		keys = {
-			{ "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "[D]ebug [B]reakpoint" },
-			{ "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "[D]ebug [B]reakpoint Condition" },
-			{ "<leader>dc", function() require("dap").continue() end, desc = "[D]ebug [C]ontinue" },
-			{ "<leader>di", function() require("dap").step_into() end, desc = "[D]ebug Step [I]nto" },
-			{ "<leader>do", function() require("dap").step_over() end, desc = "[D]ebug Step [O]ver" },
-			{ "<leader>dO", function() require("dap").step_out() end, desc = "[D]ebug Step [O]ut" },
-			{ "<leader>dr", function() require("dap").repl.toggle() end, desc = "[D]ebug [R]EPL" },
-		},
-		config = true
-	}
 }

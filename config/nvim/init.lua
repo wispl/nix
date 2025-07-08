@@ -12,7 +12,7 @@ vim.o.shada = ""
 -- lazy load clipboard
 local clipboard = vim.opt.clipboard
 vim.opt.clipboard = ""
---
+
 -- bootstrap lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -39,7 +39,8 @@ require("lazy").setup("plugins", {
 				"tutor",
 				"rplugin",
 				"zipPlugin",
-				"matchit"
+				"matchit",
+				"netrwPlugin"
 			},
 		}
 	},
