@@ -23,7 +23,7 @@ watch() {
 	name="${1##*/}"
 	while (inotifywait -e modify "$1" -qq); do
 		notify-send "Inkscape File Watch" "Detected changes on $name, re-exporting..."
-		inkscape --export-area-page \
+		inkscape --export-area-drawing \
 			--export-dpi 300 \
 			--export-type=pdf \
 			--export-latex \
