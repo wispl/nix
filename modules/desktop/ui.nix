@@ -10,6 +10,7 @@ in {
   options.modules.desktop.ui = {
     # launcher
     fuzzel.enable = mkEnableOption "fuzzel";
+    tofi.enable = mkEnableOption "tofi";
     waybar.enable = mkEnableOption "waybar";
     eww.enable = mkEnableOption "eww";
     quickshell.enable = mkEnableOption "quickshell";
@@ -45,6 +46,45 @@ in {
             counter = "${config.colors.magenta}ff";
             border = "${config.colors.bgL}ff";
           };
+        };
+      };
+    })
+
+    (mkIf cfg.tofi.enable {
+      programs.tofi = {
+        enable = true;
+        settings = {
+          font = "FantasqueSansM Nerd Font";
+          font-size = 22;
+          text-color = "${config.colors.fg}";
+          width = "28%";
+          height = "66%";
+
+          result-spacing = 38;
+          padding-top = 12;
+          padding-bottom = 12;
+          padding-left = 24;
+          padding-right = 24;
+
+          background-color = "${config.colors.bg}";
+          border-color = "${config.colors.bg}";
+          border-width = 24;
+          outline-width = 0;
+          corner-radius = 16;
+
+          selection-color = "${config.colors.bg}";
+          selection-background = "${config.colors.magenta}";
+          selection-background-corner-radius = 8;
+          selection-background-padding = "8,-1";
+
+          prompt-text = "";
+          placeholder-text = "search...";
+          prompt-background = "${config.colors.bgDD}";
+          prompt-background-padding = "10,-1";
+          prompt-background-corner-radius = 8;
+          prompt-padding = 22;
+
+          clip-to-padding = false;
         };
       };
     })

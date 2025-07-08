@@ -40,7 +40,7 @@ in {
 
         background-color = "0x${config.colors.bg}";
         border-color-focused = "0x${config.colors.bg}";
-        border-color-unfocused = "0x${config.colors.bgD}";
+        border-color-unfocused = "0x${config.colors.bg}";
         border-color-urgent = "0x${config.colors.red}";
 
         default-layout = "rivercarro";

@@ -21,7 +21,7 @@ with lib; let
   blue = "${config.colors.blue}ff";
   magenta = "${config.colors.magenta}90";
   css = ''
-    window, decoration, decoration-overlay, headerbar, .titlebar {
+    window, decoration, window.background, window.titlebar {
      	border-radius: 0px;
     }
   '';
@@ -143,7 +143,7 @@ in {
       enable = true;
       settings = {
         font = "DejaVu Sans Mono 16";
-	outer-margin = 8;
+        outer-margin = 8;
         border-size = 8;
         border-radius = 4;
         icons = true;
