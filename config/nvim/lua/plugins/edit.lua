@@ -141,7 +141,7 @@ return {
 	{
 		"nvim-tree/nvim-tree.lua",
 		cmd = "NvimTreeOpen",
-		keys = { { "<Leader>ot", "<cmd>NvimTreeOpen<cr>", desc = "[O]ption [T]ree" } },
+		keys = { { "<Leader>ot", "<cmd>NvimTreeToggle<cr>", desc = "[O]ption [T]ree" } },
 		opts = {
 			view = {
 				width = 25,

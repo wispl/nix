@@ -257,7 +257,7 @@ parse_auto({ trig = "lrl", condition = m }, "\\left| $1 \\right| $0")
 --------------------------
 
 add_post({ trig = "hat", condition = m }, parse(nil, "\\hat{$POSTFIX_MATCH}"))
-add_post({ trig = "bar", condition = m }, parse(nil, "\\bar{$POSTFIX_MATCH}"))
+add_post({ trig = "bar", condition = m }, parse(nil, "\\overline{$POSTFIX_MATCH}"))
 add_post({ trig = "tld", condition = m }, parse(nil, "\\widetilde{$POSTFIX_MATCH}"))
 add_post({ trig = "vec", condition = m }, parse(nil, "\\vec{$POSTFIX_MATCH}"))
 
