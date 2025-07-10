@@ -262,7 +262,7 @@ add_post({ trig = "tld", condition = m }, parse(nil, "\\widetilde{$POSTFIX_MATCH
 add_post({ trig = "vec", condition = m }, parse(nil, "\\vec{$POSTFIX_MATCH}"))
 
 parse_auto({ trig = "hat", condition = m }, "\\hat{$1}$0")
-parse_auto({ trig = "bar", condition = m }, "\\bar{$1}$0")
+parse_auto({ trig = "bar", condition = m }, "\\overline{$1}$0")
 parse_auto({ trig = "tld", condition = m }, "\\widetilde{$1}$0")
 parse_auto({ trig = "vec", condition = m }, "\\vec{$1}$0")
 
