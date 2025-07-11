@@ -16,7 +16,6 @@ in {
   config = mkMerge [
     # For music, of course
     (mkIf cfg.mpd.enable {
-      home.packages = [pkgs.mpc];
       services.mpd = {
         enable = true;
         network.startWhenNeeded = true;
