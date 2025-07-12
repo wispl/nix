@@ -46,7 +46,7 @@ in {
         default-layout = "rivercarro";
         spawn = [
           "'rivercarro -inner-gaps 8 -outer-gaps 16'"
-          "'eww open-many bar wallpaper'"
+          "'eww open-many bar frame'"
           "'swaybg --mode fill -i $WALLPAPER'"
           "'foot -a dropterm'"
           "keepassxc"

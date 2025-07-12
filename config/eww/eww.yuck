@@ -1,4 +1,4 @@
 (include "dashboard/eww.yuck")
 (include "notifications/eww.yuck")
 (include "bar/eww.yuck")
-(include "wallpaper/eww.yuck")
+(include "frame/eww.yuck")
