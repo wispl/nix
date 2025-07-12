@@ -2,7 +2,9 @@
 
 ; so we don't poll every 2 seconds when using EWW_BATTERY
 (defpoll battery :interval "60s" `./scripts/battery.sh`)
+(deflisten network `./scripts/wifi.sh events`)
 (deflisten river `riverstream -t 5`)
+(deflisten profile `./scripts/ppd.sh subscribe`)
 
 (defwindow bar
 	:monitor 0
@@ -23,7 +25,17 @@
 	(box :space-evenly false :spacing 5 :orientation "h"
 		(button :class "bar-item" :onclick "toggle_dashboard" (label :text "󰕮" :tooltip "toggle dashboard"))
 		(layout)
-		(tags)))
+		(tags)
+		(ppd)))
+
+(defwidget ppd []
+	(box :class "bar-item less_pad"
+		(box :class "profiles ${profile == "performance" ? "profiles-performance" :
+					profile == "balanced" ? "profiles-balanced": ""}"
+			:spacing 8
+			(button :onclick "./scripts/ppd.sh set power-saver" :class "${profile == "low-power" ? "profile-icon" : "profile-icon-off"}" "")
+			(button :onclick "./scripts/ppd.sh set balanced" :class "${profile == "balanced" ? "profile-icon" : "profile-icon-off"}" "")
+			(button :onclick "./scripts/ppd.sh set performance" :class "${profile == "performance" ? "profile-icon" : "profile-icon-off"}" ""))))
 
 (defwidget layout []
 	(box :class "bar-item" (label :text "${river.layout == "left" ? "" :
@@ -57,7 +69,7 @@
 (defwidget network-bat []
 	(box :class "bar-item font" :spacing 6 :space-evenly false
 		(label :text {bluetooth == "on" ? "󰂯" : "󰂲"})
-		(label :text {wifi == "up" ? "󰤨" : "󰤭"})
+		(label :text {network.state == "up" ? "󰤨" : "󰤭"} :tooltip {network.ssid})
 		(label :text "${battery.status == "Charging" ? "󰂄":
 				battery.capacity < 20 ? "󰂎" :
 				battery.capacity < 40 ? "󰁻" :
@@ -73,9 +85,9 @@
 				:text "${volume.muted ? "󰖁" :
 					volume.vol < 0.33 ? "󰕿" :
 					volume.vol < 0.66 ? "󰖀" : "󰕾"}")
-			(scale :class "controls volume" :width 60 :min 0 :max 100 :value {volume.vol * 100}))
+			(scale :class "controls volume" :width 60 :min 0 :max 100 :value {volume.vol * 100} :onchange "./scripts/volume.sh set {}"))
 		(box :class "box-right" :space-evenly false :spacing 8
 			(label :class "font brightness" :text "${brightness < 25 ? "󰃝" :
 				brightness < 50 ? "󰃞" :
 				brightness < 75 ? "󰃟" : "󰃠"}")
-			(scale :class "controls brightness" :width 60 :min 0 :max 100 :value brightness))))
+			(scale :class "controls brightness" :width 60 :min 0 :max 100 :value brightness :onchange "./scripts/brightness.sh set {}"))))

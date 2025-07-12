@@ -1,11 +1,5 @@
-// this gives us a frame with rounded inner corners
 .wallpaper-frame {
   border: 8px solid $bg;
   border-radius: 16px;
   box-shadow: 0px 0px 0px 16px $bg;
-}
-
-tooltip {
-  font-size: 20px;
-  color: $fg;
 }

@@ -88,3 +88,41 @@
   @include item;
   border-radius: 0px 6px 6px 0px;
 }
+
+.profiles {
+  padding: 0px 8px;
+}
+
+.profiles-balanced {
+  border-radius: 4px;
+  background-image: repeating-linear-gradient(
+    -60deg,
+    $bgDD,
+    $bgDD 10px,
+    $bgD 10px,
+    $bgD 20px
+  );
+}
+
+.profiles-performance {
+  border-radius: 4px;
+  background-image: repeating-linear-gradient(
+    -60deg,
+    $bgDD,
+    $bgDD 10px,
+    darken($magenta, 45%) 10px,
+    darken($magenta, 45%) 20px
+  );
+}
+
+.profile-icon {
+  color: $fg;
+}
+
+.profile-icon-off {
+  color: $bgLL;
+}
+
+.less_pad {
+  padding: 4px;
+}

@@ -10,7 +10,7 @@
 
 (deflisten song `./scripts/music.sh subscribe`)
 
-(deflisten wifi `./scripts/wifi.sh subscribe`)
+(deflisten wifi `./scripts/wifi.sh oper_events`)
 (deflisten bluetooth `./scripts/bluetooth.sh subscribe`)
 
 (defwindow dashboard
@@ -19,8 +19,8 @@
 	:exclusive false
 	:focusable "none"
 	:geometry (geometry
-		:x "16px"
-		:y "16px"
+		:x 16
+		:y 16
 		:width "28%"
 		:height "93%"
 		:anchor "top left")

@@ -13,7 +13,37 @@
 # 	iwctl station wlan0 connect "${ssid:2}"
 # }
 
-subscribe() {
+ssid() {
+	ssid=$(iwctl station wlan0 show | grep "Connected network")
+	ssid=${ssid##*Connected network}
+
+	# trim leading and ending whitespace, from:
+	# https://stackoverflow.com/questions/369758/how-to-trim-whitespace-from-a-bash-variable
+	ssid="${ssid#"${ssid%%[![:space:]]*}"}"
+	ssid="${ssid%"${ssid##*[![:space:]]}"}"
+
+	echo "$ssid"
+}
+
+get_network_state() {
+	case "$1" in
+		*" DOWN "*)
+			echo "{\"state\":\"down\",\"ssid\":\"offline\"}"
+			;;
+		*" UP "*)
+			echo "{\"state\":\"up\",\"ssid\":\"$(ssid)\"}"
+			;;
+	esac
+}
+
+events() {
+	get_network_state "$(ip link show wlan0)"
+	while read -r line; do
+		get_network_state "$line"
+	done < <(ip monitor link dev wlan0)
+}
+
+oper_events() {
 	cat /sys/class/net/wlan0/operstate
 	while read -r line; do
 		case "$line" in
@@ -33,8 +63,11 @@ toggle() {
 }
 
 case $1 in
-	"subscribe")
-		subscribe
+	"oper_events")
+		oper_events
+		;;
+	"events")
+		events
 		;;
 	"toggle")
 		toggle

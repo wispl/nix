@@ -31,6 +31,11 @@ $brightWhite: #c5c9c5;
   font-family: "FantasqueSansM Nerd Font Propo";
 }
 
+tooltip {
+  font-size: 20px;
+  color: $fg;
+}
+
 @import "dashboard/eww.scss";
 @import "notifications/eww.scss";
 @import "bar/eww.scss";

@@ -20,7 +20,7 @@ set_volume() {
 	elif [ "$1" -lt "0" ]; then
 		exit 1;
 	fi
-	wpctl get-volume @DEFAULT_AUDIO_SINK@ "$1%"
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1%"
 }
 
 subscribe() {
