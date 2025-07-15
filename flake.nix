@@ -20,15 +20,15 @@
     inherit (self) outputs;
     systems = ["x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
+    modules = import ./modules/system.nix;
   in {
     homeModules = import ./modules;
     packages = forAllSystems (system: import ./packages nixpkgs.legacyPackages.${system});
-
     nixosConfigurations = {
       snow = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/snow];
+        modules = [./hosts/snow] ++ builtins.attrValues modules;
       };
     };
   };

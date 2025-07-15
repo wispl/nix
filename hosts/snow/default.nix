@@ -56,7 +56,7 @@
     127.0.0.1    localhost.edu
      127.0.0.1    api.localhost.edu
      127.0.0.1    cas.localhost.edu
-     127.0.0.1    ldap.localhost.edu
+     # 127.0.0.1    ldap.localhost.edu
      127.0.0.1    saml.localhost.edu
      127.0.0.1    admin.localhost.edu
      127.0.0.1    idp.localhost.edu
@@ -67,8 +67,6 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   hardware.graphics.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
 
   boot = {
     # Enable systemd for initrd stage 1, might need further tweaks on some systems
@@ -125,6 +123,10 @@
     ];
   };
 
+  modules = {
+    hardware = ["redist" "bluetooth" "audio" "ppd"];
+  };
+
   #
   # Users and Security
   #
@@ -138,7 +140,6 @@
   };
 
   security = {
-    rtkit.enable = true;
     polkit.enable = true;
     pam.services.swaylock = {};
     pam.loginLimits = [
@@ -154,16 +155,9 @@
   #
   # Services and Packages
   #
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
 
   services = {
     flatpak.enable = true;
-    fwupd.enable = true;
-    power-profiles-daemon.enable = true;
     # Use dbus broker as the dbus implementation, this comes with the caveat of
     # a lot of ignored "..." file errors, which are apparantly harmless.
     dbus.implementation = "broker";
