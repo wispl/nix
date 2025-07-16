@@ -6,6 +6,7 @@
 #	podman: pods leaving the dock
 #	fonts: my default collection of fonts
 {
+  pkgs,
   lib,
   config,
   ...
@@ -76,6 +77,16 @@ in {
         dockerCompat = true;
         defaultNetwork.settings.dns_enabled = true;
       };
+    })
+
+    (mkIf cfg.fonts.enable {
+      fonts.packages = with pkgs; [
+        wqy_zenhei # good enough cjk coverage
+        dejavu_fonts # good overall coverage
+        nerd-fonts.fantasque-sans-mono # programming font of choice
+        nerd-fonts.symbols-only # not sure why I have this?
+        julia-mono # extensive math coverage
+      ];
     })
   ];
 }

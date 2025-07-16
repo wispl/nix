@@ -14,41 +14,6 @@
   ];
 
   #
-  # Nix settings
-  #
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
-    # Make flake registry and nix path match flake inputs
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-    channel.enable = false;
-    settings = {
-      trusted-users = [
-        "root"
-        "@wheel"
-      ];
-      experimental-features = ["nix-command" "flakes" "ca-derivations"];
-      auto-optimise-store = true;
-      flake-registry = "";
-      use-xdg-base-directories = true;
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 3d";
-    };
-  };
-
-  environment.etc =
-    lib.mapAttrs'
-    (name: value: {
-      name = "nix/path/${name}";
-      value.source = value.flake;
-    })
-    config.nix.registry;
-
-  #
   # Boot and System Configuration
   #
   networking.hostName = "snow";
