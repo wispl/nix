@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+get_id() {
+	re="update: id:[0-9]+ key:'default.audio.sink' value:'\{\"name\":\"([A-Za-z0-9_.-]+)"
+	pw-metadata | while read -r line; do
+		if [[ $line =~ $re ]]; then
+			name="${BASH_REMATCH[1]}"
+			pw-dump | jq --arg name "$name" '.[] | select(.info.props."node.name"==$name).info.props."device.id"'
+		fi
+	done
+}
+
 get_volume() {
 	# this gives a reuslt in the form Volume: 0.11 [MUTED]
 	wp=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
@@ -24,12 +34,7 @@ set_volume() {
 }
 
 subscribe() {
-	# these get us something along the lines of "id ##"
-	wp=$(wpctl inspect @DEFAULT_AUDIO_SINK@ | head -n 1)
-	wp="${wp%,*}"
-	# strip leading id
-	id="${wp#id }"
-
+	id=$(get_id)
 	# pw-mon does not output as many lines as pw-cli -m
 	while read -r line; do
 		case "$line" in
