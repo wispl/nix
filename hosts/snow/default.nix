@@ -9,7 +9,6 @@
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
-    inputs.impermanence.nixosModules.impermanence
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
   ];
 
@@ -30,24 +29,14 @@
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Persistence
-  environment.persistence."/nix/persist" = {
-    hideMounts = true;
-    directories = [
-      "/var/log"
-      "/var/lib/systemd/coredump"
-      "/var/lib/iwd"
-      "/var/lib/nixos"
-    ];
-    files = [
-      "/etc/machine-id"
-    ];
-  };
-
   services.flatpak.enable = true;
   modules = {
     profile = "workstation";
     hardware = ["redist" "bluetooth" "audio" "ppd"];
+    persist = {
+      enable = true;
+      directories = ["/var/lib/iwd"]; # save network configurations
+    };
     presets = {
       wayland.enable = true;
       podman.enable = true;
