@@ -150,6 +150,7 @@ in {
         padding = "10";
         default-timeout = 3000;
         width = 400;
+        height = 300;
 
         text-color = "#${config.colors.fg}";
         background-color = "#${config.colors.bg}";

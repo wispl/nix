@@ -28,36 +28,33 @@ in {
             userChrome =
               # css
               ''
-                /* Remove window control buttons */
-                .titlebar-buttonbox-container {
-                	display: none !important;
-                }
-                .titlebar-close {
-                	display: none !important;
-                }
+                              /* Remove window control buttons */
+                              .titlebar-buttonbox-container {
+                              	display: none !important;
+                              }
+                              .titlebar-close {
+                              	display: none !important;
+                              }
 
-                /* remove one pixel line at top of nav-bar */
-                #nav-bar {
-                	border-top: 1px solid transparent !important;
-                }
+                              /* remove one pixel line at top of nav-bar */
+                              #nav-bar {
+                              	border-top: 1px solid transparent !important;
+                              }
 
-                /* remove outline and shadow around the content when using sidebar */
-                #tabbrowser-tabbox {
-                	outline: none !important;
-                	box-shadow: none !important;
-                }
+                              /* remove outline and shadow around the content when using sidebar */
+                              #tabbrowser-tabbox {
+                              	outline: none !important;
+                              	box-shadow: none !important;
+                              }
 
-                /* TODO: also fix this for when the window is inactive */
-                /* make letterbox colors same as the rest of ui and center content */
-                .browserStack:not(.exclude-letterboxing) {
-                	background-color: var(--lwt-accent-color) !important;
-                	place-content: center center !important;
-                }
-
-                /* round letterboxing content */
-                .browserStack:not(.exclude-letterboxing) > browser {
-                	border-radius: 8px;
-                }
+                /* center letterboxing content */
+                :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) {
+                              	place-content: center center !important;
+                              }
+                              /* round letterboxing content */
+                :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) > browser {
+                              	border-radius: 8px;
+                              }
               '';
           };
           spare = {

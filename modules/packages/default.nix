@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{config, ...}: let
   cfg = config.modules.packages;
 in {
   imports = [./cli.nix ./dev.nix ./tui.nix ./apps.nix];

@@ -75,6 +75,7 @@ in {
             fontaxes
             sectsty
             upquote
+            wrapfig
             # chem
             mhchem
             chemfig

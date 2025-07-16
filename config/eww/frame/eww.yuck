@@ -8,7 +8,7 @@
 ; of the bar, this causes issues with gaps in tiling window managers.
 ;
 ; 1080 (screen height) - 35 (bar height, in theory) - 8 (border width) + 1 (not sure)
-(defwindow wallpaper
+(defwindow frame
 	:monitor 0
 	:stacking "bg"
 	:exclusive false

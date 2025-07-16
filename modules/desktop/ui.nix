@@ -123,7 +123,7 @@ in {
     })
 
     (mkIf cfg.eww.enable {
-      home.packages = [pkgs.inotify-tools pkgs.mpc];
+      home.packages = [pkgs.inotify-tools pkgs.mpc pkgs.upower];
       programs.eww = {
         enable = true;
       };
