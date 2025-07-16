@@ -1,3 +1,3 @@
 {
-  system = import ./system;
+  imports = [./system];
 }

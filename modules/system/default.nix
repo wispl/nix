@@ -1,3 +1,3 @@
 {
-  imports = [./hardware.nix];
+  imports = [./hardware.nix ./presets.nix];
 }

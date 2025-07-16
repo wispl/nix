@@ -66,8 +66,6 @@
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  hardware.graphics.enable = true;
-
   boot = {
     # Enable systemd for initrd stage 1, might need further tweaks on some systems
     initrd.systemd.enable = true;
@@ -84,31 +82,11 @@
     };
   };
 
-  services.resolved.enable = true; # Default DNS resolver for iwd, alternative is pure resolveconf
+  # use nftables for firewall
   networking = {
-    # use nftables for firewall
     nftables.enable = true;
-    # Enables wireless support via iwd.
-    wireless.iwd = {
-      enable = true;
-      settings = {
-        General = {
-          EnableNetworkConfiguration = true;
-          # network address randomization seems to cause problems sometimes.
-          AddressRandomization = "once";
-          AddressRandomizationRange = "nic";
-        };
-      };
-    };
-    dhcpcd.enable = false; # Use iwd's builtin dhcp client
   };
 
-  virtualisation.containers.enable = true;
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-    defaultNetwork.settings.dns_enabled = true;
-  };
   # Persistence
   environment.persistence."/nix/persist" = {
     hideMounts = true;
@@ -125,6 +103,12 @@
 
   modules = {
     hardware = ["redist" "bluetooth" "audio" "ppd"];
+    presets = {
+      wayland.enable = true;
+      podman.enable = true;
+      iwd.enable = true;
+      fonts.enable = true;
+    };
   };
 
   #
@@ -139,19 +123,6 @@
     extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
   };
 
-  security = {
-    polkit.enable = true;
-    pam.services.swaylock = {};
-    pam.loginLimits = [
-      {
-        domain = "@users";
-        item = "rtprio";
-        type = "-";
-        value = 1;
-      }
-    ];
-  };
-
   #
   # Services and Packages
   #
@@ -161,23 +132,6 @@
     # Use dbus broker as the dbus implementation, this comes with the caveat of
     # a lot of ignored "..." file errors, which are apparantly harmless.
     dbus.implementation = "broker";
-  };
-
-  environment.systemPackages = with pkgs; [vim];
-
-  fonts.packages = with pkgs; [
-    wqy_zenhei # good enough cjk coverage
-    dejavu_fonts # good overall coverage
-    nerd-fonts.fantasque-sans-mono # programming font of choice
-    nerd-fonts.symbols-only # not sure why I have this?
-    julia-mono # extensive math coverage
-  ];
-
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    # we can set this for now since we only one portal
-    config.common.default = "*";
   };
 
   home-manager = {
