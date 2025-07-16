@@ -27,30 +27,8 @@
      127.0.0.1    idp.localhost.edu
   '';
 
-  zramSwap.enable = true;
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
-
-  boot = {
-    # Enable systemd for initrd stage 1, might need further tweaks on some systems
-    initrd.systemd.enable = true;
-    # Use the systemd-boot EFI boot loader.
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
-
-    kernelParams = ["quiet" "splash" "nowatchdog"];
-    kernelPackages = pkgs.linuxPackages_latest;
-    bcache.enable = false;
-    tmp.useTmpfs = true;
-    kernel.sysctl = {
-      "net.ipv4.ip_unprivileged_port_start" = 0;
-    };
-  };
-
-  # use nftables for firewall
-  networking = {
-    nftables.enable = true;
-  };
 
   # Persistence
   environment.persistence."/nix/persist" = {
@@ -66,7 +44,9 @@
     ];
   };
 
+  services.flatpak.enable = true;
   modules = {
+    profile = "workstation";
     hardware = ["redist" "bluetooth" "audio" "ppd"];
     presets = {
       wayland.enable = true;
@@ -86,17 +66,6 @@
     hashedPasswordFile = "/nix/persist/passwords/wisp";
     isNormalUser = true;
     extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
-  };
-
-  #
-  # Services and Packages
-  #
-
-  services = {
-    flatpak.enable = true;
-    # Use dbus broker as the dbus implementation, this comes with the caveat of
-    # a lot of ignored "..." file errors, which are apparantly harmless.
-    dbus.implementation = "broker";
   };
 
   home-manager = {
