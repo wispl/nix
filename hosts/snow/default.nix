@@ -31,6 +31,7 @@
 
   services.flatpak.enable = true;
   modules = {
+    theme = "kanagawa";
     profile = "workstation";
     hardware = ["redist" "bluetooth" "audio" "ppd"];
     persist = {
@@ -42,6 +43,31 @@
       podman.enable = true;
       iwd.enable = true;
       fonts.enable = true;
+    };
+    packages = {
+      apps = {
+        firefox.enable = true;
+        sioyek.enable = true;
+      };
+      tui = {
+        lf.enable = true;
+        nnn.enable = true;
+        ncmpcpp.enable = true;
+      };
+      dev = {
+        cc.enable = true;
+        sh.enable = true;
+        rust.enable = true;
+        tex.enable = true;
+      };
+      cli = {
+        common.enable = true;
+        direnv.enable = true;
+        scripts.enable = true;
+        storage.enable = true;
+        media.enable = true;
+        system.enable = true;
+      };
     };
   };
 

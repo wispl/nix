@@ -1,7 +1,7 @@
 {config, ...}: let
   cfg = config.modules.packages;
 in {
-  imports = [./cli.nix ./dev.nix ./tui.nix ./apps.nix];
+  imports = [./apps.nix ./tui.nix ./dev.nix ./cli.nix ./colors.nix ./theme.nix];
   # options.modules.packages = {
   # 	extras = mk
   #

@@ -8,101 +8,103 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkMerge mkIf mkEnableOption;
   cfg = config.modules.packages.apps;
 in {
   options.modules.packages.apps = {
-    firefox.enable = lib.mkEnableOption "firefox";
-    sioyek.enable = lib.mkEnableOption "sioyek";
+    firefox.enable = mkEnableOption "firefox";
+    sioyek.enable = mkEnableOption "sioyek";
   };
 
   # good browser
-  config = lib.mkMerge [
-    (lib.mkIf cfg.firefox.enable {
-      programs.firefox = {
-        enable = true;
-        profiles = {
-          default = {
-            id = 0;
-            name = "default";
-            isDefault = true;
-            userChrome =
-              # css
-              ''
-                              /* Remove window control buttons */
-                              .titlebar-buttonbox-container {
-                              	display: none !important;
-                              }
-                              .titlebar-close {
-                              	display: none !important;
-                              }
+  config = mkMerge [
+    (mkIf cfg.firefox.enable {
+      home.packages = [pkgs.firefox];
+      home.files = {
+        ".mozilla/firefox/profiles.ini".text = ''
+          [General]
+          StartWithLastProfile=1
+          Version=2
 
-                              /* remove one pixel line at top of nav-bar */
-                              #nav-bar {
-                              	border-top: 1px solid transparent !important;
-                              }
+          [Profile0]
+          Default=1
+          IsRelative=1
+          Name=default
+          Path=default
 
-                              /* remove outline and shadow around the content when using sidebar */
-                              #tabbrowser-tabbox {
-                              	outline: none !important;
-                              	box-shadow: none !important;
-                              }
-
-                /* center letterboxing content */
-                :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) {
-                              	place-content: center center !important;
-                              }
-                              /* round letterboxing content */
-                :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) > browser {
-                              	border-radius: 8px;
-                              }
-              '';
-          };
-          spare = {
-            id = 1;
-            name = "spare";
-          };
-        };
+          [Profile1]
+          Default=0
+          IsRelative=1
+          Name=spare
+          Path=spare
+        '';
+        ".mozilla/firefox/default/chrome/userChrome.css".text =
+          #css
+          ''
+            /* Remove window control buttons */
+            .titlebar-buttonbox-container {
+              display: none !important;
+            }
+            .titlebar-close {
+              display: none !important;
+            }
+            /* remove one pixel line at top of nav-bar */
+            #nav-bar {
+              border-top: 1px solid transparent !important;
+            }
+            /* remove outline and shadow around the content when using sidebar */
+            #tabbrowser-tabbox {
+              outline: none !important;
+              box-shadow: none !important;
+            }
+            /* center letterboxing content */
+            :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) {
+              place-content: center center !important;
+            }
+            /* round letterboxing content */
+            :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) > browser {
+              border-radius: 8px;
+            }
+          '';
       };
     })
 
     # good pdf viewer
-    (lib.mkIf cfg.sioyek.enable {
-      xdg.mimeApps.defaultApplications = {
+    (mkIf cfg.sioyek.enable {
+      home.packages = [pkgs.sioyek];
+      xdg.mime.defaultApplications = {
         "application/pdf" = ["sioyek.desktop"];
       };
+      home.files = {
+        ".config/sioyek/prefs_user.config".text = ''
+          should_launch_new_window  1
+          startup_commands          toggle_dark_mode 1
+          collapsed_toc             1
 
-      programs.sioyek = {
-        enable = true;
-        bindings = {
-          # use embedded file picker by default, it is much faster
-          "open_document_embedded" = "o";
-          "screen_down" = "<C-f>";
-          "screen_up" = "<C-b>";
-          "close_window" = "q";
-        };
-        config = {
-          "should_launch_new_window" = "1";
-          "startup_commands" = "toggle_dark_mode 1";
-          "collapsed_toc" = "1";
+          status_bar_font_size  18;
+          font_size             24;
 
-          "status_bar_font_size" = "18";
-          "font_size" = "24";
+          text_highlight_color     #${config.colors.yellow}
+          search_highlight_color   #${config.colors.yellow}
+          link_highlight_color     #${config.colors.blue}
+          synctex_highlight_color  #${config.colors.green}
 
-          "text_highlight_color" = "#${config.colors.yellow}";
-          "search_highlight_color" = "#${config.colors.yellow}";
-          "link_highlight_color" = "#${config.colors.blue}";
-          "synctex_highlight_color" = "#${config.colors.green}";
+          ui_text_color            #${config.colors.fg}
+          ui_background_color      #${config.colors.bg}
+          ui_selected_text_color   #${config.colors.bg}
 
-          "status_bar_color" = "#${config.colors.bgL}";
-          "status_bar_text_color" = "#${config.colors.fg}";
+          status_bar_color         #${config.colors.bgL}
+          status_bar_text_color    #${config.colors.fg}
 
-          "dark_mode_background_color" = "#${config.colors.bg}";
-
-          "ui_text_color" = "#${config.colors.fg}";
-          "ui_background_color" = "#${config.colors.bg}";
-          "ui_selected_text_color" = "#${config.colors.bg}";
-          "ui_selected_background_color" = "#${config.colors.yellow}";
-        };
+          dark_mode_background_color    #${config.colors.bg}
+          ui_selected_background_color  #${config.colors.yellow}
+        '';
+        ".config/sioyek/keys_user.config".text = ''
+          open_document_embedded  o
+          screen_down             <C-f>
+          screen_up               <C-b>
+          close_window            q
+        '';
       };
     })
   ];

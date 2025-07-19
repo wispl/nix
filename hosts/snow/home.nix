@@ -44,31 +44,6 @@
         eww.enable = true;
       };
     };
-
-    packages = {
-      apps = {
-        firefox.enable = true;
-        sioyek.enable = true;
-      };
-      cli = {
-        common.enable = true;
-        direnv.enable = true;
-        scripts.enable = true;
-        storage.enable = true;
-        media.enable = true;
-        system.enable = true;
-      };
-      dev = {
-        cc.enable = true;
-        sh.enable = true;
-        rust.enable = true;
-        tex.enable = true;
-      };
-      tui = {
-        ncmpcpp.enable = true;
-        lf.enable = true;
-      };
-    };
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion

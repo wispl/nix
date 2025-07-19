@@ -8,6 +8,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    hjem = {
+      url = "github:feel-co/hjem";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -16,6 +20,7 @@
     impermanence,
     home-manager,
     nixos-hardware,
+    hjem,
   } @ inputs: let
     inherit (self) outputs;
     systems = ["x86_64-linux"];

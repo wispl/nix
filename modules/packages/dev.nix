@@ -6,19 +6,19 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkEnableOption mkMerge mkIf;
   cfg = config.modules.packages.dev;
 in {
   options.modules.packages.dev = {
-    sh.enable = lib.mkEnableOption "sh";
-    rust.enable = lib.mkEnableOption "rust";
-    cc.enable = lib.mkEnableOption "c and cpp";
-    # are texnomancers developers?
-    tex.enable = lib.mkEnableOption "texlive";
+    sh.enable = mkEnableOption "sh";
+    rust.enable = mkEnableOption "rust";
+    cc.enable = mkEnableOption "c and cpp";
+    tex.enable = mkEnableOption "texlive";
   };
 
-  config = lib.mkMerge [
-    # stockholm c and cpp
-    (lib.mkIf cfg.cc.enable {
+  config = mkMerge [
+    # Stockholm c and cpp
+    (mkIf cfg.cc.enable {
       home.packages = with pkgs; [
         clang-tools
         gcc
@@ -27,8 +27,8 @@ in {
       ];
     })
 
-    # evil borrow checker rust
-    (lib.mkIf cfg.rust.enable {
+    # Evil borrow checker rust
+    (mkIf cfg.rust.enable {
       home.packages = with pkgs; [
         rustfmt
         clippy
@@ -36,67 +36,69 @@ in {
       ];
     })
 
-    # mandatory tex
-    (lib.mkIf cfg.tex.enable {
-      programs.texlive = {
-        enable = true;
-        extraPackages = tpkgs: {
+    # Mandatory tex
+    # Are texnomancers developers?
+    (mkIf cfg.tex.enable {
+      home.packages = [
+        (pkgs.texlive.combine {
           inherit
             (pkgs.texlive)
             scheme-basic
-            amsmath
-            enumitem
-            geometry
-            graphics
-            hyperref
-            listings
-            lm
-            parskip
-            url
-            float
-            fancyhdr
-            import
-            mdframed
-            pgf
-            pgfplots
-            sidenotes
-            caption
+            # page stuff
             changepage
+            geometry
             marginfix
             marginnote
+            hyperref
+            fancyhdr
+            # formatting, graphics, etc
+            import
+            graphics
+            enumitem
+            float
+            listings
+            parskip
+            mdframed
+            sidenotes
+            caption
+            wrapfig
+            url
+            # math
+            amsmath
+            pgf
+            pgfplots
             thmtools
-            latexmk
             etoolbox
+            siunitx
+            # chem
+            mhchem
+            chemfig
+            # I forgor
+            lm
             zref
             needspace
-            siunitx
             xstring
             xkeyval
             fontaxes
             sectsty
             upquote
-            wrapfig
-            # chem
-            mhchem
-            chemfig
             simplekv
-            # formatter
+            # compiler and formatter
             latexindent
+            latexmk
             # fonts
             erewhon
             newtx
             cabin
             inconsolata
             ;
-        };
-      };
+        })
+      ];
     })
 
     # shellfish shell
-    (lib.mkIf cfg.sh.enable {
-      home.packages = [
-        pkgs.shellcheck-minimal
-      ];
+    (mkIf cfg.sh.enable {
+      home.packages = [pkgs.shellcheck-minimal];
     })
   ];
 }
