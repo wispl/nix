@@ -4,22 +4,24 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkOption mkEnableOption mkMerge mkIf;
+  inherit (lib.types) str;
   cfg = config.modules.desktop.term;
 in {
   options.modules.desktop.term = {
-    default = lib.mkOption {
-      type = lib.types.str;
+    default = mkOption {
+      type = str;
       description = "default terminal to use";
     };
-    foot.enable = lib.mkEnableOption "foot";
+    foot.enable = mkEnableOption "foot";
   };
 
-  config = lib.mkMerge [
-    (lib.mkIf (cfg.default != "") {
+  config = mkMerge [
+    (mkIf (cfg.default != "") {
       home.environment.sessionVariables.TERMINAL = cfg.default;
     })
 
-    (lib.mkIf cfg.foot.enable {
+    (mkIf cfg.foot.enable {
       home.packages = [pkgs.foot];
       home.files.".config/foot/foot.ini" = {
         generator = lib.generators.toINI {};
