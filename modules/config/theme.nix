@@ -3,15 +3,16 @@
   lib,
   ...
 }: let
+  inherit (lib) mkOption mkMerge mkIf;
   cfg = config.modules;
 in {
-  options.modules.theme = lib.mkOption {
+  options.modules.theme = mkOption {
     type = lib.types.str;
   };
 
   # TODO: use mkDefault?
-  config = lib.mkMerge [
-    (lib.mkIf (cfg.theme == "kanagawa") {
+  config = mkMerge [
+    (mkIf (cfg.theme == "kanagawa") {
       # kanagawa
       colors = {
         fg = "c5c9c5";

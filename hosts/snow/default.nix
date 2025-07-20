@@ -8,7 +8,6 @@
 }: {
   imports = [
     ./hardware-configuration.nix
-    inputs.home-manager.nixosModules.home-manager
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
   ];
 
@@ -32,6 +31,7 @@
   services.flatpak.enable = true;
   modules = {
     theme = "kanagawa";
+    git.enable = true;
     profile = "workstation";
     hardware = ["redist" "bluetooth" "audio" "ppd"];
     persist = {
@@ -43,6 +43,15 @@
       podman.enable = true;
       iwd.enable = true;
       fonts.enable = true;
+    };
+    editors = {
+      default = "nvim";
+      nvim.enable = true;
+    };
+    services = {
+      mpd.enable = true;
+      ssh-agent.enable = true;
+      psd.enable = true;
     };
     desktop = {
       enable = true;
@@ -77,7 +86,8 @@
         rust.enable = true;
         tex.enable = true;
       };
-      cli = {
+      shell = {
+        bash.enable = true;
         common.enable = true;
         direnv.enable = true;
         scripts.enable = true;
@@ -85,6 +95,19 @@
         media.enable = true;
         system.enable = true;
       };
+      extras = with pkgs; [
+	outputs.packages.${system}.riverstream
+	alejandra
+	blender
+	inkscape
+	keepassxc
+	syncthing
+	openconnect
+	renderdoc
+	qemu
+	openrocket
+	podman-compose
+      ];
     };
   };
 
@@ -98,13 +121,6 @@
     hashedPasswordFile = "/nix/persist/passwords/wisp";
     isNormalUser = true;
     extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
-  };
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    extraSpecialArgs = {inherit inputs outputs;};
-    users.wisp = import ./home.nix;
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,

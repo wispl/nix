@@ -1,3 +1,3 @@
 {
-  config = import ./config;
+  # config = import ./config;
 }

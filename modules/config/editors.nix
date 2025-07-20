@@ -1,28 +1,30 @@
 {
   config,
   lib,
+  pkgs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkOption mkMerge mkIf;
+  inherit (lib.types) str;
   cfg = config.modules.editors;
 in {
   options.modules.editors = {
+    default = mkOption {
+      type = str;
+      description = "default editor to use";
+    };
     nvim.enable = mkEnableOption "nvim";
   };
 
   config = mkMerge [
-    (mkIf cfg.nvim.enable {
-      programs.neovim = {
-        defaultEditor = true;
-        enable = true;
-        viAlias = true;
-        vimAlias = true;
-      };
+    (lib.mkIf (cfg.default != "") {
+      home.environment.sessionVariables.EDITOR = cfg.default;
+    })
 
-      xdg.configFile.nvim = {
-        source = config.lib.file.mkOutOfStoreSymlink "${config.home.sessionVariables.FLAKE}/config/nvim/";
-        recursive = true;
-      };
+    (mkIf cfg.nvim.enable {
+      # TODO: symlink?
+      home.packages = [pkgs.neovim];
+      home.files.".config/nvim".source = ../../config/nvim;
     })
   ];
 }

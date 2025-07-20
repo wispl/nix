@@ -1,10 +1,15 @@
-{config, ...}: let
+{lib, config, ...}: let
   cfg = config.modules.packages;
 in {
-  imports = [./apps.nix ./tui.nix ./dev.nix ./cli.nix ./colors.nix ./theme.nix];
-  # options.modules.packages = {
-  # 	extras = mk
-  #
-  # 	};
-  # };
+  imports = [./apps.nix ./tui.nix ./dev.nix ./shell.nix];
+  options.modules.packages = {
+    extras = lib.mkOption {
+      type = with lib.types; listOf package;
+      default = [ ];
+      description = "extra package to install";
+    };
+  };
+  config = {
+    home.packages = cfg.extras;
+  };
 }

@@ -7,7 +7,7 @@
   inherit (lib) mkOption filterAttrs isType mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib.types) str;
 in {
-  imports = [./system ./home.nix ./packages ./desktop];
+  imports = [./system ./home.nix ./packages ./desktop ./config];
 
   options.user = {
     name = mkOption {

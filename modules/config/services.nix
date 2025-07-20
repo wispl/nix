@@ -3,8 +3,8 @@
   lib,
   pkgs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkMerge mkIf;
   cfg = config.modules.services;
 in {
   options.modules.services = {
@@ -15,30 +15,34 @@ in {
 
   config = mkMerge [
     # For music, of course
+    # TODO: make into service?
     (mkIf cfg.mpd.enable {
-      services.mpd = {
-        enable = true;
-        network.startWhenNeeded = true;
-        # TODO: for some reason the default is broken
-        musicDirectory = "~/music/";
-      };
+      home.packages = [pkgs.mpd];
+      home.files.".config/mpd/mpd.conf".text = ''
+        db_file            "~/.config/mpd/database"
+        playlist_directory "~/.config/mpd/playlists"
+      '';
     })
 
     (mkIf cfg.ssh-agent.enable {
       programs.ssh = {
-        enable = true;
-        addKeysToAgent = "ask";
+        agentTimeout = "1h";
+        startAgent = true;
       };
-      services.ssh-agent.enable = true;
+      home.files.".ssh/config".text = ''
+        AddKeysToAgent yes
+      '';
     })
 
-    # Store the browser profile in tmpfs, for flexing and maybe performace
+    # Store the browser profile in tmpfs, for flexing and maybe performance
     (mkIf cfg.psd.enable {
-      services.psd = {
-        enable = true;
-        browsers = ["firefox"];
-        backupLimit = 3;
-      };
+      home.packages = [pkgs.profile-sync-daemon];
+      services.psd.enable = true;
+      home.files.".config/psd/psd.conf".text = ''
+        BROWSERS=(firefox)
+        USE_BACKUP="yes"
+        BACKUP_LIMIT=3
+      '';
     })
   ];
 }
