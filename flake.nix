@@ -3,10 +3,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     impermanence.url = "github:nix-community/impermanence";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     hjem = {
       url = "github:feel-co/hjem";
@@ -18,16 +14,14 @@
     self,
     nixpkgs,
     impermanence,
-    home-manager,
     nixos-hardware,
     hjem,
   } @ inputs: let
     inherit (self) outputs;
     systems = ["x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
-    modules = import ./modules/system.nix;
+    modules = import ./modules;
   in {
-    homeModules = import ./modules;
     packages = forAllSystems (system: import ./packages nixpkgs.legacyPackages.${system});
     nixosConfigurations = {
       snow = nixpkgs.lib.nixosSystem {

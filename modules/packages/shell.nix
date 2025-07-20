@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkMerge mkIf mkEnableOption;
+  inherit (lib) mkMerge mkIf mkEnableOption optionalString getExe;
   cfg = config.modules.packages.shell;
 in {
   options.modules.packages.shell = {
@@ -51,7 +51,7 @@ in {
         alias ncdu='ncdu --color dark'
         alias vi='nvim'
         alias vim='nvim'
-      '';
+      '' + optionalString cfg.direnv.enable ''eval "$(${getExe pkgs.direnv} hook bash)"'';
 
       home.files.".profile".text = ''
         # load env variables
@@ -63,7 +63,7 @@ in {
         [[ -f ~/.bashrc ]] && . ~/.bashrc
       '';
 
-      home.environment.sessionVariables.INPUTRC = "$XDG_CONFIG_HOME/readline/inputrc";
+      home.environment.sessionVariables.INPUTRC = "${config.xdgdir.config}/readline/inputrc";
       home.files.".config/readline/inputrc".text = ''
         $include /etc/inputrc
         set colored-completion-prefix on

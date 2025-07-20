@@ -7,7 +7,7 @@
   config,
   ...
 }: let
-  inherit (lib) mkIf mkMerge mkOption;
+  inherit (lib) mkIf mkMerge mkOption mkDefault;
   inherit (lib.types) str;
   cfg = config.modules.profile;
 in {
@@ -24,6 +24,7 @@ in {
         # Use the systemd-boot EFI boot loader.
         loader.systemd-boot.enable = true;
         loader.efi.canTouchEfiVariables = true;
+	loader.systemd-boot.configurationLimit = mkDefault 10;
 
         kernelParams = ["quiet" "splash" "nowatchdog"];
         kernelPackages = pkgs.linuxPackages_latest;

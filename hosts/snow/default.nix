@@ -11,9 +11,6 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
   ];
 
-  #
-  # Boot and System Configuration
-  #
   networking.hostName = "snow";
   networking.extraHosts = ''
     127.0.0.1    localhost.edu
@@ -107,6 +104,7 @@
 	qemu
 	openrocket
 	podman-compose
+	fwupd
       ];
     };
   };
