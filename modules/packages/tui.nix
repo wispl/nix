@@ -58,6 +58,9 @@ in {
             esac
           }}
         '';
+        ".config/ctpv/config".text = ''
+          set chafasixel
+        '';
       };
     })
 
