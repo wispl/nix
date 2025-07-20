@@ -21,6 +21,7 @@
   '';
 
   services.flatpak.enable = true;
+  services.fwupd.enable = true;
   modules = {
     username = "wisp";
     theme = "kanagawa";
@@ -89,18 +90,17 @@
         system.enable = true;
       };
       extras = with pkgs; [
-	outputs.packages.${system}.riverstream
-	alejandra
-	blender
-	inkscape
-	keepassxc
-	syncthing
-	openconnect
-	renderdoc
-	qemu
-	openrocket
-	podman-compose
-	fwupd
+        outputs.packages.${system}.riverstream
+        alejandra
+        blender
+        inkscape
+        keepassxc
+        syncthing
+        openconnect
+        renderdoc
+        qemu
+        openrocket
+        podman-compose
       ];
     };
   };

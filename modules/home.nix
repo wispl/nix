@@ -49,18 +49,18 @@ in {
       directory = "/home/${config.user.name}";
       user = "${config.user.name}";
       environment.sessionVariables = {
-	XDG_BIN_HOME    = "${config.xdgdir.bin}";
-	XDG_CACHE_HOME  = "${config.xdgdir.cache}";
-	XDG_CONFIG_HOME = "${config.xdgdir.config}";
-	XDG_DATA_HOME   = "${config.xdgdir.data}";
-	XDG_STATE_HOME  = "${config.xdgdir.state}";
+        XDG_BIN_HOME = "${config.xdgdir.bin}";
+        XDG_CACHE_HOME = "${config.xdgdir.cache}";
+        XDG_CONFIG_HOME = "${config.xdgdir.config}";
+        XDG_DATA_HOME = "${config.xdgdir.data}";
+        XDG_STATE_HOME = "${config.xdgdir.state}";
 
-	# Wallpaper symlink, so switching wallpapers do not take a rebuild
-	WALLPAPER = "${config.xdgdir.state}/wallpaper";
-	# Path to flake root
-	FLAKE = "~/flakes";
-	# Add binary home to path
-	PATH = "\${PATH}:${config.xdgdir.bin}";
+        # Wallpaper symlink, so switching wallpapers do not take a rebuild
+        WALLPAPER = "${config.xdgdir.state}/wallpaper";
+        # Path to flake root
+        FLAKE = "~/flakes";
+        # Add binary home to path
+        PATH = "\${PATH}:${config.xdgdir.bin}";
       };
     };
   };

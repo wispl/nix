@@ -19,39 +19,41 @@ in {
 
   config = mkMerge [
     (mkIf cfg.bash.enable {
-      home.files.".bashrc".text = ''
-        # source completion
-        if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
-            . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
-        fi
+      home.files.".bashrc".text =
+        ''
+          # source completion
+          if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
+              . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
+          fi
 
-        # prompt
-        PS1='\[\e[34m\]\W\[\e[m\] '
+          # prompt
+          PS1='\[\e[34m\]\W\[\e[m\] '
 
-        # Commands that should be applied only for interactive shells.
-        [[ $- == *i* ]] || return
+          # Commands that should be applied only for interactive shells.
+          [[ $- == *i* ]] || return
 
-        # history settings
-        HISTCONTROL=ignoredups
-        HISTFILESIZE=100000
-        HISTSIZE=10000
+          # history settings
+          HISTCONTROL=ignoredups
+          HISTFILESIZE=100000
+          HISTSIZE=10000
 
-        shopt -s histappend
-        shopt -s checkwinsize
-        shopt -s extglob
-        shopt -s globstar
-        shopt -s checkjobs
-        shopt -s no_empty_cmd_completion
+          shopt -s histappend
+          shopt -s checkwinsize
+          shopt -s extglob
+          shopt -s globstar
+          shopt -s checkjobs
+          shopt -s no_empty_cmd_completion
 
-        alias ..='cd ..'
-        alias grep='grep --color=auto'
-        alias la='ls -a'
-        alias ll='ls -l'
-        alias ls='ls --color=auto'
-        alias ncdu='ncdu --color dark'
-        alias vi='nvim'
-        alias vim='nvim'
-      '' + optionalString cfg.direnv.enable ''eval "$(${getExe pkgs.direnv} hook bash)"'';
+          alias ..='cd ..'
+          alias grep='grep --color=auto'
+          alias la='ls -a'
+          alias ll='ls -l'
+          alias ls='ls --color=auto'
+          alias ncdu='ncdu --color dark'
+          alias vi='nvim'
+          alias vim='nvim'
+        ''
+        + optionalString cfg.direnv.enable ''eval "$(${getExe pkgs.direnv} hook bash)"'';
 
       home.files.".profile".text = ''
         # load env variables

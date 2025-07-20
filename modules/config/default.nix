@@ -5,7 +5,7 @@
 {
   config,
   lib,
-pkgs,
+  pkgs,
   ...
 }: let
   inherit (lib) mkOption mkEnableOption mkMerge mkIf;
@@ -14,7 +14,7 @@ pkgs,
 in {
   imports = [./colors.nix ./theme.nix ./editors.nix ./services.nix];
   options.modules = {
-    username= mkOption {
+    username = mkOption {
       type = str;
       default = "wisp";
       description = "name of user to create";
@@ -32,23 +32,23 @@ in {
     (mkIf (cfg.username == "wisp" && cfg.git.enable) {
       home.packages = [pkgs.git];
       home.files.".config/git/config" = {
-	generator = (pkgs.formats.gitIni {}).generate "config";
-	value = {
-	  user = {
-	    name = "wispl";
-	    email = "wispl.8qbkk@slmail.me";
-	  };
-	  aliases = {
-	    lg = "log --graph --oneline --color";
-	  };
-	  init.defaultBranch = "main";
-	  diff.algorithm = "histogram";
-	  merge.conflictStyle = "zdiff3";
-	};
+        generator = (pkgs.formats.gitIni {}).generate "config";
+        value = {
+          user = {
+            name = "wispl";
+            email = "wispl.8qbkk@slmail.me";
+          };
+          aliases = {
+            lg = "log --graph --oneline --color";
+          };
+          init.defaultBranch = "main";
+          diff.algorithm = "histogram";
+          merge.conflictStyle = "zdiff3";
+        };
       };
 
       home.files.".config/git/ignore".text = ''
-      .direnv
+        .direnv
       '';
     })
   ];
