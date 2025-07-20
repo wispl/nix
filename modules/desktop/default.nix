@@ -8,7 +8,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkOption mkIf;
+  inherit (lib) mkEnableOption mkOption mkIf makeBinPath;
   inherit (lib.types) str int package;
   cfg = config.modules.desktop;
 
@@ -173,12 +173,14 @@ in {
     systemd.user.services.swayidle = {
       unitConfig = {
         Description = "Idle manager for Wayland";
+        ConditionEnvironment = "WAYLAND_DISPLAY";
         PartOf = ["graphical-session.target"];
         After = ["graphical-session.target"];
       };
       serviceConfig = {
         Type = "simple";
-        Restart = "on-failure";
+        Restart = "always";
+        Environment = ["PATH=${makeBinPath [pkgs.bash]}"];
         ExecStart =
           "${pkgs.swayidle}/bin/swayidle -w"
           + " timeout 300 \"${pkgs.chayang}/bin/chayang && ${pkgs.swaylock}/bin/swaylock -f\""
@@ -192,6 +194,7 @@ in {
     # notification daemon
     # mako starts itself when it receives a notification so there is no need to
     # make a service file.
+    dbus.packages = [pkgs.mako];
     home.files.".config/mako/config".text = ''
       font=DejaVu Sans Mono 16
       outer-margin=8
