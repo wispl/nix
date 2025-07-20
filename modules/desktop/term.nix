@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }: let
   cfg = config.modules.desktop.term;
@@ -8,19 +9,21 @@ in {
   options.modules.desktop.term = {
     default = lib.mkOption {
       type = lib.types.str;
+      description = "default terminal to use";
     };
     foot.enable = lib.mkEnableOption "foot";
   };
 
   config = lib.mkMerge [
     (lib.mkIf (cfg.default != "") {
-      home.sessionVariables.TERMINAL = cfg.default;
+      home.environment.sessionVariables.TERMINAL = cfg.default;
     })
 
     (lib.mkIf cfg.foot.enable {
-      programs.foot = {
-        enable = true;
-        settings = {
+      home.packages = [pkgs.foot];
+      home.files.".config/foot/foot.ini" = {
+        generator = lib.generators.toINI {};
+        value = {
           main = {
             font = "FantasqueSansM Nerd Font Mono:size=20,Julia Mono:size=18";
             pad = "40x40center";

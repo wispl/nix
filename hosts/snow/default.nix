@@ -44,6 +44,23 @@
       iwd.enable = true;
       fonts.enable = true;
     };
+    desktop = {
+      enable = true;
+      cursor = {
+        package = pkgs.rose-pine-cursor;
+        size = 32;
+        name = "BreezeX-RosePine-Linux";
+      };
+      riverwm.enable = true;
+      term = {
+        default = "foot";
+        foot.enable = true;
+      };
+      ui = {
+        fuzzel.enable = true;
+        eww.enable = true;
+      };
+    };
     packages = {
       apps = {
         firefox.enable = true;

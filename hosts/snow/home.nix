@@ -31,19 +31,6 @@
       psd.enable = true;
       ssh-agent.enable = true;
     };
-
-    desktop = {
-      enable = true;
-      riverwm.enable = true;
-      term = {
-        default = "foot";
-        foot.enable = true;
-      };
-      ui = {
-        fuzzel.enable = true;
-        eww.enable = true;
-      };
-    };
   };
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
