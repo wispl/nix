@@ -8,34 +8,48 @@
 pkgs,
   ...
 }: let
-  inherit (lib) mkEnableOption mkIf;
+  inherit (lib) mkOption mkEnableOption mkMerge mkIf;
+  inherit (lib.types) str;
   cfg = config.modules;
 in {
   imports = [./colors.nix ./theme.nix ./editors.nix ./services.nix];
   options.modules = {
+    username= mkOption {
+      type = str;
+      default = "wisp";
+      description = "name of user to create";
+    };
     git.enable = mkEnableOption "configure git";
   };
 
-  config = mkIf (config.user.name == "wisp" && cfg.git.enable) {
-    home.packages = [pkgs.git];
-    home.files.".config/git/config" = {
-      generator = (pkgs.formats.gitIni {}).generate "config";
-      value = {
-	user = {
-	  name = "wispl";
-	  email = "wispl.8qbkk@slmail.me";
-	};
-	aliases = {
-	  lg = "log --graph --oneline --color";
-	};
-	init.defaultBranch = "main";
-	diff.algorithm = "histogram";
-	merge.conflictStyle = "zdiff3";
-      };
-    };
+  config = mkMerge [
+    (mkIf (cfg.username == "wisp") {
+      user.name = "wisp";
+      time.timeZone = "America/New_York";
+      i18n.defaultLocale = "en_US.UTF-8";
+    })
 
-    home.files.".config/git/ignore".text = ''
+    (mkIf (cfg.username == "wisp" && cfg.git.enable) {
+      home.packages = [pkgs.git];
+      home.files.".config/git/config" = {
+	generator = (pkgs.formats.gitIni {}).generate "config";
+	value = {
+	  user = {
+	    name = "wispl";
+	    email = "wispl.8qbkk@slmail.me";
+	  };
+	  aliases = {
+	    lg = "log --graph --oneline --color";
+	  };
+	  init.defaultBranch = "main";
+	  diff.algorithm = "histogram";
+	  merge.conflictStyle = "zdiff3";
+	};
+      };
+
+      home.files.".config/git/ignore".text = ''
       .direnv
-    '';
-  };
+      '';
+    })
+  ];
 }

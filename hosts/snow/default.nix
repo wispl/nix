@@ -1,8 +1,6 @@
 {
   inputs,
   outputs,
-  config,
-  lib,
   pkgs,
   ...
 }: {
@@ -22,11 +20,9 @@
      127.0.0.1    idp.localhost.edu
   '';
 
-  time.timeZone = "America/New_York";
-  i18n.defaultLocale = "en_US.UTF-8";
-
   services.flatpak.enable = true;
   modules = {
+    username = "wisp";
     theme = "kanagawa";
     git.enable = true;
     profile = "workstation";
@@ -107,18 +103,6 @@
 	fwupd
       ];
     };
-  };
-
-  #
-  # Users and Security
-  #
-  users.mutableUsers = false;
-  # TODO: automate this somehow, for now manually create the file, do not forget to change permissions!
-  users.users.wisp = {
-    # initialPassword = "password";
-    hashedPasswordFile = "/nix/persist/passwords/wisp";
-    isNormalUser = true;
-    extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
   };
 
   # This option defines the first version of NixOS you have installed on this particular machine,

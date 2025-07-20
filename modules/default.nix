@@ -24,6 +24,17 @@ in {
       }
     ];
 
+    # Create user
+    users.mutableUsers = false;
+    # TODO: automate this somehow, for now manually create the file, do not forget to change permissions!
+    users.users.${config.user.name} = {
+      # initialPassword = "password";
+      hashedPasswordFile = "/nix/persist/passwords/${config.user.name}";
+      isNormalUser = true;
+      extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
+    };
+
+    # Nice nix settings
     nix = let
       flakeInputs = filterAttrs (_: isType "flake") inputs;
     in {
