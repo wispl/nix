@@ -13,6 +13,7 @@
 	:stacking "bg"
 	:exclusive false
 	:focusable "none"
+	:namespace "wallpaper"
 	:geometry (geometry
 		:x 0
 		:y 0

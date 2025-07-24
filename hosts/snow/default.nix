@@ -54,7 +54,7 @@
         size = 32;
         name = "BreezeX-RosePine-Linux";
       };
-      riverwm.enable = true;
+      niri.enable = true;
       term = {
         default = "foot";
         foot.enable = true;

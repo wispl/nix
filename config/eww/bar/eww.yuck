@@ -3,13 +3,14 @@
 ; so we don't poll every 2 seconds when using EWW_BATTERY
 (defpoll battery :interval "60s" `./scripts/battery.sh`)
 (deflisten network `./scripts/wifi.sh events`)
-(deflisten river `riverstream -t 5`)
+;; (deflisten river `riverstream -t 5`)
+(deflisten niri `./scripts/niri.sh`)
 (deflisten profile `./scripts/ppd.sh subscribe`)
 
 (defwindow bar
 	:monitor 0
 	:exclusive true
-	:focusable "false"
+	:focusable "none"
 	:geometry (geometry
 		:x 0
 		:y 0
@@ -24,8 +25,10 @@
 (defwidget left []
 	(box :space-evenly false :spacing 5 :orientation "h"
 		(button :class "bar-item" :onclick "toggle_dashboard" (label :text "󰕮" :tooltip "toggle dashboard"))
-		(layout)
-		(tags)
+		(niri_layout)
+		(niri_workspaces)
+		;(river_layout)
+		;(river_tags)
 		(ppd)))
 
 (defwidget ppd []
@@ -37,20 +40,30 @@
 			(button :onclick "./scripts/ppd.sh set balanced" :class "${profile == "balanced" ? "profile-icon" : "profile-icon-off"}" "")
 			(button :onclick "./scripts/ppd.sh set performance" :class "${profile == "performance" ? "profile-icon" : "profile-icon-off"}" ""))))
 
-(defwidget layout []
-	(box :class "bar-item" (label :text "${river.layout == "left" ? "" :
-					       river.layout == "right" ? "":
-					       river.layout == "top" ? "󱔓":
-					       river.layout == "bottom" ? "󱂩":
-					       river.layout == "monocle" ? "": ""}" :tooltip "${river.layout}")))
+;(defwidget river_layout []
+;	(box :class "bar-item" (label :text "${river.layout == "left" ? "" :
+;					       river.layout == "right" ? "":
+;					       river.layout == "top" ? "󱔓":
+;					       river.layout == "bottom" ? "󱂩":
+;					       river.layout == "monocle" ? "": ""}" :tooltip "${river.layout}")))
 
-(defwidget tags []
+;(defwidget river_tags []
+;	(box :class "bar-item tags" :spacing 6 :space-evenly false
+;		(for i in {[0, 1, 2, 3, 4]}
+;			(button :onclick "riverctl set-focused-tags $((1 << ${i}))"
+;				(scale :width {river.tags[i] >= 2 ? 30 : 20} :class "tag ${river.tags[i] == 0 ? "":
+;					river.tags[i] < 2 ? "tag-occupied" :
+;					river.tags[i] < 4 ? "tag-focused" : "tag-urgent"}")))))
+
+(defwidget niri_layout []
+	(box :class "bar-item" (label :text "${niri.layout ? "" : ""}" :tooltip "${niri.layout ? "floating" : "scrolling"}")))
+
+(defwidget niri_workspaces []
 	(box :class "bar-item tags" :spacing 6 :space-evenly false
-		(for i in {[0, 1, 2, 3, 4]}
-			(button :onclick "riverctl set-focused-tags $((1 << ${i}))"
-				(scale :width {river.tags[i] >= 2 ? 30 : 20} :class "tag ${river.tags[i] == 0 ? "":
-					river.tags[i] < 2 ? "tag-occupied" :
-					river.tags[i] < 4 ? "tag-focused" : "tag-urgent"}")))))
+		(for i in {[1, 2, 3, 4, 5]}
+			(button :onclick "niri msg action focus-workspace ${i}"
+				(scale :width {niri.focused == i ? 30 : 20} :class "tag ${niri.focused == i ? "tag-focused":
+					jq(niri.occupied, "any(.==${i})") ? "tag-occupied" : ""}")))))
 
 (defwidget right []
 	(box :space-evenly false :spacing 5 :orientation "h" :halign "end"

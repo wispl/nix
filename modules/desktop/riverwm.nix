@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-with lib; let
+let
   scratch_tag = "$((1 << 19))";
   # until keepassxc gets wayland autotype
   keepassxc_tag = "$((1 << 20))";
@@ -23,10 +23,10 @@ with lib; let
   cfg = config.modules.desktop.riverwm;
 in {
   options.modules.desktop.riverwm = {
-    enable = mkEnableOption "riverwm";
+    enable = lib.mkEnableOption "riverwm";
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [river rivercarro];
     home.files.".config/river/init".source =
       pkgs.writeShellScript "init"

@@ -27,7 +27,7 @@
     }
   '';
 in {
-  imports = [./ui.nix ./term.nix ./riverwm.nix];
+  imports = [./ui.nix ./term.nix ./riverwm.nix ./niri.nix];
   options.modules.desktop = {
     enable = mkEnableOption "wayland desktop";
     cursor = {
@@ -170,6 +170,29 @@ in {
     '';
 
     # dim and lock screen after 5 minutes, also turn off the screen as well.
+    # systemd.user.services.swayidle = {
+    #   unitConfig = {
+    #     Description = "Idle manager for Wayland";
+    #     ConditionEnvironment = "WAYLAND_DISPLAY";
+    #     PartOf = ["graphical-session.target"];
+    #     After = ["graphical-session.target"];
+    #   };
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     Restart = "always";
+    #     Environment = ["PATH=${makeBinPath [pkgs.bash]}"];
+    #     ExecStart =
+    #       "${pkgs.swayidle}/bin/swayidle -w"
+    #       + " timeout 300 \"${pkgs.chayang}/bin/chayang && ${pkgs.swaylock}/bin/swaylock -f\""
+    #       + " timeout 305 \"${pkgs.wlopm}/bin/wlopm --off '*'\""
+    #       + " resume \"${pkgs.wlopm}/bin/wlopm --on '*'\""
+    #       + " before-sleep \"${pkgs.swaylock}/bin/swaylock -f\"";
+    #   };
+    #   wantedBy = ["graphical-session.target"];
+    # };
+
+    # use non-chayang until niri adds wp_single_pixel_buffer_manager_v1
+    # also use niri to power off monitor, until niri adds wlr_power_management
     systemd.user.services.swayidle = {
       unitConfig = {
         Description = "Idle manager for Wayland";
@@ -183,9 +206,9 @@ in {
         Environment = ["PATH=${makeBinPath [pkgs.bash]}"];
         ExecStart =
           "${pkgs.swayidle}/bin/swayidle -w"
-          + " timeout 300 \"${pkgs.chayang}/bin/chayang && ${pkgs.swaylock}/bin/swaylock -f\""
-          + " timeout 305 \"${pkgs.wlopm}/bin/wlopm --off '*'\""
-          + " resume \"${pkgs.wlopm}/bin/wlopm --on '*'\""
+          + " timeout 300 \"${pkgs.swaylock}/bin/swaylock -f\""
+          + " timeout 305 \"${pkgs.niri}/bin/niri msg action power-off-monitors\""
+          + " resume \"${pkgs.niri}/bin/niri msg action power-on-monitors\""
           + " before-sleep \"${pkgs.swaylock}/bin/swaylock -f\"";
       };
       wantedBy = ["graphical-session.target"];

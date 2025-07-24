@@ -59,10 +59,10 @@ in {
         # load env variables
         . "${config.home.environment.loadEnv}"
 
-        [[ $(tty) == /dev/tty1 ]] && river
-
         # source .bashrc
         [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+        [[ $(tty) == /dev/tty1 ]] && exec niri-session -l
       '';
 
       home.environment.sessionVariables.INPUTRC = "${config.xdgdir.config}/readline/inputrc";

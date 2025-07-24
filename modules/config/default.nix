@@ -38,7 +38,7 @@ in {
             name = "wispl";
             email = "wispl.8qbkk@slmail.me";
           };
-          aliases = {
+          alias = {
             lg = "log --graph --oneline --color";
           };
           init.defaultBranch = "main";

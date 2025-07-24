@@ -43,8 +43,7 @@ in {
       xdg.portal = {
         enable = true;
         wlr.enable = true;
-        # We can set this for now since we only one portal
-        config.common.default = "*";
+        config.common.default = "wlr";
       };
     })
 

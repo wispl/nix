@@ -35,6 +35,7 @@ set_volume() {
 
 subscribe() {
 	id=$(get_id)
+	id=$(get_id)
 	# pw-mon does not output as many lines as pw-cli -m
 	while read -r line; do
 		case "$line" in
