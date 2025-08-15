@@ -80,22 +80,22 @@ in {
     };
 
     # use adw-gtk3 to have consistent themes between gtk4 and gtk3
-    home.files = {
-      ".config/gtk-3.0/gtk.css".text = css;
-      ".config/gtk-4.0/gtk.css".text = css;
+    home.xdg.config.files = {
+      "gtk-3.0/gtk.css".text = css;
+      "gtk-4.0/gtk.css".text = css;
 
-      ".config/gtk-3.0/settings.ini".text = ''
+      "gtk-3.0/settings.ini".text = ''
         [Settings]
         gtk-cursor-theme-name=${cfg.cursor.name}
         gtk-cursor-theme-size=${toString cfg.cursor.size}
-        gtk-theme-name=adw-gtk3
+        gtk-theme-name=adw-gtk3-dark
+        gtk-application-prefer-dark-theme=1
       '';
 
-      ".config/gtk-4.0/settings.ini".text = ''
+      "gtk-4.0/settings.ini".text = ''
         [Settings]
         gtk-cursor-theme-name=${cfg.cursor.name}
         gtk-cursor-theme-size=${toString cfg.cursor.size}
-        gtk-theme-name=adw-gtk3
       '';
     };
 
@@ -112,8 +112,8 @@ in {
     };
 
     # this is used by some apps
-    home.files = {
-      ".config/user-dirs.dirs".text = ''
+    home.xdg.config.files = {
+      "user-dirs.dirs".text = ''
         XDG_DESKTOP_DIR="$HOME/"
         XDG_DOCUMENTS_DIR="$HOME/documents"
         XDG_DOWNLOAD_DIR="$HOME/tmp"
@@ -124,13 +124,13 @@ in {
         XDG_VIDEOS_DIR="$HOME/"
       '';
 
-      ".config/user-dirs.conf".text = ''
+      "user-dirs.conf".text = ''
         enabled=False
       '';
     };
 
     # swaylock
-    home.files.".config/swaylock/config".text = ''
+    home.xdg.config.files."swaylock/config".text = ''
       indicator-radius=75
       color=${background}
       bs-hl-color=${red}
@@ -218,7 +218,7 @@ in {
     # mako starts itself when it receives a notification so there is no need to
     # make a service file.
     dbus.packages = [pkgs.mako];
-    home.files.".config/mako/config".text = ''
+    home.xdg.config.files."mako/config".text = ''
       font=DejaVu Sans Mono 16
       outer-margin=8
       border-size=8

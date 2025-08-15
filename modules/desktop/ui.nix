@@ -11,13 +11,14 @@ in {
     fuzzel.enable = mkEnableOption "fuzzel";
     waybar.enable = mkEnableOption "waybar";
     eww.enable = mkEnableOption "eww";
+    quickshell.enable = mkEnableOption "quickshell";
   };
 
   config = mkMerge [
     # launcher
     (mkIf cfg.fuzzel.enable {
       home.packages = [pkgs.fuzzel];
-      home.files.".config/fuzzel/fuzzel.ini" = {
+      home.xdg.config.files."fuzzel/fuzzel.ini" = {
         generator = lib.generators.toINI {};
         value = {
           main = {
@@ -51,9 +52,9 @@ in {
     # only bar
     (mkIf cfg.waybar.enable {
       home.packages = [pkgs.waybar];
-      home.files = {
-        ".config/waybar/config.jsonc".source = lib.importJSON ../../config/waybar/pills/config.jsonc;
-        ".config/waybar/style.css".text = ''
+      home.xdg.config.files = {
+        "waybar/config.jsonc".source = lib.importJSON ../../config/waybar/pills/config.jsonc;
+        "waybar/style.css".text = ''
           @define-color fg #${config.colors.fg};
 
           @define-color bg0 #${config.colors.bgDDD};
@@ -86,7 +87,12 @@ in {
     (mkIf cfg.eww.enable {
       home.packages = with pkgs; [inotify-tools mpc eww];
       # TODO: symlink?
-      home.files.".config/eww".source = ../../config/eww;
+      home.xdg.config.files."eww".source = ../../config/eww;
+    })
+
+    # qtquick based widget system
+    (mkIf cfg.quickshell.enable {
+      home.packages = with pkgs; [quickshell];
     })
   ];
 }

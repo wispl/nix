@@ -3,8 +3,7 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   scratch_tag = "$((1 << 19))";
   # until keepassxc gets wayland autotype
   keepassxc_tag = "$((1 << 20))";
@@ -28,7 +27,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [river rivercarro];
-    home.files.".config/river/init".source =
+    home.xdg.config.files."river/init".source =
       pkgs.writeShellScript "init"
       ''
         allowed_tags=$(( ((1 << 32) - 1) ^ ${scratch_tag} ^ ${keepassxc_tag} ^ ${dropterm_tag}))

@@ -1,3 +1,5 @@
+# Plundered module from home manager which allows adding dbus services
+# defined by packages to user local services.
 {
   pkgs,
   lib,

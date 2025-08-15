@@ -75,8 +75,8 @@ in {
       xdg.mime.defaultApplications = {
         "application/pdf" = ["sioyek.desktop"];
       };
-      home.files = {
-        ".config/sioyek/prefs_user.config".text = ''
+      home.xdg.config.files = {
+        "sioyek/prefs_user.config".text = ''
           should_launch_new_window  1
           startup_commands          toggle_dark_mode 1
           collapsed_toc             1
@@ -99,7 +99,7 @@ in {
           dark_mode_background_color    #${config.colors.bg}
           ui_selected_background_color  #${config.colors.yellow}
         '';
-        ".config/sioyek/keys_user.config".text = ''
+        "sioyek/keys_user.config".text = ''
           open_document_embedded  o
           screen_down             <C-f>
           screen_up               <C-b>

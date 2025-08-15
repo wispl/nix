@@ -23,7 +23,7 @@ in {
 
     (mkIf cfg.foot.enable {
       home.packages = [pkgs.foot];
-      home.files.".config/foot/foot.ini" = {
+      home.xdg.config.files."foot/foot.ini" = {
         generator = lib.generators.toINI {};
         value = {
           main = {

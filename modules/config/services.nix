@@ -18,7 +18,7 @@ in {
     # TODO: make into service?
     (mkIf cfg.mpd.enable {
       home.packages = [pkgs.mpd];
-      home.files.".config/mpd/mpd.conf".text = ''
+      home.xdg.config.files."mpd/mpd.conf".text = ''
         db_file            "~/.config/mpd/database"
         playlist_directory "~/.config/mpd/playlists"
       '';
@@ -38,7 +38,7 @@ in {
     (mkIf cfg.psd.enable {
       home.packages = [pkgs.profile-sync-daemon];
       services.psd.enable = true;
-      home.files.".config/psd/psd.conf".text = ''
+      home.xdg.config.files."psd/psd.conf".text = ''
         BROWSERS=(firefox)
         USE_BACKUP="yes"
         BACKUP_LIMIT=3

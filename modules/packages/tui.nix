@@ -20,8 +20,8 @@ in {
     # pretty minimal file browser with decent preview support
     (mkIf cfg.lf.enable {
       home.packages = with pkgs; [lf chafa file ctpv];
-      home.files = {
-        ".config/lf/lfrc".text = ''
+      home.xdg.config.files = {
+        "lf/lfrc".text = ''
           set shell "sh"
           set shellopts "-eu"
           set ifs "\n"
@@ -58,7 +58,7 @@ in {
             esac
           }}
         '';
-        ".config/ctpv/config".text = ''
+        "ctpv/config".text = ''
           set chafasixel
         '';
       };
@@ -71,14 +71,14 @@ in {
     # impossible to type mpd music player
     (mkIf cfg.ncmpcpp.enable {
       home.packages = with pkgs; [ncmpcpp];
-      home.files = {
-        ".config/ncmpcpp/config".text = ''
+      home.xdg.config.files = {
+        "ncmpcpp/config".text = ''
           lyrics_directory=~/music/lyrics
           mpd_music_dir=~/music/
           progressbar_look=━━╸
         '';
 
-        ".config/ncmpcpp/bindings".text = ''
+        "ncmpcpp/bindings".text = ''
           def_key "j"
             scroll_down
           def_key "k"

@@ -1,3 +1,6 @@
+# Gate to all the modules, this has the very important, crucially
+# important task of setting up users (singular), setting nix options,
+# and importing all modules into scope for use. There will be nix...
 {
   inputs,
   lib,

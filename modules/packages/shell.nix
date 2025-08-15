@@ -66,7 +66,7 @@ in {
       '';
 
       home.environment.sessionVariables.INPUTRC = "${config.xdgdir.config}/readline/inputrc";
-      home.files.".config/readline/inputrc".text = ''
+      home.xdg.config.files."readline/inputrc".text = ''
         $include /etc/inputrc
         set colored-completion-prefix on
         set colored-stats on
@@ -100,7 +100,7 @@ in {
 
     (mkIf cfg.direnv.enable {
       home.packages = with pkgs; [direnv nix-direnv];
-      home.files.".config/direnv/direnv.toml" = {
+      home.xdg.config.files."direnv/direnv.toml" = {
         generator = (pkgs.formats.toml {}).generate "direnv.toml";
         value = {
           global = {

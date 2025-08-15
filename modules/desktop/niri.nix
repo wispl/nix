@@ -11,8 +11,8 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [niri];
-    home.files.".config/niri/config.kdl".text =
+    home.packages = with pkgs; [niri xwayland-satellite];
+    home.xdg.config.files."niri/config.kdl".text =
       # kdl
       ''
         spawn-at-startup "eww" "open-many" "bar" "frame"
@@ -131,6 +131,9 @@ in {
             Mod+E repeat=false { spawn "toggle_dashboard"; }
             Mod+N repeat=false { spawn "toggle_notifications"; }
             Mod+P repeat=false { focus-workspace "pass"; }
+
+            Mod+S repeat=false { spawn "sh" "-c" "filebrowse ~"; }
+            Mod+A repeat=false { spawn "noteshow"; }
 
             Mod+Return hotkey-overlay-title="Open Terminal" { spawn "foot"; }
             Mod+D hotkey-overlay-title="Open Launcher" { spawn "fuzzel"; }

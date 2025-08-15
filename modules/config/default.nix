@@ -31,25 +31,26 @@ in {
 
     (mkIf (cfg.username == "wisp" && cfg.git.enable) {
       home.packages = [pkgs.git];
-      home.files.".config/git/config" = {
-        generator = (pkgs.formats.gitIni {}).generate "config";
-        value = {
-          user = {
-            name = "wispl";
-            email = "wispl.8qbkk@slmail.me";
+      home.xdg.config.files = {
+        "git/config" = {
+          generator = (pkgs.formats.gitIni {}).generate "config";
+          value = {
+            user = {
+              name = "wispl";
+              email = "wispl.8qbkk@slmail.me";
+            };
+            alias = {
+              lg = "log --graph --oneline --color";
+            };
+            init.defaultBranch = "main";
+            diff.algorithm = "histogram";
+            merge.conflictStyle = "zdiff3";
           };
-          alias = {
-            lg = "log --graph --oneline --color";
-          };
-          init.defaultBranch = "main";
-          diff.algorithm = "histogram";
-          merge.conflictStyle = "zdiff3";
         };
+        "git/ignore".text = ''
+          .direnv
+        '';
       };
-
-      home.files.".config/git/ignore".text = ''
-        .direnv
-      '';
     })
   ];
 }
