@@ -41,6 +41,7 @@
     editors = {
       default = "nvim";
       nvim.enable = true;
+      emacs.enable = true;
     };
     services = {
       mpd.enable = true;
@@ -101,6 +102,7 @@
         qemu
         openrocket
         podman-compose
+        quickshell
       ];
     };
   };
