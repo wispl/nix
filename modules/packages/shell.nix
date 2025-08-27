@@ -65,7 +65,11 @@ in {
         [[ $(tty) == /dev/tty1 ]] && exec niri-session -l
       '';
 
-      home.environment.sessionVariables.INPUTRC = "${config.xdgdir.config}/readline/inputrc";
+      home.environment.sessionVariables = {
+        INPUTRC = "${config.xdgdir.config}/readline/inputrc";
+        HISTFILE = "${config.xdgdir.state}/bash_history";
+      };
+
       home.xdg.config.files."readline/inputrc".text = ''
         $include /etc/inputrc
         set colored-completion-prefix on
@@ -111,6 +115,7 @@ in {
     })
 
     (mkIf cfg.scripts.enable {
+      home.packages = [pkgs.wtype];
       home.files.".local/bin".source = ../../bin;
     })
 

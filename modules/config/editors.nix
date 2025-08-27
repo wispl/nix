@@ -29,7 +29,20 @@ in {
     })
 
     (mkIf cfg.emacs.enable {
-      home.packages = with pkgs; [emacs-pgtk emacsPackages.jinx ripgrep fd];
+      home.packages = with pkgs; [
+        emacs-pgtk
+        emacsPackages.jinx
+        ripgrep
+        fd
+        enchant
+        (aspellWithDicts (dicts: with dicts; [en]))
+      ];
+      # Expose dictionaries for enchant to find
+      home.environment.sessionVariables.ASPELL_CONF = ''
+        per-conf ${config.xdgdir.config}/aspell/aspell.conf; personal ${config.xdgdir.config}/aspell/en.pws; repl ${config.xdgdir.config}/aspell/en.prepl'';
+      home.xdg.config.files."aspell/aspell.conf".text = ''
+        dict-dir ${pkgs.aspellWithDicts (dicts: with dicts; [en])}/lib/aspell
+      '';
     })
   ];
 }

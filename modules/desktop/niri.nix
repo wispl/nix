@@ -131,6 +131,7 @@ in {
             Mod+E repeat=false { spawn "toggle_dashboard"; }
             Mod+N repeat=false { spawn "toggle_notifications"; }
             Mod+P repeat=false { focus-workspace "pass"; }
+            Mod+X repeat=false { spawn "inkcommands"; }
 
             Mod+S repeat=false { spawn "sh" "-c" "filebrowse ~"; }
             Mod+A repeat=false { spawn "noteshow"; }

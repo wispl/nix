@@ -12,6 +12,7 @@ in {
   options.modules.packages.dev = {
     sh.enable = mkEnableOption "sh";
     rust.enable = mkEnableOption "rust";
+    java.enable = mkEnableOption "java";
     cc.enable = mkEnableOption "c and cpp";
     tex.enable = mkEnableOption "texlive";
   };
@@ -29,11 +30,18 @@ in {
 
     # Evil borrow checker rust
     (mkIf cfg.rust.enable {
+      home.environment.sessionVariables."CARGO_HOME" = "${config.xdgdir.data}/cargo";
       home.packages = with pkgs; [
         rustfmt
         clippy
         cargo
       ];
+    })
+
+    # I HATE JAVA :(
+    (mkIf cfg.java.enable {
+      home.environment.sessionVariables."_JAVA_OPTIONS" = "-Djava.util.prefs.userRoot=${config.xdgdir.config}/java";
+      # I pull java in using flakes
     })
 
     # Mandatory tex
@@ -51,6 +59,7 @@ in {
             marginnote
             hyperref
             fancyhdr
+            titlesec
             # formatting, graphics, etc
             import
             graphics
@@ -63,6 +72,7 @@ in {
             caption
             wrapfig
             url
+            booktabs
             # math
             amsmath
             pgf
