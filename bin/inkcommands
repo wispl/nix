@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+
+# Requires fuzzel (or any launcher), wl-copy and wtype.
+
+# This section depends on the compositor in use
+# TODO: don't hardcode niri?
+window=$(niri msg -j focused-window | jq '.app_id')
+if [ "$window" != "org.inkscape.Inkscape" ]; then
+    notify-send "From inkcommands" "Inkscape is not in used, ignoring..."
+    exit 1
+fi
+# Generate all permutations of choices
+# The first one controls the fill color
+#  q is lighter color 
+#  w is primary color 
+#  e is darker color
+# The second choice controls the stroke
+#  a is arrow (this disables fill)
+#  s is stroke
+#  d is dashes
+# The last choice controls the stroke thickness
+#  z is normal thickness
+#  x is thick
+#  z is thicker
+# These keys are very easy to reach with one-hand on the left and can
+# be corded easily since they go from top to bottom.
+choices=""
+for x in {q,w,e}{a,s,d}{z,x,c}; do
+    choices="${choices}${x}\n"
+done
+# Remove last newline
+choices="${choices::-2}"
+# TODO: need like an exact match but order of letter could be different
+choice=$(echo -e "${choices}" | fuzzel -d)
+
+# Pixel width, taken from tikz and originally found:
+# https://github.com/gillescastel/inkscape-shortcut-manager/blob/master/normal.py
+# This is the default width, `bc` will be used later for decimal calculation
+pixels="1.327"
+width=""
+
+# Going to store styles in this map
+declare -A styles
+
+# handle stroke width
+case "$choice" in
+    *z*)
+	width=$(bc -l <<< "0.4 * ${pixels}")
+	;;
+    *x*)
+	width=$(bc -l <<< "0.8 * ${pixels}")
+	;;
+    *c*)
+	width=$(bc -l <<< "1.2 * ${pixels}")
+	;;
+esac
+styles[stroke]="black"
+styles[stroke-width]="${width}"
+
+# handle stroke type
+case "$choice" in
+    *a*)
+	styles[marker-end]="url(#marker-arrow-${width})"
+	styles[marker-start]="none"
+	styles[stroke-dasharray]='none'
+	;;
+    *s*)
+	styles[marker-end]="none"
+	styles[marker-start]="none"
+        styles[stroke-dasharray]="none"
+	;;
+    *d*)
+	styles[marker-end]="none"
+	styles[marker-start]="none"
+	styles[stroke-dasharray]="${width},$(bc -l <<< "3 * ${pixels}")"
+	;;
+esac
+
+# handle fill colors
+case "$choice" in
+    *q*)
+	styles[fill]="white"
+        styles[fill-opacity]="1"
+	;;
+    *w*)
+	styles[fill]="black"
+        styles[fill-opacity]="0.12"
+	;;
+    *e*)
+	styles[fill]="black"
+	styles[fill-opacity]="1"
+	;;
+esac
+
+# Build the svg
+svg="<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>
+  <svg
+    version=\"1.1\"
+    id=\"svg1\"
+    xml:space=\"preserve\"
+    xmlns:inkscape=\"http://www.inkscape.org/namespaces/inkscape\"
+    xmlns=\"http://www.w3.org/2000/svg\"
+    xmlns:svg=\"http://www.w3.org/2000/svg\">
+"
+# handle arrow type
+if [ "${styles[marker-end]}" !=  "none" ]; then
+    # taken from tikz, originall found in
+    # https://github.com/gillescastel/inkscape-shortcut-manager/blob/master/normal.py
+    scale=$(bc -l <<< "(2.40 * ${width} + 3.87)/(4.5 * ${width})")
+    svg="${svg}
+	<defs id=\"marker-defs\">
+	<marker
+	id=\"marker-arrow-${width}\"
+	orient=\"auto-start-reverse\"
+	refY=\"0\" refX=\"0\"
+	markerHeight=\"1.690\" markerWidth=\"0.911\">
+	    <g transform=\"scale(${scale})\">
+	    <path
+		d=\"M -1.55415,2.0722 C -1.42464,1.29512 0,0.1295 0.38852,0 0,-0.1295 -1.42464,-1.29512 -1.55415,-2.0722\"
+		style=\"fill:none;stroke:#000000;stroke-width:{0.6};stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1\"
+		inkscape:connector-curvature=\"0\" />
+	    </g>
+	</marker>
+	</defs>
+    "
+fi
+# Build style for clipboard
+clipboard=""
+for i in "${!styles[@]}"; do
+    clipboard="${clipboard}${i}:${styles[${i}]};"
+done
+clipboard=${clipboard::-1}
+# Finish and close up the svg
+svg="${svg}<inkscape:clipboard style=\"${clipboard}\" /></svg>"
+
+# Copy to clipboard
+wl-copy -n -t "image/x-inkscape-svg" <<< "${svg}"
+# And now paste the style!
+wtype -M ctrl -M shift -P v
+
