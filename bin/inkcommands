@@ -4,16 +4,17 @@
 
 # This section depends on the compositor in use
 # TODO: don't hardcode niri?
-window=$(niri msg -j focused-window | jq '.app_id')
-if [ "$window" != "org.inkscape.Inkscape" ]; then
+window="$(niri msg -j focused-window | jq '.app_id')"
+if [ "$window" != "\"org.inkscape.Inkscape\"" ]; then
     notify-send "From inkcommands" "Inkscape is not in used, ignoring..."
     exit 1
 fi
 # Generate all permutations of choices
 # The first one controls the fill color
-#  q is lighter color 
-#  w is primary color 
-#  e is darker color
+#  q is white
+#  w is light primary color 
+#  e is primary color 
+#  r is black color
 # The second choice controls the stroke
 #  a is arrow (this disables fill)
 #  s is stroke
@@ -25,19 +26,26 @@ fi
 # These keys are very easy to reach with one-hand on the left and can
 # be corded easily since they go from top to bottom.
 choices=""
-for x in {q,w,e}{a,s,d}{z,x,c}; do
+for x in {q,w,e,r}{a,s,d}{z,x,c}; do
     choices="${choices}${x}\n"
 done
 # Remove last newline
 choices="${choices::-2}"
 # TODO: need like an exact match but order of letter could be different
-choice=$(echo -e "${choices}" | fuzzel -d)
+choice=$(echo -e "${choices}" | fuzzel -d --auto-select)
+if [ -z "$choice" ]; then
+   exit 1
+fi
 
 # Pixel width, taken from tikz and originally found:
 # https://github.com/gillescastel/inkscape-shortcut-manager/blob/master/normal.py
 # This is the default width, `bc` will be used later for decimal calculation
 pixels="1.327"
 width=""
+
+# colors
+black="#333F45"
+primary="#7FB4CA"
 
 # Going to store styles in this map
 declare -A styles
@@ -54,7 +62,7 @@ case "$choice" in
 	width=$(bc -l <<< "1.2 * ${pixels}")
 	;;
 esac
-styles[stroke]="black"
+styles[stroke]="${black}"
 styles[stroke-width]="${width}"
 
 # handle stroke type
@@ -83,11 +91,15 @@ case "$choice" in
         styles[fill-opacity]="1"
 	;;
     *w*)
-	styles[fill]="black"
-        styles[fill-opacity]="0.12"
+	styles[fill]="${primary}"
+        styles[fill-opacity]="0.30"
 	;;
     *e*)
-	styles[fill]="black"
+	styles[fill]="${primary}"
+	styles[fill-opacity]="1"
+	;;
+    *r*)
+	styles[fill]="${black}"
 	styles[fill-opacity]="1"
 	;;
 esac
@@ -117,7 +129,7 @@ if [ "${styles[marker-end]}" !=  "none" ]; then
 	    <g transform=\"scale(${scale})\">
 	    <path
 		d=\"M -1.55415,2.0722 C -1.42464,1.29512 0,0.1295 0.38852,0 0,-0.1295 -1.42464,-1.29512 -1.55415,-2.0722\"
-		style=\"fill:none;stroke:#000000;stroke-width:{0.6};stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1\"
+		style=\"fill:none;stroke:${black};stroke-width:{0.6};stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1\"
 		inkscape:connector-curvature=\"0\" />
 	    </g>
 	</marker>
@@ -136,5 +148,5 @@ svg="${svg}<inkscape:clipboard style=\"${clipboard}\" /></svg>"
 # Copy to clipboard
 wl-copy -n -t "image/x-inkscape-svg" <<< "${svg}"
 # And now paste the style!
-wtype -M ctrl -M shift -P v
+wtype -M ctrl -M shift -P v -s 50 -m ctrl -m shift -p v
 
