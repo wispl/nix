@@ -26,13 +26,14 @@ in {
             prompt = "' '";
             icons-enabled = false;
             line-height = 20;
-            inner-pad = 40;
-            horizontal-pad = 80;
-            vertical-pad = 40;
+            inner-pad = 10;
+            horizontal-pad = 40;
+            vertical-pad = 20;
           };
           border = {
-            radius = 0;
-            width = 6;
+            radius = 16;
+            width = 8;
+            selection-radius = 4;
           };
           colors = {
             prompt = "${config.colors.yellow}ff";
