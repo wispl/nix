@@ -104,13 +104,16 @@ in {
 
     (mkIf cfg.direnv.enable {
       home.packages = with pkgs; [direnv nix-direnv];
-      home.xdg.config.files."direnv/direnv.toml" = {
-        generator = (pkgs.formats.toml {}).generate "direnv.toml";
-        value = {
-          global = {
-            hide_env_diff = true;
+      home.xdg.config.files = {
+        "direnv/direnv.toml" = {
+          generator = (pkgs.formats.toml {}).generate "direnv.toml";
+          value = {
+            global = {
+              hide_env_diff = true;
+            };
           };
         };
+        "direnv/direnvrc".text = "source ${pkgs.nix-direnv}/share/nix-direnv/direnvrc";
       };
     })
 
