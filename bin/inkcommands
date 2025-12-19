@@ -19,6 +19,7 @@ fi
 #  a is arrow (this disables fill)
 #  s is stroke
 #  d is dashes
+#  f is double arrows
 # The last choice controls the stroke thickness
 #  z is normal thickness
 #  x is thick
@@ -26,7 +27,7 @@ fi
 # These keys are very easy to reach with one-hand on the left and can
 # be corded easily since they go from top to bottom.
 choices=""
-for x in {q,w,e,r}{a,s,d}{z,x,c}; do
+for x in {q,w,e,r}{a,s,d,f}{z,x,c}; do
     choices="${choices}${x}\n"
 done
 # Remove last newline
@@ -82,6 +83,11 @@ case "$choice" in
 	styles[marker-start]="none"
 	styles[stroke-dasharray]="${width},$(bc -l <<< "3 * ${pixels}")"
 	;;
+    *f*)
+	styles[marker-end]="url(#marker-arrow-${width})"
+	styles[marker-start]="url(#marker-arrow-${width})"
+	styles[stroke-dasharray]='none'
+	;;
 esac
 
 # handle fill colors
@@ -119,6 +125,7 @@ if [ "${styles[marker-end]}" !=  "none" ]; then
     # taken from tikz, originall found in
     # https://github.com/gillescastel/inkscape-shortcut-manager/blob/master/normal.py
     scale=$(bc -l <<< "(2.40 * ${width} + 3.87)/(4.5 * ${width})")
+    styles[fill]="none"
     svg="${svg}
 	<defs id=\"marker-defs\">
 	<marker

@@ -28,6 +28,7 @@ watch() {
 			--export-type=pdf \
 			--export-latex \
 			"$1"
+		notify-send "Inkscape File Watch" "finished exporting to svg!"
 	done
 }
 
