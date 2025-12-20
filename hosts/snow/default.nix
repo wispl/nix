@@ -28,7 +28,7 @@
   services.openssh = {
     enable = true;
   };
-  systemd.services.sshd.wantedBy = lib.mkForce [ ];
+  systemd.services.sshd.wantedBy = lib.mkForce [];
 
   modules = {
     username = "wisp";
@@ -77,6 +77,7 @@
       apps = {
         firefox.enable = true;
         sioyek.enable = true;
+        openrocket.enable = true;
       };
       tui = {
         lf.enable = true;
@@ -110,7 +111,6 @@
         openconnect
         # renderdoc
         qemu
-        openrocket
         podman-compose
         quickshell
         rnote

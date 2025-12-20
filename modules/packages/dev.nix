@@ -44,7 +44,6 @@ in {
     (mkIf cfg.java.enable {
       # I pull java version in using flakes, but these variables are needed for XDG
       home.environment.sessionVariables."_JAVA_OPTIONS" = "-Djava.util.prefs.userRoot=${config.xdgdir.config}/java";
-
     })
 
     # Mandatory tex
@@ -97,7 +96,7 @@ in {
             sectsty
             upquote
             simplekv
-            # inkscape tex insert 
+            # inkscape tex insert
             standalone
             koma-script
             # compiler and formatter
@@ -120,9 +119,14 @@ in {
 
     # sadness
     (mkIf cfg.embedded.enable {
+      # stm32cubemx spits like a thousand gunk into the home directoy
+      # so force into the fake home
       home.packages = with pkgs; [
-        stm32cubemx
         openocd
+        (writeShellScriptBin "stm32cubemx" ''
+          export HOME="$XDG_FAKE_HOME"
+          exec ${pkgs.stm32cubemx}/bin/stm32cubemx "$@"
+        '')
       ];
     })
 

@@ -48,6 +48,11 @@ in {
       default = "${config.xdgdir.dir}/.local/state";
       description = "user's state directory";
     };
+    fake = mkOption {
+      type = str;
+      default = "${config.xdgdir.dir}/.local/fake";
+      description = "user's fake directory";
+    };
   };
 
   config = {
@@ -70,6 +75,7 @@ in {
         XDG_CONFIG_HOME = "${config.xdgdir.config}";
         XDG_DATA_HOME = "${config.xdgdir.data}";
         XDG_STATE_HOME = "${config.xdgdir.state}";
+        XDG_FAKE_HOME = "${config.xdgdir.fake}";
 
         # Wallpaper symlink, so switching wallpapers do not take a rebuild
         WALLPAPER = "${config.xdgdir.state}/wallpaper";

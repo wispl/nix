@@ -14,6 +14,7 @@ in {
   options.modules.packages.apps = {
     firefox.enable = mkEnableOption "firefox";
     sioyek.enable = mkEnableOption "sioyek";
+    openrocket.enable = mkEnableOption "openrocket";
   };
 
   # good browser
@@ -106,6 +107,19 @@ in {
           close_window            q
         '';
       };
+    })
+
+    # For occasional rocketry
+    (mkIf cfg.openrocket.enable {
+      # openrocket spits a .openrocket dir which is not configurable
+      # so shove this into the jail as well :)
+      home.packages = with pkgs; [
+        (writeShellScriptBin "openrocket" ''
+          export _JAVA_AWT_WM_NONREPARENTING=1
+          export _JAVA_OPTIONS="''${_JAVA_OPTIONS} -Duser.home=''${XDG_FAKE_HOME}"
+          exec ${pkgs.openrocket}/bin/openrocket "$@"
+        '')
+      ];
     })
   ];
 }
