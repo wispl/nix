@@ -15,6 +15,8 @@ in {
     java.enable = mkEnableOption "java";
     cc.enable = mkEnableOption "c and cpp";
     tex.enable = mkEnableOption "texlive";
+    embedded.enable = mkEnableOption "embedded";
+    kube.enable = mkEnableOption "kube";
   };
 
   config = mkMerge [
@@ -40,8 +42,9 @@ in {
 
     # I HATE JAVA :(
     (mkIf cfg.java.enable {
+      # I pull java version in using flakes, but these variables are needed for XDG
       home.environment.sessionVariables."_JAVA_OPTIONS" = "-Djava.util.prefs.userRoot=${config.xdgdir.config}/java";
-      # I pull java in using flakes
+
     })
 
     # Mandatory tex
@@ -73,6 +76,7 @@ in {
             wrapfig
             url
             booktabs
+            multirow
             # math
             amsmath
             pgf
@@ -93,6 +97,9 @@ in {
             sectsty
             upquote
             simplekv
+            # inkscape tex insert 
+            standalone
+            koma-script
             # compiler and formatter
             latexindent
             latexmk
@@ -109,6 +116,22 @@ in {
     # shellfish shell
     (mkIf cfg.sh.enable {
       home.packages = [pkgs.shellcheck-minimal];
+    })
+
+    # sadness
+    (mkIf cfg.embedded.enable {
+      home.packages = with pkgs; [
+        stm32cubemx
+        openocd
+      ];
+    })
+
+    # for k8 of course, since I have to use openshift occasionally, I
+    # prefer to pull kube or oc depending on the project with flakes
+    (mkIf cfg.kube.enable {
+      # xdg
+      home.environment.sessionVariables."KUBECONFIG" = "${config.xdgdir.config}/kube";
+      home.environment.sessionVariables."KUBECACHEDIR" = "${config.xdgdir.cache}/kube";
     })
   ];
 }

@@ -1,4 +1,5 @@
 {
+  lib,
   inputs,
   outputs,
   pkgs,
@@ -22,12 +23,19 @@
 
   services.flatpak.enable = true;
   services.fwupd.enable = true;
+
+  # enable openssh, but do not run server by default (I use it ocassionally for scp)
+  services.openssh = {
+    enable = true;
+  };
+  systemd.services.sshd.wantedBy = lib.mkForce [ ];
+
   modules = {
     username = "wisp";
     theme = "kanagawa";
     git.enable = true;
     profile = "workstation";
-    hardware = ["redist" "bluetooth" "audio" "ppd"];
+    hardware = ["redist" "bluetooth" "audio" "tlp"];
     persist = {
       enable = true;
       directories = ["/var/lib/iwd"]; # save network configurations
@@ -80,6 +88,9 @@
         sh.enable = true;
         rust.enable = true;
         tex.enable = true;
+        java.enable = true;
+        kube.enable = true;
+        embedded.enable = true;
       };
       shell = {
         bash.enable = true;
@@ -91,18 +102,18 @@
         system.enable = true;
       };
       extras = with pkgs; [
-        outputs.packages.${system}.riverstream
         alejandra
         blender
         inkscape
         keepassxc
         syncthing
         openconnect
-        renderdoc
+        # renderdoc
         qemu
         openrocket
         podman-compose
         quickshell
+        rnote
       ];
     };
   };
