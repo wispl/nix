@@ -16,7 +16,7 @@ in {
       # kdl
       ''
         spawn-at-startup "eww" "open-many" "bar" "frame"
-        spawn-at-startup "sh" "-c" "swaybg --mode fill -i $WALLPAPER"
+        spawn-sh-at-startup "swaybg --mode fill -i $WALLPAPER"
         input {
             workspace-auto-back-and-forth
             keyboard {
@@ -133,7 +133,7 @@ in {
             Mod+P repeat=false { focus-workspace "pass"; }
             Mod+X repeat=false { spawn "inkcommands"; }
 
-            Mod+S repeat=false { spawn "sh" "-c" "filebrowse ~"; }
+            Mod+S repeat=false { spawn-sh "filebrowse ~"; }
             Mod+A repeat=false { spawn "noteshow"; }
 
             Mod+Return hotkey-overlay-title="Open Terminal" { spawn "foot"; }
@@ -166,8 +166,8 @@ in {
             Mod+Ctrl+J      { focus-workspace-down; }
             Mod+Ctrl+K      { focus-workspace-up; }
 
-            Mod+U           { move-workspace-down; }
-            Mod+I           { move-workspace-up; }
+            Mod+Ctrl+U      { move-workspace-down; }
+            Mod+Ctrl+I      { move-workspace-up; }
             Mod+Shift+U     { move-column-to-workspace-down; }
             Mod+Shift+I     { move-column-to-workspace-up; }
 
@@ -182,20 +182,20 @@ in {
             Mod+Shift+Right { move-column-to-monitor-right; }
 
 
-            Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
-            Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
-            Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
-            Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+            Mod+WheelScrollDown                            { focus-column-right; }
+            Mod+WheelScrollUp                              { focus-column-left; }
+            Mod+Ctrl+WheelScrollDown       cooldown-ms=150 { move-column-to-workspace-down; }
+            Mod+Ctrl+WheelScrollUp         cooldown-ms=150 { move-column-to-workspace-up; }
 
-            Mod+WheelScrollRight      { focus-column-right; }
-            Mod+WheelScrollLeft       { focus-column-left; }
-            Mod+Ctrl+WheelScrollRight { move-column-right; }
-            Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+            Mod+WheelScrollRight                           { focus-column-right; }
+            Mod+WheelScrollLeft                            { focus-column-left; }
+            Mod+Ctrl+WheelScrollRight                      { move-column-right; }
+            Mod+Ctrl+WheelScrollLeft                       { move-column-left; }
 
-            Mod+Shift+WheelScrollDown      { focus-column-right; }
-            Mod+Shift+WheelScrollUp        { focus-column-left; }
-            Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
-            Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+            Mod+Shift+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+            Mod+Shift+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+            Mod+Ctrl+Shift+WheelScrollDown                 { move-column-right; }
+            Mod+Ctrl+Shift+WheelScrollUp                   { move-column-left; }
 
             Mod+1 { focus-workspace 1; }
             Mod+2 { focus-workspace 2; }
@@ -228,6 +228,7 @@ in {
             Mod+Ctrl+R { reset-window-height; }
             Mod+F { maximize-column; }
             Mod+Shift+F { fullscreen-window; }
+            Mod+T hotkey-overlay-title="True Maximize" {maximize-window-to-edges; }
 
             Mod+Ctrl+F { expand-column-to-available-width; }
             Mod+C { center-column; }
@@ -248,10 +249,6 @@ in {
             Alt+Print { screenshot-window; }
 
             Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-        }
-
-        environment {
-            DISPLAY ":0"
         }
       '';
   };
