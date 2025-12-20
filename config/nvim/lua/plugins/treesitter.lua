@@ -1,18 +1,12 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		version = false,
+		branch = "main",
+		lazy = false,
 		build = ":TSUpdate",
-		event = "VeryLazy" ,
-		lazy = vim.fn.argc(-1) == 0,
-		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-		opts = {
-			highlight = {
-				enable = true,
-				disable = { "latex" }
-			},
-			indent = { enable = true },
-			ensure_installed = {
+		config = function()
+			local ts = require("nvim-treesitter")
+			ts.install({
 				"bash",
 				"c",
 				"cmake",
@@ -33,10 +27,7 @@ return {
 				"vim",
 				"yuck",
 				"zig"
-			}
-		},
-		config = function(_, opts)
-			require("nvim-treesitter.configs").setup(opts)
+			})
 		end
 	},
 	-- latex
