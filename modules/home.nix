@@ -51,7 +51,7 @@ in {
   };
 
   config = {
-    hjem.linker = pkgs.smfh;
+    hjem.linker = inputs.hjem.packages.${pkgs.stdenv.hostPlatform.system}.smfh;
     hjem.clobberByDefault = true;
     hjem.users.${config.user.name} = {
       enable = true;
