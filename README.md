@@ -62,3 +62,7 @@ persistent subvolumes (this means enough memory should be available).
 - Configure swappiness?
 - `kernel.unprivileged_userns_clone=1`?
 - `kernel.kexec_load_disabled = 1`?
+
+## References
+
+https://github.com/hlissner/dotfiles
