@@ -14,7 +14,7 @@ Highlights are mainly:
 - impermanence
 - root on tmpfs, `/home` and `/nix` on btrfs subvolumes
 - LUKS encryption
-- home-manager
+- hjem 
 
 Other minor changes are
 
