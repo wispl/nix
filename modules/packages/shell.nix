@@ -113,7 +113,25 @@ in {
             };
           };
         };
-        "direnv/direnvrc".text = "source ${pkgs.nix-direnv}/share/nix-direnv/direnvrc";
+        # place .direnv cache on tmpfs and centralize it
+        # easier to clean up, less clutter and slight more performance
+        # on tmpfs means the cache has to be recreated each reboot
+        # but that is generally fine and not too annoying (I think)
+        # see: https://github.com/direnv/direnv/wiki/Customizing-cache-location
+        "direnv/direnvrc".text = ''
+          source ${pkgs.nix-direnv}/share/nix-direnv/direnvrc
+
+          : ''${XDG_RUNTIME_DIR:=/run/user/$UID}
+          declare -A direnv_layout_dirs
+          direnv_layout_dir() {
+              local hash path
+              echo "''${direnv_layout_dirs[$PWD]:=$(
+              hash="''$(sha1sum - <<< "$PWD" | head -c40)"
+                  path="''${PWD//[^a-zA-Z0-9]/-}"
+                  echo "''${XDG_RUNTIME_DIR}/direnv/layouts/''${hash}''${path}"
+              )}"
+          }
+        '';
       };
     })
 
