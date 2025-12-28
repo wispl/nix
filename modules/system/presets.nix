@@ -58,9 +58,10 @@ in {
             General = {
               # iwd can handle dhcp without an external client
               EnableNetworkConfiguration = true;
-              # network address randomization seems to cause problems sometimes.
-              AddressRandomization = "once";
-              AddressRandomizationRange = "nic";
+              # use network, and generate unstable mac address on a case by
+              # case basis (I generally use unstable for public wifi)
+              AddressRandomization = "network";
+              AddressRandomizationRange = "full";
             };
           };
         };
