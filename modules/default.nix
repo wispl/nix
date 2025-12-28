@@ -57,6 +57,8 @@ in {
       };
     };
 
+    nixpkgs.config.allowUnfree = true;
+
     environment.etc =
       mapAttrs'
       (name: value: {

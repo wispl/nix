@@ -9,6 +9,8 @@
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-p14s-amd-gen2
   ];
+  # fixes touchscreen
+  boot.extraModprobeConfig = "blacklist raydium_i2c_ts";
 
   networking.hostName = "snow";
   networking.extraHosts = ''
