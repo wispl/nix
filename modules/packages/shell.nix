@@ -26,7 +26,10 @@ in {
               . "${pkgs.bash-completion}/etc/profile.d/bash_completion.sh"
           fi
 
-          # prompt
+          # source eat (emacs)
+          [ -n "$EAT_SHELL_INTEGRATION_DIR" ] && source "$EAT_SHELL_INTEGRATION_DIR/bash"
+
+          # very shrimple prompt
           PS1='\[\e[34m\]\W\[\e[m\] '
 
           # Commands that should be applied only for interactive shells.
@@ -37,6 +40,7 @@ in {
           HISTFILESIZE=100000
           HISTSIZE=10000
 
+          # nicities
           shopt -s histappend
           shopt -s checkwinsize
           shopt -s extglob
@@ -44,6 +48,7 @@ in {
           shopt -s checkjobs
           shopt -s no_empty_cmd_completion
 
+          # aliases
           alias ..='cd ..'
           alias grep='grep --color=auto'
           alias la='ls -a'
@@ -52,6 +57,16 @@ in {
           alias ncdu='ncdu --color dark'
           alias vi='nvim'
           alias vim='nvim'
+
+          # quickly make something transparent
+          function magick-transparent() {
+              magick "$1" -fuzz 11% -transparent white "$1"
+          }
+
+          # copy most recent screenshot here (with new name)
+          function copy-screenshot() {
+              files=( $XDG_PICTURES_DIR/*.png ); cp "''${files[-1]}" "$1"
+          }
         ''
         + optionalString cfg.direnv.enable ''eval "$(${getExe pkgs.direnv} hook bash)"'';
 
