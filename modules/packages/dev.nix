@@ -122,11 +122,19 @@ in {
       # stm32cubemx spits like a thousand gunk into the home directoy
       # so force into the fake home
       home.packages = with pkgs; [
+        # general stuff
         openocd
+        # stm32 stuff
         (writeShellScriptBin "stm32cubemx" ''
           export HOME="$XDG_FAKE_HOME"
           exec ${pkgs.stm32cubemx}/bin/stm32cubemx "$@"
         '')
+        (writeShellScriptBin "stlink" ''
+          export HOME="$XDG_FAKE_HOME"
+          exec ${pkgs.stlink}/bin/stm32cubemx "$@"
+        '')
+        # esp32 stuff
+        esptool
       ];
     })
 
