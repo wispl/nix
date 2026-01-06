@@ -1,19 +1,17 @@
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("set_treesitter", { clear = true} ),
-	callback = function(args)
-		if not pcall(vim.treesitter.start, args.buf) then
-			return
-		end
+    group = vim.api.nvim_create_augroup("set_treesitter", { clear = true} ),
+    callback = function(args)
+	if not pcall(vim.treesitter.start, args.buf) then
+	    return
+	end
 
-		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 
-		if vim.api.nvim_buf_line_count(args.buf) < 40000 then
-			vim.api.nvim_buf_call(args.buf, function()
-				vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
-				vim.wo[0][0].foldmethod = "expr"
-			end)
-		end
-	end,
+	if vim.api.nvim_buf_line_count(args.buf) < 40000 then
+	    vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
+	    vim.wo[0][0].foldmethod = "expr"
+	end
+    end,
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
