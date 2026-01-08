@@ -4,6 +4,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     impermanence.url = "github:nix-community/impermanence";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    disko = {
+      url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hjem = {
       url = "github:feel-co/hjem";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +20,7 @@
     impermanence,
     nixos-hardware,
     hjem,
+    disko,
   } @ inputs: let
     inherit (self) outputs;
     systems = ["x86_64-linux"];
@@ -28,6 +33,11 @@
         system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
         modules = [./hosts/snow] ++ [modules];
+      };
+      tianlu = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = {inherit inputs outputs;};
+        modules = [./hosts/tianlu] ++ [modules];
       };
     };
   };
