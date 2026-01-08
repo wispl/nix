@@ -13,7 +13,7 @@
 in {
   options.modules.profile = mkOption {
     type = str;
-    description = "The profile for this machine, one of workstation or server";
+    description = "The profile for this machine, either workstation or server";
   };
 
   config = mkMerge [
@@ -21,31 +21,13 @@ in {
       boot = {
         # Enable systemd for initrd stage 1, might need further tweaks on some systems
         initrd.systemd.enable = true;
-        # Use the systemd-boot EFI boot loader.
-        loader.systemd-boot.enable = true;
-        loader.efi.canTouchEfiVariables = true;
-        loader.systemd-boot.configurationLimit = mkDefault 10;
 
         kernelParams = ["quiet" "splash" "nowatchdog"];
         kernelPackages = pkgs.linuxPackages_latest;
-        bcache.enable = false;
-        tmp.useTmpfs = true;
         kernel.sysctl = {
           "net.ipv4.ip_unprivileged_port_start" = 0;
         };
       };
-
-      # Swap but on ram, great for btrfs so I don't have to
-      # make a swapfile.
-      zramSwap.enable = true;
-
-      # Use nftables for firewall, cooler than iptables, iptables is like
-      # calling a grapefruit a fruit.
-      networking.nftables.enable = true;
-
-      # Use dbus broker as the dbus implementation, this comes with the caveat
-      # of a lot of ignored "..." file errors, which are apparently harmless.
-      services.dbus.implementation = "broker";
     })
 
     (mkIf (cfg == "server") {
