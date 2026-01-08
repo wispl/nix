@@ -31,6 +31,16 @@ in {
     })
 
     (mkIf (cfg == "server") {
+      boot = {
+        # Use lts hardened kernel cause why not
+        kernelPackages = pkgs.linuxPackages_6_12_hardened;
+      };
+
+      # TODO: more server hardening
+      # TODO: maybe these should be defaults?
+      nix.allowedUsers = [ "@wheel" ];
+      security.sudo.execWheelOnly = true;
+
       nix.gc = {
         automatic = true;
         dates = "weekly";

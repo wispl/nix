@@ -10,6 +10,7 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     loader.systemd-boot.configurationLimit = lib.mkDefault 10;
+    loader.systemd-boot.editor = lib.mkDefault false;
 
     bcache.enable = false;
     tmp.useTmpfs = true;
