@@ -38,7 +38,7 @@ in {
 
       # TODO: more server hardening
       # TODO: maybe these should be defaults?
-      nix.allowedUsers = [ "@wheel" ];
+      nix.allowedUsers = ["@wheel"];
       security.sudo.execWheelOnly = true;
 
       nix.gc = {

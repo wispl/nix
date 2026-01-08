@@ -1,7 +1,4 @@
-{
-  lib,
-  ...
-} : {
+{lib, ...}: {
   # What I consider good defaults for all my systems
   # Hopefully this gets smaller as time goes on
 
