@@ -6,71 +6,38 @@
   ...
 }: {
   imports = [
-    # ./hardware-configuration.nix
     inputs.disko.nixosModules.disko
+    ./hardware-configuration.nix
+    ./disko.nix
   ];
 
+  networking.hostName = "tianlu";
+  services.openssh.enable = true;
   modules = {
     username = "wisp";
+    git.enable = true;
     profile = "server";
     hardware = ["redist"];
     persist = {
       enable = true;
       directories = [
-        "/var/lib/iwd" # save network configurations
+        "/var/lib/iwd"    # save network configurations
         "/var/lib/incus/" # prevent incus from blowing up
       ];
     };
     presets = {
       iwd.enable = true;
     };
+    desktop.term.default = "foot";
+    editors = {
+        default = "nvim";
+	nvim.enable = true;
+    };
     packages.extras = with pkgs; [vim];
   };
 
-  # disko
-  disko.devices = {
-    disk.main = {
-      device = "<placeholder>";
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          ESP = {
-            name = "ESP";
-            size = "512M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-              mountOptions = ["umask=0077" "noexec" "nosuid" "nodev"];
-            };
-          };
-          nix = {
-            size = "100%";
-            content = {
-              type = "filesystem";
-              format = "xfs";
-              mountpoint = "/nix";
-              mountOptions = ["defaults"];
-            };
-          };
-        };
-      };
-    };
-    nodev."/" = {
-      fsType = "tmpfs";
-      mountOptions = [
-        "size=2G"
-        "defaults"
-        "mode=755"
-        "noexec"
-      ];
-    };
-  };
-
   # incus
-  user.users.wisp.extraGroups = ["incus-admin"];
+  users.users.wisp.extraGroups = ["incus-admin"];
   virtualisation.incus = {
     enable = true;
     ui.enable = true;
@@ -119,4 +86,5 @@
   #   (writeShellScriptBin "incus-deploy" ''
   #   '')
   # ];
+  system.stateVersion = "25.11";
 }

@@ -32,6 +32,7 @@ in {
       files = [
         "/etc/machine-id"
       ];
+      users.wisp.directories = ["flakes"];
     };
   };
 }
