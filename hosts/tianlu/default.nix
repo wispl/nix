@@ -21,12 +21,12 @@
     persist = {
       enable = true;
       directories = [
-        "/var/lib/iwd"    # save network configurations
+        "/var/lib/iwd" # save network configurations
         "/var/lib/incus/" # prevent incus from blowing up
       ];
       userDirectories = [
-      	"flakes"
-	"services"
+        "flakes"
+        "services"
       ];
     };
     presets = {
@@ -34,8 +34,8 @@
     };
     desktop.term.default = "foot";
     editors = {
-        default = "nvim";
-	nvim.enable = true;
+      default = "nvim";
+      nvim.enable = true;
     };
     packages.extras = with pkgs; [vim];
   };
@@ -43,8 +43,8 @@
   # incus
   users.users.wisp.extraGroups = ["incus-admin"];
 
-  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [ 53 67 ];
-  networking.firewall.interfaces.incusbr0.allowedUDPPorts = [ 53 67 ];
+  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [53 67];
+  networking.firewall.interfaces.incusbr0.allowedUDPPorts = [53 67];
   virtualisation.incus = {
     enable = true;
     ui.enable = true;
@@ -67,7 +67,7 @@
     ];
     profiles = [
       {
-	name = "default";
+        name = "default";
         devices = {
           eth0 = {
             name = "eth0";
@@ -93,25 +93,25 @@
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
-# services.caddy = {
-# 	enable = true;
-# 	virtualHosts.localhost.extraConfig = ''
-# 		reverse_proxy http://10.0.100.50
-# 	'';
-# };
-#  networking.nftables.tables = {
-#    nat = {
-#      content = ''
-#	chain prerouting {
-#	  type nat hook prerouting priority -100; policy accept;
-#	  ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
-#	  ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
-#	}
-#      '';
-#      family = "ip";
-#    };
-#  };
+  networking.firewall.allowedTCPPorts = [80 443];
+  # services.caddy = {
+  # 	enable = true;
+  # 	virtualHosts.localhost.extraConfig = ''
+  # 		reverse_proxy http://10.0.100.50
+  # 	'';
+  # };
+  #  networking.nftables.tables = {
+  #    nat = {
+  #      content = ''
+  #	chain prerouting {
+  #	  type nat hook prerouting priority -100; policy accept;
+  #	  ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
+  #	  ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
+  #	}
+  #      '';
+  #      family = "ip";
+  #    };
+  #  };
 
   #incus bootstrap script
   # home.packages = with pkgs; [

@@ -42,4 +42,3 @@
 
   fileSystems."/nix".neededForBoot = true;
 }
-

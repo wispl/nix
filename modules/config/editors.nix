@@ -31,7 +31,7 @@ in {
     (mkIf cfg.emacs.enable {
       home.packages = with pkgs; [
         ((emacsPackagesFor emacs-pgtk).emacsWithPackages (
-          epkgs: [ epkgs.jinx ]
+          epkgs: [epkgs.jinx]
         ))
         ripgrep
         fd
