@@ -36,7 +36,7 @@
       default = "nvim";
       nvim.enable = true;
     };
-    packages.extras = with pkgs; [vim];
+    packages.extras = with pkgs; [vim alejandra];
   };
 
   # incus
@@ -50,10 +50,10 @@
     package = pkgs.incus;
   };
   virtualisation.incus.preseed = {
-    config = {
-      "core.https_address" = ":8443";
-      "lxc.mount.entry" = "tmpfs sys/kernel/tracing tmpfs size=5M 0 0";
-    };
+    # this opens incus to outside of the machine, but I kinda don't want to
+    # config = {
+    #    "core.https_address" = ":8443";
+    # };
     networks = [
       {
         config = {
