@@ -11,6 +11,7 @@ in {
   options.modules.desktop.term = {
     default = mkOption {
       type = str;
+      default = "foot";
       description = "default terminal to use";
     };
     foot.enable = mkEnableOption "foot";

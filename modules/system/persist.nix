@@ -19,6 +19,7 @@ in {
     };
     userDirectories = mkOption {
       type = listOf str;
+      default = [];
       description = "User directories to persist";
     };
   };

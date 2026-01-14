@@ -32,7 +32,6 @@
     presets = {
       iwd.enable = true;
     };
-    desktop.term.default = "foot";
     editors = {
       default = "nvim";
       nvim.enable = true;
