@@ -30,8 +30,9 @@ in {
 
     (mkIf cfg.emacs.enable {
       home.packages = with pkgs; [
-        emacs-pgtk
-        emacsPackages.jinx
+        ((emacsPackagesFor emacs-pgtk).emacsWithPackages (
+          epkgs: [ epkgs.jinx ]
+        ))
         ripgrep
         fd
         enchant
