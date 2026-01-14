@@ -24,6 +24,10 @@
         "/var/lib/iwd"    # save network configurations
         "/var/lib/incus/" # prevent incus from blowing up
       ];
+      userDirectories = [
+      	"flakes"
+	"services"
+      ];
     };
     presets = {
       iwd.enable = true;
@@ -38,11 +42,19 @@
 
   # incus
   users.users.wisp.extraGroups = ["incus-admin"];
+
+  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [ 53 67 ];
+  networking.firewall.interfaces.incusbr0.allowedUDPPorts = [ 53 67 ];
   virtualisation.incus = {
     enable = true;
     ui.enable = true;
+    package = pkgs.incus;
   };
   virtualisation.incus.preseed = {
+    config = {
+      "core.https_address" = ":8443";
+      "lxc.mount.entry" = "tmpfs sys/kernel/tracing tmpfs size=5M 0 0";
+    };
     networks = [
       {
         config = {
@@ -55,6 +67,7 @@
     ];
     profiles = [
       {
+	name = "default";
         devices = {
           eth0 = {
             name = "eth0";
@@ -67,7 +80,6 @@
             type = "disk";
           };
         };
-        name = "default";
       }
     ];
     storage_pools = [
@@ -80,6 +92,26 @@
       }
     ];
   };
+
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+# services.caddy = {
+# 	enable = true;
+# 	virtualHosts.localhost.extraConfig = ''
+# 		reverse_proxy http://10.0.100.50
+# 	'';
+# };
+#  networking.nftables.tables = {
+#    nat = {
+#      content = ''
+#	chain prerouting {
+#	  type nat hook prerouting priority -100; policy accept;
+#	  ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
+#	  ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
+#	}
+#      '';
+#      family = "ip";
+#    };
+#  };
 
   #incus bootstrap script
   # home.packages = with pkgs; [

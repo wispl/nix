@@ -17,6 +17,10 @@ in {
       type = listOf str;
       description = "Extra directories to persist";
     };
+    userDirectories = mkOption {
+      type = listOf str;
+      description = "User directories to persist";
+    };
   };
 
   config = mkIf (cfg.enable) {
@@ -32,7 +36,7 @@ in {
       files = [
         "/etc/machine-id"
       ];
-      users.wisp.directories = ["flakes"];
+      users.${config.user.name}.directories = cfg.userDirectories;
     };
   };
 }
