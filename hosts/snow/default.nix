@@ -13,15 +13,10 @@
   boot.extraModprobeConfig = "blacklist raydium_i2c_ts";
 
   networking.hostName = "snow";
-  networking.extraHosts = ''
-    127.0.0.1    localhost.edu
-     127.0.0.1    api.localhost.edu
-     127.0.0.1    cas.localhost.edu
-     # 127.0.0.1    ldap.localhost.edu
-     127.0.0.1    saml.localhost.edu
-     127.0.0.1    admin.localhost.edu
-     127.0.0.1    idp.localhost.edu
-  '';
+  networking.hosts = {
+    # 127.0.0.1    ldap.localhost.edu
+    "127.0.0.1" = ["localhost.edu" "api.localhost.edu" "cas.localhost.edu" "saml.localhost.edu" "admin.localhost.edu" "idp.localhost.edu"];
+  };
 
   services.flatpak.enable = true;
   services.fwupd.enable = true;
