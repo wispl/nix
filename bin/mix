@@ -61,6 +61,10 @@ diff() {
     fi
 }
 
+gc() {
+    nix-collect-garbage --delete-older-than 7d 
+}
+
 # Passes all arguments to the chosen menu.
 #
 # The menu must support setting a prompt using '-p PROMPT'. Change all such
@@ -102,8 +106,10 @@ case "${action}" in
     "check")
 	check
 	;;
+    "gc")
+	gc
     "dev")
-	dev
+	dev "$1"
     *)
 	echo "help"
 esac
