@@ -1,0 +1,76 @@
+#!/usr/bin/env sh
+
+# mithrix (Shortened to mix cause it is too long)
+# Basically a minimal nix manager which collects all my nix related scripts.
+# Most of them will be "aliases" to normal nix commands, but cooler (I wish).
+# 
+# Risk of Rain 2 spoiler ahead !!! Bet you did not expect this in a script.
+# For those rare but precious Risk of Rain 2 fans out there, Mithrix is the
+# final boss, whose nickname is the King of Nothing. Coincidentally, nix
+# also means nothing, so Mithrix is the King of Nix, so I think they are
+# thrustworthy enough for my nix-related activities.
+
+ 
+# Checks if nix has to be rebooted by checking if the kernel, initrd, or
+# kernel-modules have changed.
+check() {
+    built_prefix="/nix/var/nix/profiles/system"
+    booted_prefix="/run/booted-system"
+
+    modules=("initrd" "kernel" "kernel-modules")
+    built_prefix="/nix/var/nix/profiles/system"
+    booted_prefix="/run/booted-system"
+
+    modules=("initrd" "kernel" "kernel-modules")
+    needs_reboot=false
+    for i in "${modules[@]}"; do
+	echo ""
+	echo "--- Checking '${i}' Changes ---"
+	built=$(readlink "${built_prefix}/${i}")
+	booted=$(readlink "${booted_prefix}/${i}")
+	pre=" "
+	if [ "$built" != "$booted" ]; then
+	    pre="x"
+	    needs_reboot=true
+	fi
+	echo "${pre} ${booted#*-} --> ${built#*-}"
+	echo ""
+    done
+
+    if $needs_reboot; then
+	echo "Reboot is needed!"
+    else
+	echo "Reboot is not needed..."
+    fi
+}
+
+# Prints the differences between two closures. The default, when no arguements
+# is providied, is to perform boot comparison  
+#
+#   $1(optional): comparison type: boot, new
+#
+# boot copmares the current closure with the booted one,
+# new compares the current closure with the most recent one,
+# TODO: add relative numbers?
+diff() {
+    if [ -z "${1}" ] || [ "${1}" = "boot" ]; then
+	nix store diff-closures /run/booted-system /run/current-system
+    elif [ "${1}" = "new" ]; then
+	new=$(ls /nix/var/nix/profiles/ | tail -n 1)
+	nix store diff-closures /run/booted-system "/nix/var/nix/profiles/${new}"
+    fi
+}
+
+action="${1}"
+shift
+
+case "${action}" in
+    "diff")
+	diff "$1"
+	;;
+    "check")
+	check
+	;;
+    *)
+	echo "help"
+esac
