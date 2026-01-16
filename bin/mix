@@ -9,7 +9,6 @@
 # final boss, whose nickname is the King of Nothing. Coincidentally, nix
 # also means nothing, so Mithrix is the King of Nix, so I think they are
 # thrustworthy enough for my nix-related activities.
-
  
 # Checks if nix has to be rebooted by checking if the kernel, initrd, or
 # kernel-modules have changed.
@@ -61,8 +60,18 @@ diff() {
     fi
 }
 
+# Runs garbage collect on generations older than a week. I find this to be a
+# reasonable time frame and generally have no desire to change it. Pass in
+# --system flag to clean the entire system. Requires typing in your sudo
+# password. This does NOT optimise the store afterwards.
+#
+# Example usage: `mix gc`, `mix gc --system`
 gc() {
     nix-collect-garbage --delete-older-than 7d 
+    if [ "$#" = 1 ] && [ "$1" = "--system" ]; then
+	 read -sr -p "Enter your password: " pw
+	 echo "$pw" | sudo -S nix-collect-garbage --delete-older-than 7d 
+    fi;
 }
 
 # Initializes a flake using templates defined in "$FLAKE/templates". Passing
@@ -75,13 +84,14 @@ gc() {
 dev() {
     dir="${FLAKE}/templates"
     if [ ! -d "$dir" ]; then
-	echo "Template directory "$dir" does not exist, aborting..."
+	echo "Template directory $dir does not exist, aborting..."
 	exit 1
     fi
 
     template=$1
     if [ -z "${template}" ]; then
-	templates=($(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \'))
+	echo "hi"
+	mapfile -d ' ' templates < <(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \')
 
 	PS3="Choose a template (enter number): "
 	select choice in "${templates[@]}"; do
@@ -102,21 +112,25 @@ dev() {
     fi
 }
 
+if [ "$#" = 0 ]; then
+    echo "help"
+    exit 1
+fi
+
 action="${1}"
 shift
-
 case "${action}" in
     "diff")
-	diff "$1"
+	diff "$@"
 	;;
     "check")
-	check
+	check "$@"
 	;;
     "gc")
-	gc
+	gc "$@"
 	;;
     "dev")
-	dev "$1"
+	dev "$@"
 	;;
     *)
 	echo "help"
