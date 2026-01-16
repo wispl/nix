@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # mithrix (Shortened to mix cause it is too long)
 # Basically a minimal nix manager which collects all my nix related scripts.
@@ -47,15 +47,15 @@ check() {
 # Prints the differences between two closures. The default, when no arguements
 # is providied, is to perform boot comparison  
 #
-#   $1(optional): comparison type: boot, new
+#   $1(optional): comparison type: current (default), newest
 #
-# boot copmares the current closure with the booted one,
-# new compares the current closure with the most recent one,
-# TODO: add relative numbers?
+# * Current compares the current closure with the booted one
+# * Newest compares the newest closure with the booted one
+# Example usage: `mix diff`, `mix diff current`, `mix diff newest`
 diff() {
-    if [ -z "${1}" ] || [ "${1}" = "boot" ]; then
+    if [ -z "${1}" ] || [ "${1}" = "current" ]; then
 	nix store diff-closures /run/booted-system /run/current-system
-    elif [ "${1}" = "new" ]; then
+    elif [ "${1}" = "newest" ]; then
 	new=$(ls /nix/var/nix/profiles/ | tail -n 1)
 	nix store diff-closures /run/booted-system "/nix/var/nix/profiles/${new}"
     fi
@@ -65,9 +65,13 @@ gc() {
     nix-collect-garbage --delete-older-than 7d 
 }
 
-# Utility for initializing a nix template from a custom template_dir directory.
-# If no argument is supplied, a menu is used to display and search for
-# templates. Aborting the search results in no templates being created.
+# Initializes a flake using templates defined in "$FLAKE/templates". Passing
+# in an argument results in using that template, otherwise, a select menu is
+# brought up to prompt the user for the template type.
+#
+#   $1(optional): template to use
+#
+# Example usage: `mix dev c`, `mix dev`
 dev() {
     dir="${FLAKE}/templates"
     if [ ! -d "$dir" ]; then
@@ -94,7 +98,7 @@ dev() {
     if [ -n "$template" ]; then
 	nix flake init -t "${dir}#${template}"
     else
-	echo "Something went wrong..."
+	echo "Aborting, no template was instantiated..."
     fi
 }
 
