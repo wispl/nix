@@ -65,34 +65,36 @@ gc() {
     nix-collect-garbage --delete-older-than 7d 
 }
 
-# Passes all arguments to the chosen menu.
-#
-# The menu must support setting a prompt using '-p PROMPT'. Change all such
-# lines if it does not.
-#
-# The menu must support a dmenu mode where it accepts all stdin.
-menu() {
-	fuzzel --counter -d $@
-}
-
 # Utility for initializing a nix template from a custom template_dir directory.
 # If no argument is supplied, a menu is used to display and search for
 # templates. Aborting the search results in no templates being created.
 dev() {
-    # Directory where flake templates are searched, override as desired
-    template_dir="${HOME}/flakes/templates/"
-    template=$1
-
-    if [ -z "$template" ]; then
-	# Get all templates
-	templates=("${template_dir}"*/)
-	# Make paths relative to $template_dir
-	templates=("${templates[@]#"${template_dir}"}")
-	template=$(IFS=$'\n'; echo "${templates[*]}" | menu -p "Template ")
+    dir="${FLAKE}/templates"
+    if [ ! -d "$dir" ]; then
+	echo "Template directory "$dir" does not exist, aborting..."
+	exit 1
     fi
 
+    template=$1
+    if [ -z "${template}" ]; then
+	templates=($(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \'))
+
+	PS3="Choose a template (enter number): "
+	select choice in "${templates[@]}"; do
+	    if [ "$REPLY" -le "${#templates[@]}" ]; then
+		echo "Using '${choice}' template"
+		break
+	    else
+		echo "Using 'default' template"
+		break
+	    fi
+	done
+    fi
+    
     if [ -n "$template" ]; then
-	nix flake init -t "${template_dir}#${template::-1}"
+	nix flake init -t "${dir}#${template}"
+    else
+	echo "Something went wrong..."
     fi
 }
 
@@ -108,8 +110,10 @@ case "${action}" in
 	;;
     "gc")
 	gc
+	;;
     "dev")
 	dev "$1"
+	;;
     *)
 	echo "help"
 esac
