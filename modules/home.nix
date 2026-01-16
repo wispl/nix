@@ -80,7 +80,7 @@ in {
         # Wallpaper symlink, so switching wallpapers do not take a rebuild
         WALLPAPER = "${config.xdgdir.state}/wallpaper";
         # Path to flake root
-        FLAKE = "~/flakes";
+        FLAKE = "/home/${config.user.name}/flakes";
         # Add binary home to path
         PATH = "\${PATH}:${config.xdgdir.bin}";
       };
