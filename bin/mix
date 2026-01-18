@@ -142,6 +142,54 @@ change-password() {
     mkpasswd -m yescrypt "$pw1" > "\nix\persist\passwords\$username"
 }
 
+# Bootstraps the NixOS system. EXPERIMENTAL, have not tried this script out.
+# Example usage: `mix boot strap host /dev/sda1`
+bootstrap() {
+    host="$1"
+    disk="$2"
+    count="5"
+
+    if [ -z "$host" ] || [ -z "$disk" ]; then
+	echo "Please provide host and disk"
+	exit 1
+    fi
+
+    echo "Bootstrapping NixOS on host ${host} with disk ${disk} in five seconds!"
+    echo "----------------------------------------------------------------------"
+    while [ "$count" -ge 0 ]; do
+	echo "..."
+	sleep 1
+	count=$((count - 1))
+    done
+
+    echo
+    echo "Parititioning disk now!"
+    echo "------------------------"
+
+    cd "$host" || exit 1
+    nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount disko.nix
+
+    echo "Paritioning finished, review the new structure!"
+    echo "-----------------------------------------------"
+    mount | grep /mnt
+
+    read -pr "Press enter to continue: "
+    echo
+
+    echo "Generating hardware configuration and installing NixOS!" 
+    echo "-------------------------------------------------------" 
+
+    nixos-generate-config --no-filesystems --root /mnt
+    cp -r "$PWD" /mnt/etc/nixos/*
+    cd /mnt/etc/nixos/ || exit
+    mv "hardware-configuration.nix" "hosts/${host}"
+    nixos-install --flake ".#${host}"
+
+    echo "All done, NixOS has been installed successfully!" 
+    echo "------------------------------------------------"
+    echo "Before you reboot, make sure to change password and move this directory to your home directory if using something like impermanence"
+}
+
 if [ "$#" = 0 ]; then
     echo "help"
     exit 1
@@ -164,6 +212,9 @@ case "${action}" in
 	;;
     "change-password")
 	change-password "$@"
+	;;
+    "bootstrap")
+	bootstrap "$@"
 	;;
     *)
 	echo "help"
