@@ -9,6 +9,9 @@
 # final boss, whose nickname is the King of Nothing. Coincidentally, nix
 # also means nothing, so Mithrix is the King of Nix, so I think they are
 # thrustworthy enough for my nix-related activities.
+
+# TODO: look at the ones which takes passwords in more carefully, look at
+# something like sudo -A or maybe simply calling the script with sudo
  
 # Checks if nix has to be rebooted by checking if the kernel, initrd, or
 # kernel-modules have changed.
@@ -112,6 +115,33 @@ dev() {
     fi
 }
 
+# Long on purpose, this is a very scary command. This changes the password of a
+# user by setting in in the '\nix\persist\passwords\username' file which is needed
+# when nix-impermanence is used. Run this with sudo. Example usage
+#
+#    mix change-password username
+#
+# The script will then prompt you for the passwords. The password is hashed using
+# yescript. This requires directly calling sudo as it is way more priviledged than
+# something like garbage collecting some random person's old nix profiles.  
+change-password() {
+    username="$1"
+    read -sr -p "Enter your new password: " pw1
+    echo
+    read -sr -p "Enter the password again: " pw2
+    echo
+
+    if [ "$pw1" -ne "$pw2" ]; then
+	echo "Passwords do not match"
+	exit 1
+    elif [ -z "$pw1" ]; then
+	echo "Password is empty"
+	exit 1
+    fi
+
+    mkpasswd -m yescrypt "$pw1" > "\nix\persist\passwords\$username"
+}
+
 if [ "$#" = 0 ]; then
     echo "help"
     exit 1
@@ -131,6 +161,9 @@ case "${action}" in
 	;;
     "dev")
 	dev "$@"
+	;;
+    "change-password")
+	change-password "$@"
 	;;
     *)
 	echo "help"
