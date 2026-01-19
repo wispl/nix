@@ -12,7 +12,6 @@
 # 	1. start a watcher to export pdf on save
 # 	2. create a file if it does not exists or opens it
 # 	3. when we finish and close inkscape, the watcher is killed
-#
 # NOTE: the watcher is started and killed automatically so there is no need to
 # manually start and stop it.
 

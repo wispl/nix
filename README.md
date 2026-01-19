@@ -65,4 +65,5 @@ persistent subvolumes (this means enough memory should be available).
 
 ## References
 
-https://github.com/hlissner/dotfiles
+- https://github.com/hlissner/dotfiles
+- https://github.com/sioodmy/dotfiles	
