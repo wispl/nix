@@ -20,6 +20,12 @@
 
   services.flatpak.enable = true;
   services.fwupd.enable = true;
+  services.netbird.clients.default = {
+    port = 51820;
+    name = "netbird";
+    interface = "wt0";
+    hardened = true;
+  };
 
   # enable openssh, but do not run server by default (I use it ocassionally for scp)
   services.openssh = {
@@ -35,7 +41,10 @@
     hardware = ["redist" "bluetooth" "audio" "tlp"];
     persist = {
       enable = true;
-      directories = ["/var/lib/iwd"]; # save network configurations
+      directories = [
+        "/var/lib/iwd" # save network configurations
+        "/var/lib/netbird" # for netbird connections
+      ];
     };
     presets = {
       wayland.enable = true;
