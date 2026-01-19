@@ -3,28 +3,23 @@
 # Searches and performs actions on notes in a directories. This searches in a
 # predefined directory (see 'notes_dir') for .pdf and .tex files. By default,
 # this assumes the PDF file is named 'main.pdf' and the main TeX file is
-# 'main.tex'. This script depends on 'fuzzel' as the menu.
+# 'main.tex'. This script takes the menu command as an argument. Usage example
+#
+#     `noteshow fuzzel -d`,  `noteshow dmenu`
 #
 # Make sure that your mimelists are configured properly as this script relies
 # on using xdg-open to open PDF files and edit TeX files!
 
+if [ "$#" = "0" ]; then
+    notify-send "Noteshow Error]" "Please pass in the menu command"
+    exit 1
+fi
+
 # For recusively matching files
 shopt -s extglob globstar nullglob
 
-# Directory to search course notes for
-notes_dir="${HOME}/org/courses"
-# Main name of the PDF and TeX file
-main_name="main"
-
-# Passes all arguments to the chosen menu.
-#
-# The menu must support setting a prompt using '-p PROMPT'. Change all such
-# lines if it does not.
-#
-# The menu must support a dmenu mode where it accepts all stdin.
-menu() {
-    fuzzel --counter -d "$@"
-}
+notes_dir="${HOME}/org/courses"  # Directory to search course notes for
+main_name="main"                 # Main name of the PDF and TeX file
 
 # Find all PDF files
 pdfs=("${notes_dir}"/**/main.pdf)
@@ -35,7 +30,7 @@ courses=("${paths[@]##*/}")
 
 # After the user makes a selection, we use that to find the index of the element
 # in 'courses' which is then used to find the full path using 'paths'
-choice=$(IFS=$'\n'; echo "${courses[*]}" | menu -p "Course ")
+choice=$(IFS=$'\n'; echo "${courses[*]}" | "$@" -p "Course ")
 path=""
 for i in "${!courses[@]}"; do
    if [ "${courses[$i]}" = "$choice" ]; then
@@ -52,7 +47,7 @@ done
 # It is not neccessary to have numbered texfiles like "1.tex 2.tex 3.tex ...",
 # but it is neccessary for 'Add' and 'EditLast' to work.
 if [[ -n "$choice" ]]; then
-    action=$(echo -e "View\nEdit\nMain\nFile\nAdd" | menu -i -p "$choice ")
+    action=$(echo -e "View\nEdit\nMain\nFile\nAdd" | "$@" -p "$choice ")
     case $action in
 	"View")
 	    xdg-open "${path}/${main_name}.pdf"
@@ -67,7 +62,7 @@ if [[ -n "$choice" ]]; then
 
 	    if [ "$action" = "File" ]; then
 		# Prompt user for desired file to edit
-		file=$(IFS=$'\n'; echo "${filenames[*]}" | sort -g | menu -p "${choice}/ ")
+		file=$(IFS=$'\n'; echo "${filenames[*]}" | sort -g | "$@" -p "${choice}/ ")
 		xdg-open "${path}/${file}"
 		exit 0
 	    fi
