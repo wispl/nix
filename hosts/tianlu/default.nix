@@ -51,8 +51,7 @@
   };
   virtualisation.incus.preseed = {
     config = {
-      # this opens incus to outside of the machine, but I kinda don't want to
-      # "core.https_address" = ":8443";
+      "core.https_address" = ":8443";
       "core.metrics_address" = ":8444";
     };
     networks = [
@@ -94,18 +93,13 @@
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [80 443 8444];
-  # services.caddy = {
-  # 	enable = true;
-  # 	virtualHosts.localhost.extraConfig = ''
-  # 		reverse_proxy http://10.0.100.50
-  # 	'';
-  # };
+  networking.firewall.allowedTCPPorts = [80 22054 443 8443 8444];
   networking.nftables.tables = {
     nat = {
       content = ''
         chain prerouting {
           type nat hook prerouting priority -100; policy accept;
+          ip daddr 10.0.0.121 tcp dport { 22054 } dnat to 10.0.100.50:53
           ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
           ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
         }
