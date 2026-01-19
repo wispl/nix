@@ -1,52 +1,20 @@
 #!/usr/bin/env bash
 
-# Searches and performs actions on notes in a directories. This primarily works
-# with .tex files with a stucture of
+# Searches and performs actions on notes in a directories. This searches in a
+# predefined directory (see 'notes_dir') for .pdf and .tex files. By default,
+# this assumes the PDF file is named 'main.pdf' and the main TeX file is
+# 'main.tex'. This script depends on 'fuzzel' as the menu.
 #
-# notes/
-# 	category1/
-# 		subject1/
-# 		subject2/
-# 	category2/
-# 		subject3/
-# 	category3/
-# 		/subject4/
-#
-# where the subject directories would be the ones containing the notes. Each
-# subject directory should have a main.tex or whatever NOTES_MAIN is set to
-# which acts as a entry point or as the main tex file itself. The compiled pdf
-# file should be consistently named across the folders, set to whatever
-# NOTES_MAIN_PDF is set to.
-#
-# Inside the subject, the structure should be
-#
-# subject1/
-# 	main.tex
-# 	0.tex
-# 	1.tex
-# 	2.tex
-# 	3.tex
-#
-# Skipping numbers is allowed, the numbers just provides a sane way to detect
-# sections and wanted texfiles, as well as allowing the use of adding new
-# sections base off the last one. New directories and other tex files can be
-# added without collision.
-#
-# This script depends on
-# 	fuzzel  (change menu())
-# 	sioyek  (change view())
-# 	foot    (changes required for other terminals)
-# 	bash with support for extglob
-#
-# These components can be swapped out for other ones, the script will require
-# some tweaking however.
+# Make sure that your mimelists are configured properly as this script relies
+# on using xdg-open to open PDF files and edit TeX files!
 
-# directory to search course notes for
-NOTES_DIR="${HOME}/notes/courses/"
-# starting file
-NOTES_MAIN="main.tex"
-# name of the compiled pdf
-NOTES_MAIN_PDF="main.pdf"
+# For recusively matching files
+shopt -s extglob globstar nullglob
+
+# Directory to search course notes for
+notes_dir="${HOME}/org/courses"
+# Main name of the PDF and TeX file
+main_name="main"
 
 # Passes all arguments to the chosen menu.
 #
@@ -55,57 +23,71 @@ NOTES_MAIN_PDF="main.pdf"
 #
 # The menu must support a dmenu mode where it accepts all stdin.
 menu() {
-	fuzzel --counter -d $@
+    fuzzel --counter -d "$@"
 }
 
-# Passes all arguments to the chosen pdf viewer
-view() {
-	sioyek $@
-}
+# Find all PDF files
+pdfs=("${notes_dir}"/**/main.pdf)
+# First get the directory, and then strip all the leading directories as well
+# This will leave us with the parent directory of the pdf
+paths=("${pdfs[@]%/*}")
+courses=("${paths[@]##*/}")
 
-# Passes all arguments to the chosen editor
-edit() {
-	foot -D "${NOTES_DIR}/${dir}/" $EDITOR $@
-}
+# After the user makes a selection, we use that to find the index of the element
+# in 'courses' which is then used to find the full path using 'paths'
+choice=$(IFS=$'\n'; echo "${courses[*]}" | menu -p "Course ")
+path=""
+for i in "${!courses[@]}"; do
+   if [ "${courses[$i]}" = "$choice" ]; then
+       path="${paths[${i}]}"
+   fi
+done
 
-shopt -s extglob
+# We show another menu to allow the user to choose an action
+#   View: view the pdf
+#   Edit: edit the last numbered tex file (if you have 1-8.tex, then 8.tex will be edited)
+#   Main: edit main.tex
+#   File: edit a specific file
+#   Add: adds a new section (if the last section was 7.tex, 8.tex will be created)
+# It is not neccessary to have numbered texfiles like "1.tex 2.tex 3.tex ...",
+# but it is neccessary for 'Add' and 'EditLast' to work.
+if [[ -n "$choice" ]]; then
+    action=$(echo -e "View\nEdit\nMain\nFile\nAdd" | menu -i -p "$choice ")
+    case $action in
+	"View")
+	    xdg-open "${path}/${main_name}.pdf"
+	    ;;
+	"Main")
+	    xdg-open "${path}/${main_name}.tex"
+	    ;;
+	"Edit" | "Add" | "File")
+	    # Gets all tex files and get the filename only (plus extension)
+	    files=("${path}"/*.tex)
+	    filenames=("${files[@]##*/}")
 
-# get second level directories in NOTES_DIR convert them to relative paths
-dirs=("${NOTES_DIR}"*/*)
-dirnames=("${dirs[@]#"${NOTES_DIR}"}")
+	    if [ "$action" = "File" ]; then
+		# Prompt user for desired file to edit
+		file=$(IFS=$'\n'; echo "${filenames[*]}" | sort -g | menu -p "${choice}/ ")
+		xdg-open "${path}/${file}"
+		exit 0
+	    fi
 
-dir=$(IFS=$'\n'; echo "${dirnames[*]}" | menu -p "Course ")
-
-# View: view the pdf
-# Edit: edit main.tex
-# Section: edit a specific section
-# Add: adds a new section, if the last section was 7.tex, 8.tex will be created
-if [[ -n "$dir" ]]; then
-	choice=$(echo -e "View\nEdit\nSection\nAdd" | menu -i -p "$dir ")
-	case $choice in
-		"View")
-			view "${NOTES_DIR}/${dir}/${NOTES_MAIN_PDF}"
-			;;
-		"Edit")
-			edit "${NOTES_DIR}/${dir}/${NOTES_MAIN}"
-			;;
-		"Section")
-			# get all tex files representing sections and convert
-			# them to relative file
-			files=("${NOTES_DIR}${dir}"/[0-9]*.tex)
-			filenames=("${files[@]#"${NOTES_DIR}${dir}/"}")
-
-			file=$(IFS=$'\n'; echo "${filenames[*]}" | menu -p "$dir ")
-
-			edit "${NOTES_DIR}/${dir}/${file}"
-			;;
-		"Add")
-			# find the most recent tex file via sorting, then
-			# create a new tex file with the incremented number
-			files=("${NOTES_DIR}${dir}"/[0-9]*.tex)
-			last=$(IFS=$'\n'; sort -n <<< "${files[*]##*/}" | tail -n 1)
-			next=$(( ${last%.*} + 1))
-			edit "${NOTES_DIR}/${dir}/${next}.tex"
-			;;
-	esac
+	    # Find the tex with the largest number. Since non-numbers bubble to
+	    # the top with sort, it should be fine to just call tail on it
+	    largest=$(IFS=$'\n'; echo "${filenames[*]}" | sort -g | tail -n 1)
+	    if [ "$action" = "Edit" ]; then
+		xdg-open "${path}/${largest}"
+	    else
+		num="${largest%.*}"
+		next=$(( num + 1 ))
+		touch "${path}/${next}.tex"
+		xdg-open "${path}/${next}.tex"
+	    fi
+	    ;;
+	*)
+	    notify-send "Noteshow Error" "No action selected aborting..."
+	    ;;
+    esac
+else
+    notify-send "Noteshow Error" "No file selected aborting..."
 fi
