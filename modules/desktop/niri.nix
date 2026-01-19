@@ -115,6 +115,21 @@ in {
         }
 
         window-rule {
+            match app-id=r#"Inkscape$"# title="^Formula"
+            open-floating true
+        }
+
+        window-rule {
+            match app-id=r#"emacs"# title="emacs-everywhere"
+            open-floating true
+        }
+
+        window-rule {
+            match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+            default-floating-position x=10 y=10 relative-to="bottom-right"
+        }
+
+        window-rule {
             geometry-corner-radius 8
             clip-to-geometry true
         }
@@ -134,7 +149,8 @@ in {
             Mod+X repeat=false { spawn "inkcommands"; }
 
             Mod+S repeat=false { spawn-sh "filebrowse ~"; }
-            Mod+A repeat=false { spawn "noteshow"; }
+            Mod+A repeat=false { spawn-sh "noteshow fuzzel -d"; }
+            Mod+Semicolon repeat=false { spawn-sh "emacsclient --eval '(emacs-everywhere)'"; }
 
             Mod+Return hotkey-overlay-title="Open Terminal" { spawn "foot"; }
             Mod+D hotkey-overlay-title="Open Launcher" { spawn "fuzzel"; }

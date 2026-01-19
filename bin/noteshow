@@ -11,7 +11,7 @@
 # on using xdg-open to open PDF files and edit TeX files!
 
 if [ "$#" = "0" ]; then
-    notify-send "Noteshow Error]" "Please pass in the menu command"
+    notify-send "Noteshow Error" "Please pass in the menu command"
     exit 1
 fi
 
