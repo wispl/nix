@@ -58,14 +58,20 @@ in {
           alias vi='nvim'
           alias vim='nvim'
 
-          # quickly make something transparent
+          # Quickly make something transparent
           function magick-transparent() {
               magick "$1" -fuzz 11% -transparent white "$1"
           }
 
-          # copy most recent screenshot here (with new name)
+          # Copy most recent screenshot here (with new name)
           function copy-screenshot() {
               files=( $XDG_PICTURES_DIR/*.png ); cp "''${files[-1]}" "$1"
+          }
+
+          # z and zoxide ripoff, depth 3 is good enough for me
+          function z() {
+              cd "$(fd . --base-directory $HOME --type d --color never --max-depth 3 | fzf --select-1 --query "$*")"
+              ls
           }
         ''
         + optionalString cfg.direnv.enable ''eval "$(${getExe pkgs.direnv} hook bash)"'';
