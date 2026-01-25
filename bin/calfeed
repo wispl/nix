@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+feed="$1"
+out="$2"
+
+# Use sed to sanitize some events which have * (like for bullet points), which
+# then org interprets as a new heading rather than a continuation of the
+# previous heading
+curl "$feed" | sed 's/*/-/g' | ical2org.awk > "$out"
