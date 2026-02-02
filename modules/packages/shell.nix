@@ -68,9 +68,9 @@ in {
               files=( $XDG_PICTURES_DIR/*.png ); cp "''${files[-1]}" "$1"
           }
 
-          # z and zoxide ripoff, depth 3 is good enough for me
+          # z and zoxide ripoff, depth 4 is good enough for me
           function z() {
-              cd "$(fd . --base-directory $HOME --type d --color never --max-depth 3 | fzf --select-1 --query "$*")"
+              cd "$(fd . --base-directory $HOME --type d --type l --follow --color never --max-depth 4 | fzf --select-1 --query "$*")"
               ls
           }
         ''
