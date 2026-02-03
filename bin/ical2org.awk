@@ -93,7 +93,7 @@ BEGIN {
 
     # set to 1 or 0 to yes or not output the original ical entry as a
     # comment (mostly useful for debugging purposes)
-    original = 1;
+    original = 0;
 
     # google truncates long subjects with ... which is misleading in
     # an org file: it gives the unfortunate impression that an
@@ -423,7 +423,7 @@ BEGIN {
 
             # translate \n sequences to actual newlines and unprotect commas (,)
             if (condense)
-                print "* DEADLINE: <" date "> " gensub("^[ ]+", "", "", unescape(summary, 0))
+                print "* <" date "> " gensub("^[ ]+", "", "", unescape(summary, 0))
             else
                 print "* " gensub("^[ ]+", "", "g", unescape(summary, 0))
 
@@ -445,13 +445,12 @@ BEGIN {
             print ":ATTENDING: " attending_string
             print ":ATTENDEES: " join_keys(people_attending)
             print ":END:"
-
             if (date2 != "")
             {
                 # Fake some logbook entries so we can generate a clock report
                 print ":LOGBOOK:"
                 print "CLOCK: [" date1 "]--[" date2 "] =>  " "0:00"
-                print ":END"
+                print ":END:"
             }
 
             if(length(entry)>1)

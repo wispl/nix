@@ -143,14 +143,14 @@ in {
             Mod+Slash { show-hotkey-overlay; }
 
             Mod+B repeat=false { spawn "firefox"; }
-            Mod+Shift+B repeat=false { spawn "firefox -P spare"; }
+            Mod+Shift+B repeat=false { spawn "firefox" "-P" "spare"; }
             Mod+E repeat=false { spawn "toggle_dashboard"; }
             Mod+N repeat=false { spawn "toggle_notifications"; }
             Mod+P repeat=false { focus-workspace "pass"; }
             Mod+X repeat=false { spawn "inkcommands"; }
 
             Mod+S repeat=false { spawn-sh "filebrowse ~"; }
-            Mod+A repeat=false { spawn-sh "noteshow fuzzel -d"; }
+            Mod+A repeat=false { spawn "noteshow" "fuzzel" "-d"; }
             Mod+Semicolon repeat=false { spawn-sh "emacsclient --eval '(emacs-everywhere)'"; }
 
             Mod+Return hotkey-overlay-title="Open Terminal" { spawn "foot"; }
