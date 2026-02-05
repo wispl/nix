@@ -39,9 +39,13 @@ in {
     (mkIf (elem "tlp" cfg) {
       services.tlp = {
         enable = true;
+        pd.enable = true;
         settings = {
           START_CHARGE_THRESH_BAT0 = 75;
           STOP_CHARGE_THRESH_BAT0 = 80;
+          NMI_WATCHDOG = 0;
+          # Breaks wifi a lot for me
+          WIFI_PWR_ON_BAT = "off";
         };
       };
     })

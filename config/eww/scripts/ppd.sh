@@ -4,7 +4,7 @@ set_profile() {
 	case "$1" in
 		power-saver|balanced|performance)
 			notify-send "Power Profile Daemon" "Profile is now in '$1' mode."
-			powerprofilesctl set "$1"
+			tlpctl set "$1"
 			;;
 		*)
 			;;
