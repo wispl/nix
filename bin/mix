@@ -8,10 +8,49 @@
 # For those rare but precious Risk of Rain 2 fans out there, Mithrix is the
 # final boss, whose nickname is the King of Nothing. Coincidentally, nix
 # also means nothing, so Mithrix is the King of Nix, so I think they are
-# thrustworthy enough for my nix-related activities.
+# trustworthy enough for my nix-related activities.
 
 # TODO: look at the ones which takes passwords in more carefully, look at
 # something like sudo -A or maybe simply calling the script with sudo
+
+# Prints the help page
+help() {
+    echo "Usage: mix [SUBCOMMAND] [INPUT] [FLAGS]"
+    echo "mithrix, king of nothing, helper of nix."
+    echo ""
+    echo "Some helper nix commands, mix takes in subcommands and some flags or input after those"
+    echo "  mix check"
+    echo "    Checks if a reboot is required by checking checking the kernel, initrd, and kernel modules"
+    echo "    takes in no options or flags"
+    echo "  mix diff [current | newest]?"
+    echo "    Gets differences between closures. 'current' (default) compares the booted closure to the"
+    echo "    current closure, while 'newest' compares the booted closure to the newest one"
+    echo "  mix gc [--system]?"
+    echo "    Runs garbage collect on generations, removing generations older than seven days"
+    echo "    Pass in '--system' to use sudo to clean (for more cleaning)"
+    echo "  mix dev [template]?"
+    echo "    Initializes a flake template in the current directory. Pass in 'template' if you know which"
+    echo "    template to use, otherwise you will be prompted for one"
+    echo "  mix change-password"
+    echo "    Prompts for a password change of the current user, used only for impermanence to store a hashed"
+    echo "    passwordfile to be persisted safely and securely"
+    echo "  mix bootstrap"
+    echo "    Provisions a new NixOS system using disko (experimental)"
+    echo ""
+    echo "They knew to stay away from the wells - but they were just kids."
+    echo "And they just wanted to know."
+    echo ""
+    echo "They threw in dirt and stone and kifruit and starseed, watching as"
+    echo "they collapsed. Thorp! The gravity wells would swallow up anything."
+    echo "Glass and mud and silver. Wind. Heat. Pulsar radiation."
+    echo ""
+    echo "And when his brother wasn’t watching, Mithrix would throw in worms."
+    echo "Thorp! But only when he wasn’t watching. You see, his brother loved"
+    echo "worms. It would make him sad. But Mithrix didn’t care much about"
+    echo "worms. He was just curious."
+    echo ""
+    echo "But one time, his brother was watching. And his brother loved worms."
+}
  
 # Checks if nix has to be rebooted by checking if the kernel, initrd, or
 # kernel-modules have changed.
@@ -53,7 +92,7 @@ check() {
 #
 # * Current compares the current closure with the booted one
 # * Newest compares the newest closure with the booted one
-# Example usage: `mix diff`, `mix diff current`, `mix diff newest`
+# Example usage: 'mix diff', 'mix diff current', 'mix diff newest'
 diff() {
     if [ -z "${1}" ] || [ "${1}" = "current" ]; then
 	nix store diff-closures /run/booted-system /run/current-system
@@ -68,7 +107,7 @@ diff() {
 # --system flag to clean the entire system. Requires typing in your sudo
 # password. This does NOT optimise the store afterwards.
 #
-# Example usage: `mix gc`, `mix gc --system`
+# Example usage: 'mix gc', 'mix gc --system'
 gc() {
     nix-collect-garbage --delete-older-than 7d 
     if [ "$#" = 1 ] && [ "$1" = "--system" ]; then
@@ -93,13 +132,13 @@ dev() {
 
     template=$1
     if [ -z "${template}" ]; then
-	echo "hi"
-	mapfile -d ' ' templates < <(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \')
+	mapfile -t -d ' ' templates < <(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \')
 
 	PS3="Choose a template (enter number): "
 	select choice in "${templates[@]}"; do
 	    if [ "$REPLY" -le "${#templates[@]}" ]; then
 		echo "Using '${choice}' template"
+		template="$choice"
 		break
 	    else
 		echo "Using 'default' template"
@@ -115,6 +154,7 @@ dev() {
     fi
 }
 
+# TODO: this should set strict permissions on the password
 # Long on purpose, this is a very scary command. This changes the password of a
 # user by setting in in the '\nix\persist\passwords\username' file which is needed
 # when nix-impermanence is used. Run this with sudo. Example usage
@@ -191,7 +231,7 @@ bootstrap() {
 }
 
 if [ "$#" = 0 ]; then
-    echo "help"
+    help
     exit 1
 fi
 
@@ -217,5 +257,6 @@ case "${action}" in
 	bootstrap "$@"
 	;;
     *)
-	echo "help"
+	help
+	;;
 esac
