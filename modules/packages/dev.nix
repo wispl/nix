@@ -127,12 +127,11 @@ in {
         # stm32 stuff
         (writeShellScriptBin "stm32cubemx" ''
           export HOME="$XDG_FAKE_HOME"
+          export _JAVA_AWT_WM_NONREPARENTING=1
+          export _JAVA_OPTIONS="''${_JAVA_OPTIONS} -Duser.home=''${XDG_FAKE_HOME}"
           exec ${pkgs.stm32cubemx}/bin/stm32cubemx "$@"
         '')
-        (writeShellScriptBin "stlink" ''
-          export HOME="$XDG_FAKE_HOME"
-          exec ${pkgs.stlink}/bin/stm32cubemx "$@"
-        '')
+        stlink
         # esp32 stuff
         esptool
       ];
