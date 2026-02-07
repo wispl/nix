@@ -36,6 +36,10 @@ help() {
     echo "    passwordfile to be persisted safely and securely"
     echo "  mix bootstrap"
     echo "    Provisions a new NixOS system using disko (experimental)"
+    echo "  mix search [term]"
+    echo "    Searches the nixpkg for the given term, forwards to 'nix search nixpkgs'"
+    echo "  mix home"
+    echo "    Changes directory to the root of the flake directory"
     echo ""
     echo "They knew to stay away from the wells - but they were just kids."
     echo "And they just wanted to know."
@@ -230,6 +234,14 @@ bootstrap() {
     echo "Before you reboot, make sure to change password and move this directory to your home directory if using something like impermanence"
 }
 
+search() {
+    if [ "$#" = 0 ]; then
+	echo "Please provide a search term"
+    else
+	nix search nixpkgs "$@"
+    fi
+}
+
 if [ "$#" = 0 ]; then
     help
     exit 1
@@ -255,6 +267,9 @@ case "${action}" in
 	;;
     "bootstrap")
 	bootstrap "$@"
+	;;
+    "search")
+	search "$@"
 	;;
     *)
 	help

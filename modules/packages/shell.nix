@@ -159,6 +159,35 @@ in {
     (mkIf cfg.scripts.enable {
       home.packages = [pkgs.wtype];
       home.files.".local/bin".source = ../../bin;
+      # https://stackoverflow.com/questions/17879322/how-do-i-autocomplete-nested-multi-level-subcommands
+      home.xdg.data.files."bash-completion/completions/mix".source = pkgs.writeShellScript "mix" ''
+        _mix() {
+            local cur prev
+
+            cur=''${COMP_WORDS[COMP_CWORD]}
+            prev=''${COMP_WORDS[COMP_CWORD-1]}
+
+            case ''${COMP_CWORD} in
+                1)
+                    COMPREPLY=($(compgen -W "check diff gc dev change-password bootstrap help search" -- ''${cur}))
+                    ;;
+                2)
+                    case ''${prev} in
+                        diff)
+                            COMPREPLY=($(compgen -W "--current --newest" -- ''${cur}))
+                            ;;
+                        gc)
+                            COMPREPLY=($(compgen -W "--system" -- ''${cur}))
+                            ;;
+                    esac
+                    ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+        }
+        complete -F _mix mix
+      '';
     })
 
     (mkIf cfg.storage.enable {
