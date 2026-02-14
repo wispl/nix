@@ -27,6 +27,8 @@
       userDirectories = [
         "flakes"
         "services"
+        ".config"
+        ".ssh"
       ];
     };
     presets = {
