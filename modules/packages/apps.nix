@@ -54,7 +54,7 @@ in {
               border-top: 1px solid transparent !important;
             }
             /* remove outline and shadow around the content when using sidebar */
-            #tabbrowser-tabbox {
+            #tabbrowser-tabbox .browserContainer {
               outline: none !important;
               box-shadow: none !important;
             }
@@ -65,6 +65,121 @@ in {
             /* round letterboxing content */
             :root:not([inDOMFullscreen]) .browserContainer > .browserStack:not(.exclude-letterboxing) > browser {
               border-radius: 8px;
+            }
+
+            /* float findbar to the top left, taken from mrotherguy, and added some tweaks:
+             *   transparent background and border
+             *   top right
+             *   icons for options (from biglavis/LittleFox)
+             *   remove less useful options
+             */
+            findbar{
+              order: -1;
+              margin-bottom: -33px;
+              position: relative;
+              border-top: none !important;
+              padding: 0 !important;
+              transition: transform 82ms linear, opacity 82ms linear 32ms !important;
+              background: none !important;
+              pointer-events: none;
+              z-index: 1;
+              white-space: nowrap;
+              flex-direction: row-reverse;
+            }
+
+            .findbar-textbox {
+              border: none !important;
+            }
+
+            .findbar-container > .findbar-find-fast {
+              padding: var(--toolbarbutton-inner-padding) 1px;
+              margin: 0 !important;
+            }
+
+            findbar[hidden]{ transform: translateY(-30px);}
+
+            findbar > .findbar-container,
+            findbar > .close-icon{
+              border: 1px solid transparent;
+              border-width: 0 0 1px 0px;
+              background-color: var(--lwt-accent-color,var(--toolbox-bgcolor)) !important;
+              pointer-events: auto;
+            }
+
+            findbar > .findbar-container{
+              border-bottom-right-radius: 4px;
+              border-right-width: 1px;
+              height: initial !important;
+              margin-inline: 0px !important;
+              overflow-inline: visible !important;
+            }
+
+            .findbar-find-status{
+              display: flex;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              flex-grow: 1;
+            }
+
+            .findbar-closebutton{
+              margin: 0 !important;
+              border-radius: 0 !important;
+              padding: 5px !important;
+              width: initial !important;
+              order: -1;
+            }
+            .findbar-closebutton > image{ padding: 3px }
+            .findbar-closebutton:hover > image{
+              background: var(--toolbarbutton-hover-background) !important;
+              border-radius: 4px
+            }
+            findbar > .findbar-container > hbox{ margin: 0 5px }
+
+            findbar::after{
+              content:"";
+              display: flex;
+              flex-grow: 100;
+            }
+
+            .findbar-highlight,
+            .findbar-match-diacritics {
+                display: none !important;
+            }
+
+            /* simplify checkboxes */
+            .findbar-container > checkbox {
+              display: grid !important;
+              justify-items: center !important;
+              margin-left: 0px !important;
+              overflow: hidden !important;
+            }
+            .findbar-container > checkbox *{
+              display: none !important;
+            }
+
+            .findbar-container > checkbox:not([checked]):hover {
+              background-color: var(--toolbarbutton-hover-background) !important;
+              border-radius: 4px !important;
+            }
+            .findbar-container > checkbox[checked] {
+              background-color: var(--toolbarbutton-active-background) !important;
+              border-radius: 4px !important;
+            }
+
+            .findbar-case-sensitive::before {
+              content: "Aa";
+              font-weight: bold;
+              color: var(--toolbar-color);
+              padding: 2px;
+            }
+
+            .findbar-entire-word::before {
+              content: "ab";
+              font-weight: bold;
+              color: var(--toolbar-color);
+              grid-row: 1;
+              grid-column: 1;
+              padding: 2px;
             }
           '';
       };
