@@ -85,11 +85,7 @@
         sioyek.enable = true;
         openrocket.enable = true;
       };
-      tui = {
-        lf.enable = true;
-        nnn.enable = true;
-        ncmpcpp.enable = true;
-      };
+      tui.nnn.enable = true;
       dev = {
         cc.enable = true;
         sh.enable = true;
@@ -120,6 +116,7 @@
         podman-compose
         quickshell
         rnote
+        freecad
       ];
     };
   };

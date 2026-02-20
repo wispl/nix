@@ -45,13 +45,13 @@ in {
       registry = mapAttrs (_: flake: {inherit flake;}) flakeInputs;
       nixPath = mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
       channel.enable = false;
+      optimise.automatic = true;
       settings = {
         trusted-users = [
           "root"
           "@wheel"
         ];
         experimental-features = ["nix-command" "flakes" "ca-derivations"];
-        auto-optimise-store = true;
         flake-registry = "";
         use-xdg-base-directories = true;
       };

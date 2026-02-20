@@ -14,6 +14,7 @@ in {
     lf.enable = mkEnableOption "lf";
     nnn.enable = mkEnableOption "nnn";
     ncmpcpp.enable = mkEnableOption "ncmpcpp";
+    cmus.enable = mkEnableOption "cmus";
   };
 
   config = mkMerge [
@@ -101,6 +102,10 @@ in {
             volume_down
         '';
       };
+    })
+
+    (mkIf cfg.cmus.enable {
+      home.packages = with pkgs; [cmus];
     })
   ];
 }

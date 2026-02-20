@@ -36,6 +36,7 @@ in {
         ripgrep
         fd
         enchant
+        vips
         (aspellWithDicts (dicts: with dicts; [en]))
       ];
       # Expose dictionaries for enchant to find
