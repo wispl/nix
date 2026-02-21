@@ -70,7 +70,7 @@ in {
 
           # z and zoxide ripoff, depth 4 is good enough for me
           function z() {
-              cd "$(fd . --base-directory $HOME --type d --type l --follow --color never --max-depth 4 | fzf --select-1 --query "$*")"
+              cd "$HOME/$(fd . --base-directory $HOME --type d --type l --follow --color never --max-depth 4 | fzf --select-1 --query "$*")"
               ls
           }
         ''
@@ -201,7 +201,7 @@ in {
     (mkIf cfg.media.enable {
       home.packages = with pkgs; [
         pandoc
-        ghostscript
+        qpdf
         imagemagick
         ffmpeg
         yt-dlp

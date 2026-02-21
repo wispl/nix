@@ -46,7 +46,8 @@ width=""
 
 # colors
 black="#333F45"
-primary="#7FB4CA"
+primary="8482aa"
+#secondary="41313c"
 
 # Going to store styles in this map
 declare -A styles

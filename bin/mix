@@ -3,7 +3,7 @@
 # mithrix (Shortened to mix cause it is too long)
 # Basically a minimal nix manager which collects all my nix related scripts.
 # Most of them will be "aliases" to normal nix commands, but cooler (I wish).
-# 
+#
 # Risk of Rain 2 spoiler ahead !!! Bet you did not expect this in a script.
 # For those rare but precious Risk of Rain 2 fans out there, Mithrix is the
 # final boss, whose nickname is the King of Nothing. Coincidentally, nix
@@ -15,82 +15,82 @@
 
 # Prints the help page
 help() {
-    echo "Usage: mix [SUBCOMMAND] [INPUT] [FLAGS]"
-    echo "mithrix, king of nothing, helper of nix."
-    echo ""
-    echo "Some helper nix commands, mix takes in subcommands and some flags or input after those"
-    echo "  mix check"
-    echo "    Checks if a reboot is required by checking checking the kernel, initrd, and kernel modules"
-    echo "    takes in no options or flags"
-    echo "  mix diff [current | newest]?"
-    echo "    Gets differences between closures. 'current' (default) compares the booted closure to the"
-    echo "    current closure, while 'newest' compares the booted closure to the newest one"
-    echo "  mix gc [--system]?"
-    echo "    Runs garbage collect on generations, removing generations older than seven days"
-    echo "    Pass in '--system' to use sudo to clean (for more cleaning)"
-    echo "  mix dev [template]?"
-    echo "    Initializes a flake template in the current directory. Pass in 'template' if you know which"
-    echo "    template to use, otherwise you will be prompted for one"
-    echo "  mix change-password"
-    echo "    Prompts for a password change of the current user, used only for impermanence to store a hashed"
-    echo "    passwordfile to be persisted safely and securely"
-    echo "  mix bootstrap"
-    echo "    Provisions a new NixOS system using disko (experimental)"
-    echo "  mix search [term]"
-    echo "    Searches the nixpkg for the given term, forwards to 'nix search nixpkgs'"
-    echo "  mix home"
-    echo "    Changes directory to the root of the flake directory"
-    echo ""
-    echo "They knew to stay away from the wells - but they were just kids."
-    echo "And they just wanted to know."
-    echo ""
-    echo "They threw in dirt and stone and kifruit and starseed, watching as"
-    echo "they collapsed. Thorp! The gravity wells would swallow up anything."
-    echo "Glass and mud and silver. Wind. Heat. Pulsar radiation."
-    echo ""
-    echo "And when his brother wasn’t watching, Mithrix would throw in worms."
-    echo "Thorp! But only when he wasn’t watching. You see, his brother loved"
-    echo "worms. It would make him sad. But Mithrix didn’t care much about"
-    echo "worms. He was just curious."
-    echo ""
-    echo "But one time, his brother was watching. And his brother loved worms."
+	echo "Usage: mix [SUBCOMMAND] [INPUT] [FLAGS]"
+	echo "mithrix, king of nothing, helper of nix."
+	echo ""
+	echo "Some helper nix commands, mix takes in subcommands and some flags or input after those"
+	echo "  mix check"
+	echo "    Checks if a reboot is required by checking checking the kernel, initrd, and kernel modules"
+	echo "    takes in no options or flags"
+	echo "  mix diff [current | newest]?"
+	echo "    Gets differences between closures. 'current' (default) compares the booted closure to the"
+	echo "    current closure, while 'newest' compares the booted closure to the newest one"
+	echo "  mix gc [--system]?"
+	echo "    Runs garbage collect on generations, removing generations older than seven days"
+	echo "    Pass in '--system' to use sudo to clean (for more cleaning)"
+	echo "  mix dev [template]?"
+	echo "    Initializes a flake template in the current directory. Pass in 'template' if you know which"
+	echo "    template to use, otherwise you will be prompted for one"
+	echo "  mix change-password"
+	echo "    Prompts for a password change of the current user, used only for impermanence to store a hashed"
+	echo "    passwordfile to be persisted safely and securely"
+	echo "  mix bootstrap"
+	echo "    Provisions a new NixOS system using disko (experimental)"
+	echo "  mix search [term]"
+	echo "    Searches the nixpkg for the given term, forwards to 'nix search nixpkgs'"
+	echo "  mix home"
+	echo "    Changes directory to the root of the flake directory"
+	echo ""
+	echo "They knew to stay away from the wells - but they were just kids."
+	echo "And they just wanted to know."
+	echo ""
+	echo "They threw in dirt and stone and kifruit and starseed, watching as"
+	echo "they collapsed. Thorp! The gravity wells would swallow up anything."
+	echo "Glass and mud and silver. Wind. Heat. Pulsar radiation."
+	echo ""
+	echo "And when his brother wasn’t watching, Mithrix would throw in worms."
+	echo "Thorp! But only when he wasn’t watching. You see, his brother loved"
+	echo "worms. It would make him sad. But Mithrix didn’t care much about"
+	echo "worms. He was just curious."
+	echo ""
+	echo "But one time, his brother was watching. And his brother loved worms."
 }
- 
+
 # Checks if nix has to be rebooted by checking if the kernel, initrd, or
 # kernel-modules have changed.
 check() {
-    built_prefix="/nix/var/nix/profiles/system"
-    booted_prefix="/run/booted-system"
+	built_prefix="/nix/var/nix/profiles/system"
+	booted_prefix="/run/booted-system"
 
-    modules=("initrd" "kernel" "kernel-modules")
-    built_prefix="/nix/var/nix/profiles/system"
-    booted_prefix="/run/booted-system"
+	modules=("initrd" "kernel" "kernel-modules")
+	built_prefix="/nix/var/nix/profiles/system"
+	booted_prefix="/run/booted-system"
 
-    modules=("initrd" "kernel" "kernel-modules")
-    needs_reboot=false
-    for i in "${modules[@]}"; do
-	echo ""
-	echo "--- Checking '${i}' Changes ---"
-	built=$(readlink "${built_prefix}/${i}")
-	booted=$(readlink "${booted_prefix}/${i}")
-	pre=" "
-	if [ "$built" != "$booted" ]; then
-	    pre="x"
-	    needs_reboot=true
+	modules=("initrd" "kernel" "kernel-modules")
+	needs_reboot=false
+	for i in "${modules[@]}"; do
+		echo ""
+		echo "--- Checking '${i}' Changes ---"
+		built=$(readlink "${built_prefix}/${i}")
+		booted=$(readlink "${booted_prefix}/${i}")
+		pre=" "
+		if [ "$built" != "$booted" ]; then
+			pre="x"
+			needs_reboot=true
+		fi
+		echo "${pre} ${booted#*-} --> ${built#*-}"
+		echo ""
+	done
+
+	if $needs_reboot; then
+		echo "Reboot is needed!"
+	else
+		echo "Reboot is not needed..."
 	fi
-	echo "${pre} ${booted#*-} --> ${built#*-}"
-	echo ""
-    done
-
-    if $needs_reboot; then
-	echo "Reboot is needed!"
-    else
-	echo "Reboot is not needed..."
-    fi
 }
 
 # Prints the differences between two closures. The default, when no arguements
-# is providied, is to perform boot comparison  
+# is providied, is to perform boot comparison
 #
 #   $1(optional): comparison type: current (default), newest
 #
@@ -98,12 +98,12 @@ check() {
 # * Newest compares the newest closure with the booted one
 # Example usage: 'mix diff', 'mix diff current', 'mix diff newest'
 diff() {
-    if [ -z "${1}" ] || [ "${1}" = "current" ]; then
-	nix store diff-closures /run/booted-system /run/current-system
-    elif [ "${1}" = "newest" ]; then
-	new=$(ls /nix/var/nix/profiles/ | tail -n 1)
-	nix store diff-closures /run/booted-system "/nix/var/nix/profiles/${new}"
-    fi
+	if [ -z "${1}" ] || [ "${1}" = "current" ]; then
+		nix store diff-closures /run/booted-system /run/current-system
+	elif [ "${1}" = "newest" ]; then
+		new=$(ls /nix/var/nix/profiles/ | tail -n 1)
+		nix store diff-closures /run/booted-system "/nix/var/nix/profiles/${new}"
+	fi
 }
 
 # Runs garbage collect on generations older than a week. I find this to be a
@@ -113,11 +113,11 @@ diff() {
 #
 # Example usage: 'mix gc', 'mix gc --system'
 gc() {
-    nix-collect-garbage --delete-older-than 7d 
-    if [ "$#" = 1 ] && [ "$1" = "--system" ]; then
-	 read -sr -p "Enter your password: " pw
-	 echo "$pw" | sudo -S nix-collect-garbage --delete-older-than 7d 
-    fi;
+	nix-collect-garbage --delete-older-than 7d
+	if [ "$#" = 1 ] && [ "$1" = "--system" ]; then
+		read -sr -p "Enter your password: " pw
+		echo "$pw" | sudo -S nix-collect-garbage --delete-older-than 7d
+	fi
 }
 
 # Initializes a flake using templates defined in "$FLAKE/templates". Passing
@@ -128,34 +128,34 @@ gc() {
 #
 # Example usage: `mix dev c`, `mix dev`
 dev() {
-    dir="${FLAKE}/templates"
-    if [ ! -d "$dir" ]; then
-	echo "Template directory $dir does not exist, aborting..."
-	exit 1
-    fi
+	dir="${FLAKE}/templates"
+	if [ ! -d "$dir" ]; then
+		echo "Template directory $dir does not exist, aborting..."
+		exit 1
+	fi
 
-    template=$1
-    if [ -z "${template}" ]; then
-	mapfile -t -d ' ' templates < <(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \')
+	template=$1
+	if [ -z "${template}" ]; then
+		mapfile -t -d ' ' templates < <(nix flake show "$dir" --json --no-pretty | jq -r '.templates | keys | @sh' | tr -d \')
 
-	PS3="Choose a template (enter number): "
-	select choice in "${templates[@]}"; do
-	    if [ "$REPLY" -le "${#templates[@]}" ]; then
-		echo "Using '${choice}' template"
-		template="$choice"
-		break
-	    else
-		echo "Using 'default' template"
-		break
-	    fi
-	done
-    fi
-    
-    if [ -n "$template" ]; then
-	nix flake init -t "${dir}#${template}"
-    else
-	echo "Aborting, no template was instantiated..."
-    fi
+		PS3="Choose a template (enter number): "
+		select choice in "${templates[@]}"; do
+			if [ "$REPLY" -le "${#templates[@]}" ]; then
+				echo "Using '${choice}' template"
+				template="$choice"
+				break
+			else
+				echo "Using 'default' template"
+				break
+			fi
+		done
+	fi
+
+	if [ -n "$template" ]; then
+		nix flake init -t "${dir}#${template}"
+	else
+		echo "Aborting, no template was instantiated..."
+	fi
 }
 
 # TODO: this should set strict permissions on the password
@@ -167,111 +167,111 @@ dev() {
 #
 # The script will then prompt you for the passwords. The password is hashed using
 # yescript. This requires directly calling sudo as it is way more priviledged than
-# something like garbage collecting some random person's old nix profiles.  
+# something like garbage collecting some random person's old nix profiles.
 change-password() {
-    username="$1"
-    read -sr -p "Enter your new password: " pw1
-    echo
-    read -sr -p "Enter the password again: " pw2
-    echo
+	username="$1"
+	read -sr -p "Enter your new password: " pw1
+	echo
+	read -sr -p "Enter the password again: " pw2
+	echo
 
-    if [ "$pw1" -ne "$pw2" ]; then
-	echo "Passwords do not match"
-	exit 1
-    elif [ -z "$pw1" ]; then
-	echo "Password is empty"
-	exit 1
-    fi
+	if [ "$pw1" -ne "$pw2" ]; then
+		echo "Passwords do not match"
+		exit 1
+	elif [ -z "$pw1" ]; then
+		echo "Password is empty"
+		exit 1
+	fi
 
-    mkpasswd -m yescrypt "$pw1" > "\nix\persist\passwords\$username"
+	mkpasswd -m yescrypt "$pw1" >"\nix\persist\passwords\${username}"
 }
 
 # Bootstraps the NixOS system. EXPERIMENTAL, have not tried this script out.
 # Example usage: `mix boot strap host /dev/sda1`
 bootstrap() {
-    host="$1"
-    disk="$2"
-    count="5"
+	host="$1"
+	disk="$2"
+	count="5"
 
-    if [ -z "$host" ] || [ -z "$disk" ]; then
-	echo "Please provide host and disk"
-	exit 1
-    fi
+	if [ -z "$host" ] || [ -z "$disk" ]; then
+		echo "Please provide host and disk"
+		exit 1
+	fi
 
-    echo "Bootstrapping NixOS on host ${host} with disk ${disk} in five seconds!"
-    echo "----------------------------------------------------------------------"
-    while [ "$count" -ge 0 ]; do
-	echo "..."
-	sleep 1
-	count=$((count - 1))
-    done
+	echo "Bootstrapping NixOS on host ${host} with disk ${disk} in five seconds!"
+	echo "----------------------------------------------------------------------"
+	while [ "$count" -ge 0 ]; do
+		echo "..."
+		sleep 1
+		count=$((count - 1))
+	done
 
-    echo
-    echo "Parititioning disk now!"
-    echo "------------------------"
+	echo
+	echo "Parititioning disk now!"
+	echo "------------------------"
 
-    cd "$host" || exit 1
-    nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount disko.nix
+	cd "$host" || exit 1
+	nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount disko.nix
 
-    echo "Paritioning finished, review the new structure!"
-    echo "-----------------------------------------------"
-    mount | grep /mnt
+	echo "Paritioning finished, review the new structure!"
+	echo "-----------------------------------------------"
+	mount | grep /mnt
 
-    read -pr "Press enter to continue: "
-    echo
+	read -pr "Press enter to continue: "
+	echo
 
-    echo "Generating hardware configuration and installing NixOS!" 
-    echo "-------------------------------------------------------" 
+	echo "Generating hardware configuration and installing NixOS!"
+	echo "-------------------------------------------------------"
 
-    nixos-generate-config --no-filesystems --root /mnt
-    cp -r "$PWD" /mnt/etc/nixos/*
-    cd /mnt/etc/nixos/ || exit
-    mv "hardware-configuration.nix" "hosts/${host}"
-    nixos-install --flake ".#${host}"
+	nixos-generate-config --no-filesystems --root /mnt
+	cp -r "$PWD" /mnt/etc/nixos/*
+	cd /mnt/etc/nixos/ || exit
+	mv "hardware-configuration.nix" "hosts/${host}"
+	nixos-install --flake ".#${host}"
 
-    echo "All done, NixOS has been installed successfully!" 
-    echo "------------------------------------------------"
-    echo "Before you reboot, make sure to change password and move this directory to your home directory if using something like impermanence"
+	echo "All done, NixOS has been installed successfully!"
+	echo "------------------------------------------------"
+	echo "Before you reboot, make sure to change password and move this directory to your home directory if using something like impermanence"
 }
 
 search() {
-    if [ "$#" = 0 ]; then
-	echo "Please provide a search term"
-    else
-	nix search nixpkgs "$@"
-    fi
+	if [ "$#" = 0 ]; then
+		echo "Please provide a search term"
+	else
+		nix search nixpkgs "$@"
+	fi
 }
 
 if [ "$#" = 0 ]; then
-    help
-    exit 1
+	help
+	exit 1
 fi
 
 action="${1}"
 shift
 case "${action}" in
-    "diff")
-	diff "$@"
-	;;
-    "check")
-	check "$@"
-	;;
-    "gc")
-	gc "$@"
-	;;
-    "dev")
-	dev "$@"
-	;;
-    "change-password")
-	change-password "$@"
-	;;
-    "bootstrap")
-	bootstrap "$@"
-	;;
-    "search")
-	search "$@"
-	;;
-    *)
-	help
-	;;
+	"diff")
+		diff "$@"
+		;;
+	"check")
+		check "$@"
+		;;
+	"gc")
+		gc "$@"
+		;;
+	"dev")
+		dev "$@"
+		;;
+	"change-password")
+		change-password "$@"
+		;;
+	"bootstrap")
+		bootstrap "$@"
+		;;
+	"search")
+		search "$@"
+		;;
+	*)
+		help
+		;;
 esac
