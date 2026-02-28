@@ -99,6 +99,8 @@ in {
             # inkscape tex insert
             standalone
             koma-script
+            # emacs
+            dvipng
             # compiler and formatter
             latexindent
             latexmk

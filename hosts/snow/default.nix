@@ -111,6 +111,7 @@
         keepassxc
         syncthing
         openconnect
+        freerdp
         # renderdoc
         qemu
         podman-compose
