@@ -1,3 +1,3 @@
 {
-  imports = [./hardware.nix ./presets.nix ./profile.nix ./persist.nix];
+  imports = [./hardware.nix ./profile.nix ./persist.nix];
 }

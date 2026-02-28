@@ -17,10 +17,11 @@ in {
     tex.enable = mkEnableOption "texlive";
     embedded.enable = mkEnableOption "embedded";
     kube.enable = mkEnableOption "kube";
+    podman.enable = mkEnableOption "podman";
   };
 
   config = mkMerge [
-    # Stockholm c and cpp
+    # Stockholm syndrome: c and cpp
     (mkIf cfg.cc.enable {
       home.packages = with pkgs; [
         clang-tools
@@ -30,7 +31,7 @@ in {
       ];
     })
 
-    # Evil borrow checker rust
+    # Evil borrow checker
     (mkIf cfg.rust.enable {
       home.environment.sessionVariables."CARGO_HOME" = "${config.xdgdir.data}/cargo";
       home.packages = with pkgs; [
@@ -46,8 +47,7 @@ in {
       home.environment.sessionVariables."_JAVA_OPTIONS" = "-Djava.util.prefs.userRoot=${config.xdgdir.config}/java";
     })
 
-    # Mandatory tex
-    # Are texnomancers developers?
+    # Mandatory tex: are texnomancers developers?
     (mkIf cfg.tex.enable {
       home.packages = [
         (pkgs.texlive.combine {
@@ -114,12 +114,12 @@ in {
       ];
     })
 
-    # shellfish shell
+    # Shellfish shell
     (mkIf cfg.sh.enable {
       home.packages = [pkgs.shellcheck-minimal];
     })
 
-    # sadness
+    # Pure embedded sadness
     (mkIf cfg.embedded.enable {
       # stm32cubemx spits like a thousand gunk into the home directoy
       # so force into the fake home
@@ -139,12 +139,22 @@ in {
       ];
     })
 
-    # for k8 of course, since I have to use openshift occasionally, I
+    # For k8 of course, since I have to use OpenShift occasionally, I
     # prefer to pull kube or oc depending on the project with flakes
     (mkIf cfg.kube.enable {
       # xdg
       home.environment.sessionVariables."KUBECONFIG" = "${config.xdgdir.config}/kube";
       home.environment.sessionVariables."KUBECACHEDIR" = "${config.xdgdir.cache}/kube";
+    })
+
+    # Containers for containing my anger
+    (mkIf cfg.podman.enable {
+      virtualisation.containers.enable = true;
+      virtualisation.podman = {
+        enable = true;
+        dockerCompat = true;
+        defaultNetwork.settings.dns_enabled = true;
+      };
     })
   ];
 }

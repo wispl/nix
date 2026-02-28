@@ -38,19 +38,13 @@
     theme = "kanagawa";
     git.enable = true;
     profile = "workstation";
-    hardware = ["redist" "bluetooth" "audio" "tlp"];
+    hardware = ["redist" "bluetooth" "audio" "tlp" "iwd"];
     persist = {
       enable = true;
       directories = [
         "/var/lib/iwd" # save network configurations
         "/var/lib/netbird" # for netbird connections
       ];
-    };
-    presets = {
-      wayland.enable = true;
-      podman.enable = true;
-      iwd.enable = true;
-      fonts.enable = true;
     };
     editors = {
       default = "nvim";
@@ -93,6 +87,7 @@
         tex.enable = true;
         java.enable = true;
         kube.enable = true;
+        podman.enable = true;
         embedded.enable = true;
       };
       shell = {

@@ -2,6 +2,9 @@
 # enabled along with an idle service, notification service, bar, and
 # lockscreen. Oh and xdg is also enabled, it has desktop in its name after all.
 # Some small tweaks are also made to gtk and cursor.
+#
+# Way man, take me by the hand, lead me to the land that you understand
+# Sorry
 {
   config,
   lib,
@@ -71,7 +74,38 @@ in {
       cfg.cursor.package
     ];
 
-    # cursor theme
+    # Fonts
+    fonts.packages = with pkgs; [
+      wqy_zenhei # good enough cjk coverage
+      dejavu_fonts # good overall coverage
+      nerd-fonts.fantasque-sans-mono # programming font of choice
+      nerd-fonts.symbols-only # not sure why I have this?
+      julia-mono # extensive math coverage
+    ];
+
+    # Wayland setup
+    hardware.graphics.enable = true;
+    # Some stuff for swaylock
+    security = {
+      polkit.enable = true;
+      pam.services.swaylock = {};
+      pam.loginLimits = [
+        {
+          domain = "@users";
+          item = "rtprio";
+          type = "-";
+          value = 1;
+        }
+      ];
+    };
+    # I only use screencasting so wlr is good enough
+    xdg.portal = {
+      enable = true;
+      wlr.enable = true;
+      config.common.default = "wlr";
+    };
+
+    # Cursor theme
     home.environment.sessionVariables = {
       XCURSOR_PATH = "\${XCURSOR_PATH}:~/.local/share/icons";
 
@@ -79,7 +113,7 @@ in {
       XCURSOR_THEME = cfg.cursor.name;
     };
 
-    # use adw-gtk3 to have consistent themes between gtk4 and gtk3
+    # Use adw-gtk3 to have consistent themes between gtk4 and gtk3
     home.xdg.config.files = {
       "gtk-3.0/gtk.css".text = css;
       "gtk-4.0/gtk.css".text = css;
@@ -111,7 +145,7 @@ in {
       XDG_VIDEOS_DIR = "$HOME";
     };
 
-    # this is used by some apps
+    # This is used by some apps
     home.xdg.config.files = {
       "user-dirs.dirs".text = ''
         XDG_DESKTOP_DIR="$HOME/"
@@ -129,7 +163,7 @@ in {
       '';
     };
 
-    # swaylock
+    # Swaylock
     home.xdg.config.files."swaylock/config".text = ''
       indicator-radius=75
       color=${background}
@@ -191,7 +225,7 @@ in {
     #   wantedBy = ["graphical-session.target"];
     # };
 
-    # use non-chayang until niri adds wp_single_pixel_buffer_manager_v1
+    # Use non-chayang until niri adds wp_single_pixel_buffer_manager_v1
     # also use niri to power off monitor, until niri adds wlr_power_management
     systemd.user.services.swayidle = {
       unitConfig = {
@@ -214,7 +248,7 @@ in {
       wantedBy = ["graphical-session.target"];
     };
 
-    # notification daemon
+    # Notification daemon
     # mako starts itself when it receives a notification so there is no need to
     # make a service file.
     dbus.packages = [pkgs.mako];

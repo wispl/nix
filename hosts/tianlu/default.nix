@@ -17,7 +17,7 @@
     username = "wisp";
     git.enable = true;
     profile = "server";
-    hardware = ["redist"];
+    hardware = ["redist" "iwd"];
     persist = {
       enable = true;
       directories = [
@@ -30,9 +30,6 @@
         ".config"
         ".ssh"
       ];
-    };
-    presets = {
-      iwd.enable = true;
     };
     editors = {
       default = "nvim";
