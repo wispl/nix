@@ -10,7 +10,7 @@
   inherit (lib) mkOption filterAttrs isType mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib.types) str;
 in {
-  imports = [./home.nix ./dbus.nix ./common.nix ./system ./packages ./desktop ./config];
+  imports = [./home.nix ./dbus.nix ./system ./packages ./desktop ./config];
 
   options.user = {
     name = mkOption {
@@ -34,7 +34,7 @@ in {
       # initialPassword = "password";
       hashedPasswordFile = "/nix/persist/passwords/${config.user.name}";
       isNormalUser = true;
-      extraGroups = ["wheel"]; # Enable ‘sudo’ for the user.
+      extraGroups = ["wheel"]; # Enable 'sudo' for the user.
     };
 
     # Nice nix settings
@@ -66,5 +66,28 @@ in {
         value.source = value.flake;
       })
       config.nix.registry;
+
+    boot = {
+      # Use the systemd-boot EFI boot loader.
+      loader.systemd-boot.enable = true;
+      loader.efi.canTouchEfiVariables = true;
+      loader.systemd-boot.configurationLimit = lib.mkDefault 10;
+      loader.systemd-boot.editor = lib.mkDefault false;
+
+      bcache.enable = false;
+      tmp.useTmpfs = true;
+    };
+
+    # Swap but on ram, great for btrfs so I don't have to
+    # make a swapfile.
+    zramSwap.enable = true;
+
+    # Use nftables for firewall, cooler than iptables, iptables is like
+    # calling a grapefruit a fruit.
+    networking.nftables.enable = true;
+
+    # Use dbus broker as the dbus implementation, this comes with the caveat
+    # of a lot of ignored "..." file errors, which are apparently harmless.
+    services.dbus.implementation = "broker";
   };
 }
