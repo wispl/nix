@@ -151,8 +151,8 @@ findbar::after{
   border: none !important;
 }
 
-#vertical-tabs {
-  margin-top: 88px;
+#tabbrowser-tabs {
+  padding-top: 88px;
 }
 
 #urlbar-container {
