@@ -14,6 +14,10 @@
       path = ./python;
       description = "Basic environment for Python";
     };
+    templates.embedded = {
+      path = ./embedded;
+      description = "Basic environment for doom and despair";
+    };
 
     templates.default = self.templates.c;
   };

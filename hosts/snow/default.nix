@@ -52,7 +52,6 @@
       emacs.enable = true;
     };
     services = {
-      mpd.enable = true;
       ssh-agent.enable = true;
       psd.enable = true;
     };
@@ -88,7 +87,6 @@
         java.enable = true;
         kube.enable = true;
         podman.enable = true;
-        embedded.enable = true;
       };
       shell = {
         bash.enable = true;
