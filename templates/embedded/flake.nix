@@ -15,15 +15,17 @@
   }:
     flake-utils.lib.eachDefaultSystem (
       system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-        # pkgs = import nixpkgs.legacyPackages.${system} {
-        #   overlays = [ (import "${nixpkgs-esp-dev}/overlay.nix") ];
-        # };
+        pkgs = import nixpkgs {
+          system = "${system}";
+          config.allowUnfree = true;
+          #   overlays = [ (import "${nixpkgs-esp-dev}/overlay.nix") ];
+        };
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             gcc-arm-embedded
             cmake
+            ninja
             openocd
             # stm32 stuff
             # stm32cubemx spits like a thousand gunk into the home directoy
@@ -38,7 +40,7 @@
             stlink-gui
 
             # Alternatively https://github.com/mirrexagon/nixpkgs-esp-dev
-            # esptool
+            # esp-idf-full
           ];
           shellHook = ''
             export OPENOCD_PATH=${pkgs.openocd}
