@@ -35,76 +35,7 @@
       default = "nvim";
       nvim.enable = true;
     };
-    packages.extras = with pkgs; [vim alejandra openssl];
-  };
-
-  # incus
-  users.users.wisp.extraGroups = ["incus-admin"];
-
-  networking.firewall.interfaces.incusbr0.allowedTCPPorts = [53 67];
-  networking.firewall.interfaces.incusbr0.allowedUDPPorts = [53 67];
-  virtualisation.incus = {
-    enable = true;
-    ui.enable = true;
-    package = pkgs.incus;
-  };
-  virtualisation.incus.preseed = {
-    config = {
-      "core.https_address" = ":8443";
-      "core.metrics_address" = ":8444";
-    };
-    networks = [
-      {
-        config = {
-          "ipv4.address" = "10.0.100.1/24";
-          "ipv6.address" = "none";
-          "ipv4.nat" = "true";
-        };
-        name = "incusbr0";
-        type = "bridge";
-      }
-    ];
-    profiles = [
-      {
-        name = "default";
-        devices = {
-          eth0 = {
-            name = "eth0";
-            network = "incusbr0";
-            type = "nic";
-          };
-          root = {
-            path = "/";
-            pool = "default";
-            type = "disk";
-          };
-        };
-      }
-    ];
-    storage_pools = [
-      {
-        config = {
-          source = "/var/lib/incus/storage-pools/default";
-        };
-        driver = "dir";
-        name = "default";
-      }
-    ];
-  };
-
-  networking.firewall.allowedTCPPorts = [80 22054 443 8443 8444];
-  networking.nftables.tables = {
-    nat = {
-      content = ''
-        chain prerouting {
-          type nat hook prerouting priority -100; policy accept;
-          ip daddr 10.0.0.121 tcp dport { 22054 } dnat to 10.0.100.50:53
-          ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
-          ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
-        }
-      '';
-      family = "ip";
-    };
+    packages.extras = with pkgs; [openssl];
   };
   system.stateVersion = "25.11";
 }

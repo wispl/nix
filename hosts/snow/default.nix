@@ -18,19 +18,14 @@
     "127.0.0.1" = ["localhost.edu" "api.localhost.edu" "cas.localhost.edu" "saml.localhost.edu" "admin.localhost.edu" "idp.localhost.edu"];
   };
 
+  users.extraGroups.plugdev = { };
+  users.extraUsers.wisp.extraGroups = [ "plugdev" ];
+  services.udev.packages = with pkgs; [ platformio-core.udev openocd ];
   services.flatpak.enable = true;
   services.fwupd.enable = true;
-  services.netbird.clients.default = {
-    port = 51820;
-    name = "netbird";
-    interface = "wt0";
-    hardened = true;
-  };
 
   # enable openssh, but do not run server by default (I use it ocassionally for scp)
-  services.openssh = {
-    enable = true;
-  };
+  services.openssh.enable = true;
   systemd.services.sshd.wantedBy = lib.mkForce [];
 
   modules = {
@@ -38,6 +33,7 @@
     theme = "kanagawa";
     git.enable = true;
     profile = "workstation";
+    wireguard = "netbird";
     hardware = ["redist" "bluetooth" "audio" "tlp" "iwd"];
     persist = {
       enable = true;
