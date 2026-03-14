@@ -31,7 +31,7 @@ in {
             font = "FantasqueSansM Nerd Font Mono:size=20,Julia Mono:size=18";
             pad = "40x40center";
           };
-          colors = {
+          colors-dark = {
             alpha = "0.99";
             foreground = "${config.colors.fg}";
             background = "${config.colors.bg}";
