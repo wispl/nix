@@ -108,13 +108,13 @@ in {
       networking.nftables.tables = {
         nat = {
           content = ''
-        chain prerouting {
-          type nat hook prerouting priority -100; policy accept;
-          ip daddr 10.0.0.121 tcp dport { 22054 } dnat to 10.0.100.50:53
-          ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
-          ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
-        }
-      '';
+            chain prerouting {
+              type nat hook prerouting priority -100; policy accept;
+              ip daddr 10.0.0.121 tcp dport { 22054 } dnat to 10.0.100.50:53
+              ip daddr 10.0.0.121 tcp dport { 80 } dnat to 10.0.100.50:80
+              ip daddr 10.0.0.121 tcp dport { 443 } dnat to 10.0.100.50:443
+            }
+          '';
           family = "ip";
         };
       };

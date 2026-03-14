@@ -31,10 +31,10 @@
             # stm32cubemx spits like a thousand gunk into the home directoy
             # so force into the fake home
             (writeShellScriptBin "stm32cubemx" ''
-                export HOME="$XDG_FAKE_HOME"
-                export _JAVA_AWT_WM_NONREPARENTING=1
-                export _JAVA_OPTIONS="''${_JAVA_OPTIONS} -Duser.home=''${XDG_FAKE_HOME}"
-                exec ${pkgs.stm32cubemx}/bin/stm32cubemx "$@"
+              export HOME="$XDG_FAKE_HOME"
+              export _JAVA_AWT_WM_NONREPARENTING=1
+              export _JAVA_OPTIONS="''${_JAVA_OPTIONS} -Duser.home=''${XDG_FAKE_HOME}"
+              exec ${pkgs.stm32cubemx}/bin/stm32cubemx "$@"
             '')
             stlink
             stlink-gui

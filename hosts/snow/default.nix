@@ -18,9 +18,9 @@
     "127.0.0.1" = ["localhost.edu" "api.localhost.edu" "cas.localhost.edu" "saml.localhost.edu" "admin.localhost.edu" "idp.localhost.edu"];
   };
 
-  users.extraGroups.plugdev = { };
-  users.extraUsers.wisp.extraGroups = [ "plugdev" ];
-  services.udev.packages = with pkgs; [ platformio-core.udev openocd ];
+  users.extraGroups.plugdev = {};
+  users.extraUsers.wisp.extraGroups = ["plugdev"];
+  services.udev.packages = with pkgs; [platformio-core.udev openocd];
   services.flatpak.enable = true;
   services.fwupd.enable = true;
 

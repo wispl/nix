@@ -15,7 +15,7 @@ in {
   };
 
   config = mkMerge [
-    # Enables evil, possibly proprietary updates 
+    # Enables evil, possibly proprietary updates
     (mkIf (elem "redist" cfg) {
       hardware.enableRedistributableFirmware = true;
     })

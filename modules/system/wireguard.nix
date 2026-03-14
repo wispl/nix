@@ -1,5 +1,5 @@
 # Wireguard, for VPNs. Sometimes I feel meshy and might use netbird. Or maybe I
-# don't feel meshy and might use the regular old guard itself. 
+# don't feel meshy and might use the regular old guard itself.
 {
   pkgs,
   lib,
