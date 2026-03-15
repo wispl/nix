@@ -21,8 +21,9 @@ in {
   config = mkMerge [
     (mkIf cfg.firefox.enable {
       home.packages = [pkgs.firefox];
-      home.files = {
-        ".mozilla/firefox/profiles.ini".text = ''
+      home.xdg.config.files = {
+        "mozilla/firefox/default/chrome/userChrome.css".text = builtins.readFile ../../config/firefox/userChrome.css;
+        "mozilla/firefox/profiles.ini".text = ''
           [General]
           StartWithLastProfile=1
           Version=2
@@ -39,7 +40,6 @@ in {
           Name=spare
           Path=spare
         '';
-        ".mozilla/firefox/default/chrome/userChrome.css".text = builtins.readFile ../../config/firefox/userChrome.css;
       };
     })
 
@@ -92,6 +92,13 @@ in {
           export _JAVA_OPTIONS="''${_JAVA_OPTIONS} -Duser.home=''${XDG_FAKE_HOME}"
           exec ${pkgs.openrocket}/bin/openrocket "$@"
         '')
+
+        (makeDesktopItem {
+            name = "OpenRocket";
+            desktopName = "OpenRocket";
+            exec = "openrocket";
+            terminal = false;
+        })
       ];
     })
   ];
