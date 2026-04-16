@@ -11,7 +11,7 @@
   cfg = config.modules.wireguard;
 in {
   options.modules.wireguard = {
-    type = mkOption {
+    variant = mkOption {
       type = str;
       description = "Wireguard preset, either wireguard or netbird";
       default = "";
@@ -29,7 +29,7 @@ in {
   };
 
   config = mkMerge [
-    (mkIf (cfg.type == "netbird") {
+    (mkIf (cfg.variant == "netbird") {
       services.netbird.clients.default = {
         port = 51820;
         name = "netbird";
@@ -38,7 +38,7 @@ in {
       };
     })
 
-    (mkIf (cfg.type == "wireguard") {
+    (mkIf (cfg.variant == "wireguard") {
       networking.wg-quick.interfaces.wg0 = {
         address = [ "192.168.2.1/24" ];
         dns = [ "10.0.0.51" ];
