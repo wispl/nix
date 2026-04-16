@@ -99,6 +99,8 @@ in {
             # inkscape tex insert
             standalone
             koma-script
+            # pandoc needs this
+            mdwtools
             # emacs
             dvipng
             dvips

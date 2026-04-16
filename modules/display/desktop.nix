@@ -30,7 +30,6 @@
     }
   '';
 in {
-  imports = [./ui.nix ./term.nix ./riverwm.nix ./niri.nix];
   options.modules.desktop = {
     enable = mkEnableOption "wayland desktop";
     cursor = {

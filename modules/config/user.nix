@@ -12,7 +12,6 @@
   inherit (lib.types) str;
   cfg = config.modules;
 in {
-  imports = [./colors.nix ./theme.nix ./editors.nix ./services.nix];
   options.modules = {
     username = mkOption {
       type = str;

@@ -50,8 +50,9 @@ in {
           START_CHARGE_THRESH_BAT0 = 75;
           STOP_CHARGE_THRESH_BAT0 = 80;
           NMI_WATCHDOG = 0;
-          # Breaks wifi a lot for me
+          # Disable power savings for network cards, the Qualcomm cards do not like it
           WIFI_PWR_ON_BAT = "off";
+          RUNTIME_PM_DRIVER_DENYLIST = "mei_me nouveau radeon xhci_hcd ath11k_pci";
         };
       };
     })
@@ -61,6 +62,7 @@ in {
       # Default DNS resolver for iwd, alternative is pure resolveconf
       services.resolved.enable = true;
       networking = {
+        dhcpcd.enable = false; # Use iwd's builtin dhcp client
         # Enables wireless support via iwd.
         wireless.iwd = {
           enable = true;
@@ -75,7 +77,6 @@ in {
             };
           };
         };
-        dhcpcd.enable = false; # Use iwd's builtin dhcp client
       };
     })
   ];

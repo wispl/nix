@@ -7,10 +7,12 @@
   config,
   ...
 }: let
-  inherit (lib) mkOption filterAttrs isType mapAttrs mapAttrs' mapAttrsToList;
+  inherit (lib) mkOption filterAttrs fileset isType mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib.types) str;
 in {
-  imports = [./home.nix ./dbus.nix ./system ./packages ./desktop ./config];
+  # imports = [./home.nix ./dbus.nix ./system ./packages ./desktop ./config];
+  # Recursively import everything here
+  imports = lib.fileset.toList (lib.fileset.fileFilter (file: file.name != "default.nix" && file.hasExt "nix") ./.);
 
   options.user = {
     name = mkOption {

@@ -37,6 +37,7 @@ in {
         fd
         enchant
         vips
+        poppler-utils
         (aspellWithDicts (dicts: with dicts; [en]))
       ];
       # Expose dictionaries for enchant to find

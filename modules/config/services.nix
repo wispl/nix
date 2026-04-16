@@ -11,6 +11,7 @@ in {
     mpd.enable = mkEnableOption "mpd";
     ssh-agent.enable = mkEnableOption "ssh-agent";
     psd.enable = mkEnableOption "psd";
+    btrfs-scrub.enable = mkEnableOption "btrfs-scrub";
   };
 
   config = mkMerge [
@@ -43,6 +44,10 @@ in {
         USE_BACKUP="yes"
         BACKUP_LIMIT=3
       '';
+    })
+
+    (mkIf cfg.btrfs-scrub.enable {
+      services.btrfs.autoScrub.enable = true;
     })
   ];
 }
