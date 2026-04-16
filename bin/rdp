@@ -1,2 +1,8 @@
 #!/usr/bin/env sh
-sdl-freerdp +clipboard /dynamic-resolution /u:"$1" /v:"$2"
+
+# FreeRDP command to add all the stuff I want:
+#   Enables clipboard sharing
+#   Dynamic resolution
+#   Remaps Caps Lock to Control
+#   Remaps Windows key to something else
+sdl-freerdp +clipboard /dynamic-resolution /kbd:remap:0x3a=0x1d,remap:0x15b=0x6a /u:"$1" /v:"$2"
