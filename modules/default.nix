@@ -10,8 +10,8 @@
   inherit (lib) mkOption filterAttrs fileset isType mapAttrs mapAttrs' mapAttrsToList;
   inherit (lib.types) str;
 in {
-  # imports = [./home.nix ./dbus.nix ./system ./packages ./desktop ./config];
-  # Recursively import everything here
+  # Recursively import under the modules directory. Of course we only import nix
+  # files and exclude default.nix files (otherwise this one gets imported as well)
   imports = lib.fileset.toList (lib.fileset.fileFilter (file: file.name != "default.nix" && file.hasExt "nix") ./.);
 
   options.user = {

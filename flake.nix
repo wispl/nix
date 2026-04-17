@@ -2,16 +2,16 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # Root filesystem on tmpfs (what if you filesystem has anmesia)
     impermanence.url = "github:nix-community/impermanence";
+    # Common hardware fixes
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    disko = {
-      url = "github:nix-community/disko/latest";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hjem = {
-      url = "github:feel-co/hjem";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # Declarative disk partitioning
+    disko.url = "github:nix-community/disko/latest";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    # Lightweight "homemanager"
+    hjem.url = "github:feel-co/hjem";
+    hjem.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {

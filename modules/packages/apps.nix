@@ -94,10 +94,10 @@ in {
         '')
 
         (makeDesktopItem {
-            name = "OpenRocket";
-            desktopName = "OpenRocket";
-            exec = "openrocket";
-            terminal = false;
+          name = "OpenRocket";
+          desktopName = "OpenRocket";
+          exec = "openrocket";
+          terminal = false;
         })
       ];
     })
