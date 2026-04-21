@@ -32,6 +32,10 @@
 in {
   options.modules.desktop = {
     enable = mkEnableOption "wayland desktop";
+    session = mkOption {
+      type = str;
+      description = "default session command for greetd";
+    };
     cursor = {
       package = mkOption {
         type = package;
@@ -50,27 +54,35 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      dconf # ...
-      brightnessctl # brightness control
-      wlopm # turn on and off display
-      grim # screenshot
-      slurp # grab area of screen
-      libnotify # notification
-      swaybg # set wallpaper
-      wf-recorder # screen record
-      wl-clipboard # clipboard
-      chayang # gradually dim screen before locking screen
+    assertions = [
+      {
+        assertion = cfg ? session;
+        message = "desktop is enabled but there is no session set for greetd";
+      }
+    ];
 
-      xdg-utils # mime and xdg-open
+    home.packages = with pkgs; [
+      cfg.cursor.package
+      dconf              # ...
+      brightnessctl      # brightness control
+      wlopm              # turn on and off display
+      grim               # screenshot
+      slurp              # grab area of screen
+      libnotify          # notification (notify-send)
+      swaybg             # set wallpaper
+      wf-recorder        # screen record
+      wl-clipboard       # clipboard
+      chayang            # gradually dim screen before locking screen
+
+      xdg-utils          # mime and xdg-open
 
       adwaita-icon-theme # icons
 
-      swaylock
-      swayidle
-      mako
-      adw-gtk3
-      cfg.cursor.package
+      swaylock           # screenlock
+      swayidle           # idle daemon
+      mako               # notification daemon
+      adw-gtk3           # gtk theme
+      tuigreet           # greeter
     ];
 
     # Fonts
@@ -97,6 +109,22 @@ in {
         }
       ];
     };
+
+    # Greetd
+    # This is a bit better than the tty autologin hack and also ensures
+    # if the compositor crashes we are not dropped into an unlocked session.
+    # Also environment sourcing works a bit better.
+    services.greetd = {
+      enable = true;
+      useTextGreeter = true;
+      settings = {
+        default_session = {
+          command = "${pkgs.tuigreet}/bin/tuigreet --time --window-padding 4 --cmd ${cfg.session}";
+          user = "greeter";
+        };
+      };
+    };
+    
     # I only use screencasting so wlr is good enough
     xdg.portal = {
       enable = true;

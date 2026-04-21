@@ -11,6 +11,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    modules.desktop.session = "niri-session";
     home.packages = with pkgs; [niri xwayland-satellite];
     home.xdg.config.files."niri/config.kdl".text =
       # kdl

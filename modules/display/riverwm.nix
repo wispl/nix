@@ -27,6 +27,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [river rivercarro];
+    modules.desktop.session = "river";
     home.xdg.config.files."river/init".source =
       pkgs.writeShellScript "init"
       ''
