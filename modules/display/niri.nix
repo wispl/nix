@@ -16,8 +16,9 @@ in {
     home.xdg.config.files."niri/config.kdl".text =
       # kdl
       ''
-        spawn-at-startup "eww" "open-many" "bar" "frame"
-        spawn-sh-at-startup "swaybg --mode fill -i $WALLPAPER"
+        spawn-at-startup "qs"
+        // spawn-at-startup "eww" "open-many" "bar" "frame"
+        // spawn-sh-at-startup "swaybg --mode fill -i $WALLPAPER"
         input {
             workspace-auto-back-and-forth
             keyboard {
@@ -139,6 +140,11 @@ in {
 
         layer-rule {
           match namespace="^wallpaper$"
+          place-within-backdrop true
+        }
+
+        layer-rule {
+          match namespace="^quickshell-wallpaper$"
           place-within-backdrop true
         }
 

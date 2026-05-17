@@ -38,6 +38,7 @@ in {
         enchant
         vips
         poppler-utils
+        ffmpegthumbnailer
         (aspellWithDicts (dicts: with dicts; [en]))
       ];
       # Expose dictionaries for enchant to find

@@ -12,6 +12,7 @@ in {
     waybar.enable = mkEnableOption "waybar";
     eww.enable = mkEnableOption "eww";
     quickshell.enable = mkEnableOption "quickshell";
+    mako.enable = mkEnableOption "mako";
   };
 
   config = mkMerge [
@@ -87,13 +88,43 @@ in {
     # gtk based widget system
     (mkIf cfg.eww.enable {
       home.packages = with pkgs; [inotify-tools mpc eww];
-      # TODO: symlink?
       home.xdg.config.files."eww".source = ../../config/eww;
     })
 
     # qtquick based widget system
     (mkIf cfg.quickshell.enable {
       home.packages = with pkgs; [quickshell];
+      services.upower.enable = true;
+      home.xdg.config.files."quickshell".source = ../../config/quickshell;
+    })
+
+    # simple notification daemon
+    (mkIf cfg.mako.enable {
+      # Notification daemon
+      # mako starts itself when it receives a notification so there is no need to
+      # make a service file.
+      home.packages = [pkgs.dbus];
+      dbus.packages = [pkgs.mako];
+      home.xdg.config.files."mako/config".text = ''
+        font=DejaVu Sans Mono 16
+        outer-margin=8
+        border-size=8
+        border-radius=4
+        icons=true
+        padding=10
+        default-timeout=3000
+        width=400
+        height=300
+
+        text-color=#${config.colors.fg}
+        background-color=#${config.colors.bg}
+        border-color=#${config.colors.bgDD}
+        progress-color=over #${config.colors.yellow}
+
+        [urgency=high]
+        border-color=#${config.colors.red}
+        default-timeout=0
+      '';
     })
   ];
 }

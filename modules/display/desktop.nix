@@ -63,26 +63,25 @@ in {
 
     home.packages = with pkgs; [
       cfg.cursor.package
-      dconf              # ...
-      brightnessctl      # brightness control
-      wlopm              # turn on and off display
-      grim               # screenshot
-      slurp              # grab area of screen
-      libnotify          # notification (notify-send)
-      swaybg             # set wallpaper
-      wf-recorder        # screen record
-      wl-clipboard       # clipboard
-      chayang            # gradually dim screen before locking screen
+      dconf # ...
+      brightnessctl # brightness control
+      wlopm # turn on and off display
+      grim # screenshot
+      slurp # grab area of screen
+      libnotify # notification (notify-send)
+      swaybg # set wallpaper
+      wf-recorder # screen record
+      wl-clipboard # clipboard
+      chayang # gradually dim screen before locking screen
 
-      xdg-utils          # mime and xdg-open
+      xdg-utils # mime and xdg-open
 
       adwaita-icon-theme # icons
 
-      swaylock           # screenlock
-      swayidle           # idle daemon
-      mako               # notification daemon
-      adw-gtk3           # gtk theme
-      tuigreet           # greeter
+      swaylock # screenlock
+      swayidle # idle daemon
+      adw-gtk3 # gtk theme
+      tuigreet # greeter
     ];
 
     # Fonts
@@ -124,7 +123,7 @@ in {
         };
       };
     };
-    
+
     # I only use screencasting so wlr is good enough
     xdg.portal = {
       enable = true;
@@ -274,30 +273,5 @@ in {
       };
       wantedBy = ["graphical-session.target"];
     };
-
-    # Notification daemon
-    # mako starts itself when it receives a notification so there is no need to
-    # make a service file.
-    dbus.packages = [pkgs.mako];
-    home.xdg.config.files."mako/config".text = ''
-      font=DejaVu Sans Mono 16
-      outer-margin=8
-      border-size=8
-      border-radius=4
-      icons=true
-      padding=10
-      default-timeout=3000
-      width=400
-      height=300
-
-      text-color=#${config.colors.fg}
-      background-color=#${config.colors.bg}
-      border-color=#${config.colors.bgDD}
-      progress-color=over #${config.colors.yellow}
-
-      [urgency=high]
-      border-color=#${config.colors.red}
-      default-timeout=0
-    '';
   };
 }

@@ -22,7 +22,7 @@
     theme = "kanagawa";
     git.enable = true;
     profile = "workstation";
-    wireguard.variant = "netbird";
+    # wireguard.variant = "netbird";
     hardware = ["redist" "bluetooth" "audio" "tlp" "iwd"];
     persist = {
       enable = true;
@@ -55,6 +55,7 @@
       ui = {
         fuzzel.enable = true;
         eww.enable = true;
+        quickshell.enable = true;
       };
     };
     packages = {
@@ -89,11 +90,10 @@
         keepassxc
         syncthing
         openconnect
-        freerdp
+        # freerdp
         # renderdoc
         qemu
         podman-compose
-        quickshell
         rnote
         freecad
       ];
