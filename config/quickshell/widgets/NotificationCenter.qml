@@ -21,7 +21,7 @@ PopupWindow {
     implicitWidth: 480
     implicitHeight: 900
     color: "transparent"
-    visible: true
+    visible: false
 
     IpcHandler {
 	target: "notificationCenter"
