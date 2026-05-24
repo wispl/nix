@@ -244,9 +244,32 @@ PanelWindow {
 
 	    // Notification Button
 	    IconButton {
-		iconString: "󰗣"
-		fontSize: Fonts.size.icons
+		leftPadding: 4
+		rightPadding: 4
+		iconString: ""
+		fontSize: Fonts.size.smallIcons
 		backgroundColor: Colors.bg
+	    }
+
+	    // Profile
+	    BarItem {
+		implicitWidth: 24
+		implicitHeight: 24
+		border.width: 2
+		border.color: Colors.green
+		radius: 10000
+		WrapperMouseArea {
+		    anchors.fill: parent
+		    cursorShape: Qt.PointingHandCursor 
+		    Image {
+			anchors.fill: parent
+			asynchronous: true
+			fillMode: Image.PreserveAspectCrop
+			source: "/home/wisp/.local/state/profile.png"
+			sourceSize.width: 28
+			sourceSize.height: 28
+		    }
+		}
 	    }
 	}
     }

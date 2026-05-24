@@ -8,7 +8,7 @@ Singleton {
     id: root
     readonly property var list: server.trackedNotifications
     property var timers: []
-    /* property var saved: [] */
+    property var saved: []
 
     NotificationServer {
 	id: server
@@ -36,6 +36,7 @@ Singleton {
             interval: timer.notification.expireTimeout > 0 ? timer.notification.expireTimeout : 5000
             onTriggered: {
 		timer.notification.expire();
+		saved = [timer.notification, ...saved];
             }
         }
 	readonly property var connection: Connections {
@@ -56,10 +57,17 @@ Singleton {
     }
 
     function dismiss(notif) {
-	/* saved.shift(notif); */
-	/* if (saved.length > 5) { */
-	/*     saved.pop(); */
-	/* } */
+	let data = {
+	    summary: notif.summary,
+	    body: notif.body,
+	    image: notif.image,
+	    appIcon: notif.appIcon
+	};
+	saved = [data, ...saved];
 	notif.dismiss();
+    }
+
+    function clearSaved() {
+	saved = [];
     }
 }

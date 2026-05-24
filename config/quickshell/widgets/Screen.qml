@@ -16,8 +16,5 @@ PanelWindow {
     mask: Region { } // Pass all inputs through
 
     NotificationList { parentId: root }
-
-    /* NotificationCenter { */
-    /* 	parentId: root */
-    /* } */
+    NotificationCenter { parentId: root }
 }

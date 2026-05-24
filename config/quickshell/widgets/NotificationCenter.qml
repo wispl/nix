@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Wayland
+import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -10,87 +11,161 @@ import "../components"
 import "../data"
 
 PopupWindow {
-    id: popup
+    id: notificationCenter
     required property var parentId
     anchor.window: parentId
 
     anchor.rect.x: parentWindow.width - implicitWidth - 16
     anchor.rect.y: 16
 
-    implicitWidth: 500
-    implicitHeight: parentWindow.height - 32 - 150
+    implicitWidth: 480
+    implicitHeight: 900
     color: "transparent"
-    /* color: Colors.bg */
     visible: true
 
-    WrapperRectangle {
-	id: wrapper
+    IpcHandler {
+	target: "notificationCenter"
+	function toggle(): void { notificationCenter.visible = !notificationCenter.visible; }
+    }
+
+    Column {
+	spacing: 0
 	anchors.fill: parent
-	/* color: "transparent" */
-	color: Colors.bg
-	radius: 8
-	ColumnLayout {
-	    spacing: 12
-	    anchors.fill: parent
+
+	WrapperRectangle {
+	    width: notificationCenter.implicitWidth
+	    topLeftRadius: 8
+	    topRightRadius: 8
+
+	    topMargin: 8
+	    bottomMargin: 8
+
+	    Layout.alignment: Qt.AlignTop
+	    implicitWidth: parent.implicitWidth
+	    color: Qt.darker(Colors.magenta, 4.2);
+
+	    NormalText {
+		color: Colors.magenta
+		text: " Working hard or hardly working?"
+	    }
+	}
+
+	DashboardBox {
+	    implicitHeight: 150
 	    WrapperRectangle {
-		width: popup.implicitWidth
-		radius: wrapper.radius
-		bottomLeftRadius: 0
-		bottomRightRadius: 0
+		implicitHeight: 150
+		anchors {
+		    left: parent.left
+		    right: parent.right
+		    top: parent.top
+		    bottom: parent.bottom
+		    leftMargin: 12
+		    rightMargin: 12
+		    topMargin: 12
+		    bottomMargin: 12
+		}
+		color: Colors.bg
+		radius: 8
+		RowLayout {
+		    spacing: 8
+		    ClippingWrapperRectangle {
+			Layout.leftMargin: 20
+			implicitWidth: 80
+			implicitHeight: 80
+			radius: 100
+			border.width: 2
+			border.color: Colors.magenta
+			Image {
+			    asynchronous: true
+			    fillMode: Image.PreserveAspectCrop
+			    source: "/home/wisp/.local/state/profile.png"
+			    sourceSize.width: 80
+			    sourceSize.height: 80
+			}
+		    }
 
-		topMargin: 8
-		bottomMargin: 8
-
-		Layout.alignment: Qt.AlignTop
-		implicitWidth: parent.implicitWidth
-		color: Colors.bgD
-
-		NormalText {
-		    color: Colors.magenta
-		    text: " Working hard or hardly working?"
+		    ColumnLayout {
+			spacing: 16
+			NormalText {
+			    font.pointSize: Fonts.size.large
+			    text: "Hello, wisp" 
+			}
+			NormalText {
+			    text: "\"Getting hit by a brick hurts\""
+			}
+		    }
 		}
 	    }
+	}
+
+	DashboardBox {
+	    bottomLeftRadius: 8
+	    bottomRightRadius: 8
+	    implicitHeight: 700
 	    WrapperRectangle {
-		anchors.left: parent.left
-		anchors.right: parent.right
-		radius: wrapper.radius
-		anchors.leftMargin: 16
-		anchors.rightMargin: 16
-		topMargin: 16
-		bottomMargin: 16
-		leftMargin: 16
-		rightMargin: 16
-		color: Colors.bgDD
+		color: Colors.bg
+		radius: 8
+		anchors {
+		    fill: parent
+		    leftMargin: 12
+		    rightMargin: 12
+		    bottomMargin: 16
+		}
+		ColumnLayout {
+		    id: column
+		    spacing: 0
+		    anchors {
+			fill: parent
+			leftMargin: 12
+			rightMargin: 12
+			topMargin: 12
+		    }
 
-		WrapperRectangle {
-		    topMargin: 8
-		    bottomMargin: 8
-		    leftMargin: 16
-		    rightMargin: 16
-
-		    radius: wrapper.radius
-		    color: Colors.bgD
 		    RowLayout {
-			spacing: 6
-			Repeater {
-			    model: ["All", "Some", "None"]
-			    Button {
-				required property string modelData
-				leftPadding: 14
-				rightPadding: 14
-				background: Rectangle {
-				    color: parent.hovered ? Colors.bgLLL : Colors.bgD
-				    radius: 4
-				}
-				contentItem: NormalText {
-				    text: modelData
-				}
+			Layout.alignment: Qt.AlignTop
+			Layout.bottomMargin: 12
+			Layout.preferredWidth: parent.width
+
+			NormalText {
+			    font.pointSize: Fonts.size.large
+			    text: "Notifications"
+			}
+			IconButton {
+			    Layout.alignment: Qt.AlignRight
+			    iconString: "  clear"
+			    fontColor: Colors.bg
+			    backgroundColor: Colors.red
+			    fontSize: Fonts.size.smallIcons
+			    onClicked: { Notifications.clearSaved() }
+			}
+		    }
+
+		    Rectangle {
+			Layout.preferredWidth: parent.width
+			Layout.preferredHeight: parent.height - 64
+			color: "transparent"
+			ListView {
+			    model: Notifications.saved
+
+			    spacing: 12
+			    clip: true
+			    anchors.fill: parent
+
+			    delegate: NotificationPopup {
+				required property var modelData
+				width: column.width
+
+				isSaved: true
+				notif: modelData
+				alignment: Qt.AlignRight
+				minWidth: 1 // these don't matter for list view 
+				maxWidth: 1 // these don't matter for list view 
+				borderColor: Colors.bgL
 			    }
 			}
 		    }
 		}
 	    }
 	}
-	
     }
 }
