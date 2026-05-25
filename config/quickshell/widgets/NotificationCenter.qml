@@ -1,7 +1,6 @@
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Wayland
-import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -21,12 +20,7 @@ PopupWindow {
     implicitWidth: 480
     implicitHeight: 900
     color: "transparent"
-    visible: false
-
-    IpcHandler {
-	target: "notificationCenter"
-	function toggle(): void { notificationCenter.visible = !notificationCenter.visible; }
-    }
+    visible: true
 
     Column {
 	spacing: 0

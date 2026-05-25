@@ -35,8 +35,14 @@ Singleton {
             running: true
             interval: timer.notification.expireTimeout > 0 ? timer.notification.expireTimeout : 5000
             onTriggered: {
+		let data = {
+		    summary: timer.notification.summary,
+		    body: timer.notification.body,
+		    image: timer.notification.image,
+		    appIcon: timer.notification.appIcon
+		};
+		saved = [data, ...saved];
 		timer.notification.expire();
-		saved = [timer.notification, ...saved];
             }
         }
 	readonly property var connection: Connections {

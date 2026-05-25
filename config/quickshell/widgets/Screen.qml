@@ -1,5 +1,6 @@
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Io
 import QtQuick
 
 // An invisible widget which covers the entire screen. Used for popups like
@@ -16,5 +17,14 @@ PanelWindow {
     mask: Region { } // Pass all inputs through
 
     NotificationList { parentId: root }
-    NotificationCenter { parentId: root }
+
+    LazyLoader {
+        id: notificationCenter
+        NotificationCenter { parentId: root }
+    }
+
+    IpcHandler {
+	target: "notificationCenter"
+	function toggle(): void { notificationCenter.active = !notificationCenter.active; }
+    }
 }
