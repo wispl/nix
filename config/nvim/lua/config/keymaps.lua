@@ -1,5 +1,12 @@
 local map = vim.keymap.set
 
+local nmap = function(lhs, rhs, desc)
+  vim.keymap.set('n', lhs, rhs, { desc = desc })
+end
+local lmap = function(suffix, rhs, desc)
+  vim.keymap.set('n', '<Leader>' .. suffix, rhs, { desc = desc })
+end
+
 map("i", "jk", "<Esc>")
 
 map("n", "<leader>cc", function() require("config.compile").make() end)
@@ -16,13 +23,6 @@ map("i", "(<Cr>", "(<CR>)<Esc>O")
 map("i", "{<Cr>", "{<CR>}<Esc>O")
 -- spelling
 map("i", "<C-l>", "<c-g>u<Esc>[s1z=`]a<c-g>u")
-
--- toggle options
-map("n", "<leader>os", function() vim.opt_local.spell = not(vim.opt_local.spell:get()) end)
-map("n", "<leader>ow", function() vim.opt_local.wrap = not(vim.opt_local.wrap:get()) end)
-
--- diagnostic and quickfix
-map("n", "<leader>ol", "<cmd>lopen<cr>")
 
 -- LSP mappings, these are the defaults
 -- grn: vim.lsp.buf.rename()
@@ -63,3 +63,55 @@ map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 map("n", "yc", "yygccp", { remap = true })
+
+-- help
+nmap('hh', '<Cmd>Pick help<CR>',                         'Help tags')
+nmap('ht', '<Cmd>Pick hl_groups<CR>',                    'Help Highlight groups')
+
+-- mini.pick
+lmap('f', '<Cmd>Pick files<CR>',                        'Files')
+lmap('g', '<Cmd>Pick grep_live<CR>',                    'Grep live')
+lmap('b', '<Cmd>Pick buffers<CR>',                      'Buffers')
+lmap(':', '<Cmd>Pick history scope=":"<CR>',            '":" history')
+lmap('/', '<Cmd>Pick buf_lines scope="current"<CR>',    'Lines (buf)')
+lmap('d', '<Cmd>Pick diagnostic scope="all"<CR>',       'Diagnostic workspace')
+
+lmap("cl", function() require("lint").try_lint() end, "[C]ode [L]int")
+
+lmap("os", "<cmd>NvimTreeToggle<cr>", "Open Sidetree" )
+lmap("od", "<cmd>lopen<cr>", "Open diagnostics")
+
+-- TODO: make this one only trigger in .tex files
+lmap("lf", '<cmd>silent execute "!inkfig " . b:vimtex.root . "/figures/<cword>.svg"<cr>', "Inkscape Figures")
+
+-- { "<tab>",
+--   function()
+-- 	  return require("luasnip").expand_or_jumpable()
+-- 	      and "<Plug>luasnip-expand-or-jump"
+-- 	      or "<tab>"
+--   end,
+--   expr = true, silent = true, mode = "i",
+-- },
+-- { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
+-- { "<S-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+-- { "<C-f>",
+--   function()
+-- 	  if require("luasnip").choice_active() then
+-- 	      return require("luasnip").change_choice(1)
+-- 	  else
+-- 	      return require("config.luasnip").dynamic_node_external_update(1)
+-- 	  end
+--   end,
+--   silent = true, mode = { "i", "s" },
+-- },
+-- { "<C-b>",
+--   function()
+-- 	  if require("luasnip").choice_active() then
+-- 	      return require("luasnip").change_choice(-1)
+-- 	  else
+-- 	      return require("config.luasnip").dynamic_node_external_update(2)
+-- 	  end
+--   end,
+--   silent = true, mode = { "i", "s" },
+-- },
+

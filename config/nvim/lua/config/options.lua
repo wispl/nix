@@ -72,26 +72,6 @@ vim.filetype.add({
 	},
 })
 
-vim.diagnostic.handlers.loclist = {
-	show = function(_, _, _, opts)
-		local winid = vim.api.nvim_get_current_win()
-		vim.diagnostic.setloclist({ open = false })
-		vim.api.nvim_set_current_win(winid)
-	end
-}
-
-vim.diagnostic.config({
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = "",
-			[vim.diagnostic.severity.WARN] = "",
-			[vim.diagnostic.severity.INFO] = "",
-			[vim.diagnostic.severity.HINT] = "",
-		}
-	},
-	severity_sort = true
-})
-
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
 vim.g.netrw_altv = 1

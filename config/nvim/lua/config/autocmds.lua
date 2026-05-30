@@ -1,3 +1,11 @@
+vim.api.nvim_create_autocmd('PackChanged', { callback = function(ev)
+  local name, kind = ev.data.spec.name, ev.data.kind
+  if name == 'nvim-treesitter' and kind == 'update' then
+    if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+    vim.cmd('TSUpdate')
+  end
+end })
+
 vim.api.nvim_create_autocmd("FileType", {
     group = vim.api.nvim_create_augroup("set_treesitter", { clear = true} ),
     callback = function(args)
@@ -12,6 +20,21 @@ vim.api.nvim_create_autocmd("FileType", {
 	    vim.wo[0][0].foldmethod = "expr"
 	end
     end,
+})
+
+vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("Nvim-tree_start_directory", { clear = true }),
+    desc = "Start Nvim-tree with directory",
+    once = true,
+    callback = function()
+	if not package.loaded["nvim-tree"] then
+	    local stats = vim.uv.fs_stat(vim.fn.argv(0))
+	    if stats and stats.type == "directory" then
+		vim.cmd.cd(vim.fn.argv(0))
+		require("nvim-tree.api").tree.open()
+	    end
+	end
+    end
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
