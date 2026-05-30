@@ -164,14 +164,17 @@ on_event('InsertEnter', function()
     })
     require("luasnip.loaders.from_lua").lazy_load({ paths = "./lua/snippets/" })
 end)
+local win_config = function()
+    return {
+	border = 'solid',
+	width = vim.o.columns,
+	height = math.floor(0.42 * vim.o.lines)
+    }
+end
 later(function()
     require('mini.pick').setup({
 	window = {
-	    config = {
-		border = 'solid',
-		width = vim.o.columns + 0, -- don't ask me why
-		height = math.floor(0.42 * vim.o.lines)
-	    }
+	    config = win_config
 	}
     })
 end)
@@ -235,6 +238,7 @@ end)
 -- Self-explanatory, builtin plugins of neovim 
 --
 -- diagnostics: prettier diagnostics for lsp and other stuff
+-- ui2: better ui for cmdheight = 0 
 later(function()
     vim.diagnostic.handlers.loclist = {
 	show = function(_, _, _, opts)
@@ -256,6 +260,11 @@ later(function()
 	severity_sort = true
     })
 end)
+later(function()
+    require('vim._core.ui2').enable({
+	enable = true,
+    })
+end)
 
 -- == Languages
 -- Configures settings for individual languages
@@ -270,7 +279,7 @@ now_if_args(function()
 
   local languages = {
       "bash", "c", "cmake", "cpp", "css", "glsl",
-      "html", "javascript", "json", "jsonc", "lua", "markdown",
+      "html", "javascript", "json", "lua", "markdown",
       "markdown_inline", "nix", "python", "regex", "rust", "vim",
       "yuck", "zig"
   }
