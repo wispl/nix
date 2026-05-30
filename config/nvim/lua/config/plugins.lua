@@ -268,17 +268,17 @@ now_if_args(function()
     'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
   })
 
-  -- local languages = {
-  --     "bash", "c", "cmake", "cpp", "css", "glsl",
-  --     "html", "javascript", "json", "jsonc", "lua", "markdown",
-  --     "markdown_inline", "nix", "python", "regex", "rust", "vim",
-  --     "yuck", "zig"
-  -- }
-  -- local isnt_installed = function(lang)
-  --   return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
-  -- end
-  -- local to_install = vim.tbl_filter(isnt_installed, languages)
-  -- if #to_install > 0 then require('nvim-treesitter').install(to_install) end
+  local languages = {
+      "bash", "c", "cmake", "cpp", "css", "glsl",
+      "html", "javascript", "json", "jsonc", "lua", "markdown",
+      "markdown_inline", "nix", "python", "regex", "rust", "vim",
+      "yuck", "zig"
+  }
+  local isnt_installed = function(lang)
+    return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
+  end
+  local to_install = vim.tbl_filter(isnt_installed, languages)
+  if #to_install > 0 then require('nvim-treesitter').install(to_install) end
 end)
 now(function()
     vim.pack.add({ 'https://github.com/lervag/vimtex' })

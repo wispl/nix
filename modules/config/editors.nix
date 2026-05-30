@@ -24,6 +24,7 @@ in {
 
     (mkIf cfg.nvim.enable {
       home.packages = with pkgs; [
+        tree-sitter
         (symlinkJoin {
           name = "neovim";
           paths = [neovim];
