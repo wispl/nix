@@ -1,0 +1,52 @@
+{
+  "plugins": {
+    "LuaSnip": {
+      "rev": "0abc8f390b278c3b4aabc4c004ac8a088b65cf24",
+      "src": "https://github.com/L3MON4D3/LuaSnip"
+    },
+    "blink.cmp": {
+      "rev": "1b8809dcbb20f023b7cc69ec560e927ae858f9b2",
+      "src": "https://github.com/saghen/blink.cmp"
+    },
+    "blink.lib": {
+      "rev": "2cb62890cee636fe46722d03b7b2331e54fb3755",
+      "src": "https://github.com/saghen/blink.lib"
+    },
+    "dashboard-nvim": {
+      "rev": "f787e3462c2ee2b6117b17c1aa4ddf66cb6f57fe",
+      "src": "https://github.com/nvimdev/dashboard-nvim"
+    },
+    "kanagawa.nvim": {
+      "rev": "bb85e4bfc8d89b0e62c8fa53ccdd13d12e2f77b3",
+      "src": "https://github.com/rebelot/kanagawa.nvim"
+    },
+    "mini.nvim": {
+      "rev": "9d0b9b7188d5c24b5a87f0d8b383ec8bda7a0de4",
+      "src": "https://github.com/nvim-mini/mini.nvim"
+    },
+    "modes.nvim": {
+      "rev": "2badf8771dbb2d1e1066fd6a5dddaad2fc836e72",
+      "src": "https://github.com/mvllow/modes.nvim"
+    },
+    "nvim-lint": {
+      "rev": "d48f3a76189d03b2239f6df1b2f7e3fa8353743b",
+      "src": "https://github.com/mfussenegger/nvim-lint"
+    },
+    "nvim-tree.lua": {
+      "rev": "07f541fcaa4a5ae019598240362449ab7e9812b3",
+      "src": "https://github.com/nvim-tree/nvim-tree.lua"
+    },
+    "nvim-treesitter": {
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "nvim-treesitter-textobjects": {
+      "rev": "851e865342e5a4cb1ae23d31caf6e991e1c99f1e",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
+    },
+    "vimtex": {
+      "rev": "24e229914182ff301496a3e2c4214b28c4928d3f",
+      "src": "https://github.com/lervag/vimtex"
+    }
+  }
+}

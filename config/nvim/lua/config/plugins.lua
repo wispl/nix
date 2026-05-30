@@ -169,7 +169,7 @@ later(function()
 	window = {
 	    config = {
 		border = 'solid',
-		width = vim.o.columns,
+		width = vim.o.columns + 0, -- don't ask me why
 		height = math.floor(0.42 * vim.o.lines)
 	    }
 	}

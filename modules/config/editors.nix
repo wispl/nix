@@ -23,9 +23,16 @@ in {
     })
 
     (mkIf cfg.nvim.enable {
-      # TODO: symlink?
-      home.packages = with pkgs; [neovim fzf];
-      home.files.".config/nvim".source = ../../config/nvim;
+      home.packages = with pkgs; [
+        (symlinkJoin {
+          name = "neovim";
+          paths = [neovim];
+          buildInputs = [ makeWrapper ];
+          postBuild =''
+            wrapProgram $out/bin/nvim --set XDG_CONFIG_HOME "${config.xdgdir.flake}/config"
+          '';
+        })
+      ];
     })
 
     (mkIf cfg.emacs.enable {

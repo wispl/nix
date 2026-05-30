@@ -1,7 +1,6 @@
 vim.loader.enable()
 
--- local config_path = vim.fn.stdpath("config") .. "/lua/config/"
-local config_path = "./lua/config/"
+local config_path = vim.fn.stdpath("config") .. "/lua/config/"
 local config = function(path) dofile(config_path .. path) end
 
 -- initialization

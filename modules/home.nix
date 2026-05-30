@@ -18,6 +18,11 @@ in {
   ];
 
   options.xdgdir = {
+    flake = mkOption {
+      type = str;
+      default = "/home/${config.user.name}/flakes";
+      description = "user's flake directory";
+    };
     dir = mkOption {
       type = str;
       default = "/home/${config.user.name}";
@@ -80,7 +85,7 @@ in {
         # Wallpaper symlink, so switching wallpapers do not take a rebuild
         WALLPAPER = "${config.xdgdir.state}/wallpaper";
         # Path to flake root
-        FLAKE = "/home/${config.user.name}/flakes";
+        FLAKE = "${config.xdgdir.flake}";
         # Add binary home to path
         PATH = "\${PATH}:${config.xdgdir.bin}";
       };
