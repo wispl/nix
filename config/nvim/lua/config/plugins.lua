@@ -218,7 +218,7 @@ now(function()
 		StatusCommand = { bg = theme.syn.operator, fg = theme.ui.bg },
 		StatusTerminal = { bg = theme.syn.fun, fg = theme.ui.bg_m3 },
 
-		DashboardHeader = { fg = theme.syn.comment },
+		MiniStarterHeader = { fg = theme.syn.comment },
 
 		ModesInsert = { bg = colors.palette.oniViolet },
 		ModesVisual = { bg = colors.palette.dragonBlue },
@@ -292,7 +292,7 @@ end)
 -- nvim-lint: remove all the lint in your code
 -- modes.nvim: colorful cursorline highlights
 -- dashboard.nvim: dashboard, a dashing board
--- mini.startify: dashboard, a dashing board
+-- mini.starter: dashboard, a dashing board
 -- nvim-tree: treeview on the side for emergency purposes
 later(function() require('mini.git').setup() end)
 later(function()
@@ -316,51 +316,37 @@ on_event('InsertEnter', function()
     require('modes').setup({ line_opacity = 0.25 })
 end)
 now(function()
-
+    local logo = [[
+  ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          
+   ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       
+         ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     
+          ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    
+         ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   
+  ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  
+ ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   
+⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  
+⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ 
+     ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     
+      ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     
+    ]]
+    local starter = require('mini.starter')
+    starter.setup({
+	evaluate_single = true,
+	items = {
+	    starter.sections.builtin_actions(),
+	    starter.sections.pick(),
+	    -- starter.sections.recent_files(3, false),
+	    -- starter.sections.recent_files(3, true),
+	},
+	header = logo,
+	footer = "Gabagool time",
+	content_hooks = {
+	    starter.gen_hook.adding_bullet(),
+	    starter.gen_hook.indexing('all', { 'Builtin actions' }),
+	    starter.gen_hook.aligning('center', 'center'),
+	},
+    })
 end)
--- now(function()
---     vim.pack.add({ 'https://github.com/nvimdev/dashboard-nvim' })
---     local logo = {
--- 	"                                   ",
--- 	"                                   ",
--- 	"   ⣴⣶⣤⡤⠦⣤⣀⣤⠆     ⣈⣭⣿⣶⣿⣦⣼⣆          ",
--- 	"    ⠉⠻⢿⣿⠿⣿⣿⣶⣦⠤⠄⡠⢾⣿⣿⡿⠋⠉⠉⠻⣿⣿⡛⣦       ",
--- 	"          ⠈⢿⣿⣟⠦ ⣾⣿⣿⣷    ⠻⠿⢿⣿⣧⣄     ",
--- 	"           ⣸⣿⣿⢧ ⢻⠻⣿⣿⣷⣄⣀⠄⠢⣀⡀⠈⠙⠿⠄    ",
--- 	"          ⢠⣿⣿⣿⠈    ⣻⣿⣿⣿⣿⣿⣿⣿⣛⣳⣤⣀⣀   ",
--- 	"   ⢠⣧⣶⣥⡤⢄ ⣸⣿⣿⠘  ⢀⣴⣿⣿⡿⠛⣿⣿⣧⠈⢿⠿⠟⠛⠻⠿⠄  ",
--- 	"  ⣰⣿⣿⠛⠻⣿⣿⡦⢹⣿⣷   ⢊⣿⣿⡏  ⢸⣿⣿⡇ ⢀⣠⣄⣾⠄   ",
--- 	" ⣠⣿⠿⠛ ⢀⣿⣿⣷⠘⢿⣿⣦⡀ ⢸⢿⣿⣿⣄ ⣸⣿⣿⡇⣪⣿⡿⠿⣿⣷⡄  ",
--- 	" ⠙⠃   ⣼⣿⡟  ⠈⠻⣿⣿⣦⣌⡇⠻⣿⣿⣷⣿⣿⣿ ⣿⣿⡇ ⠛⠻⢷⣄ ",
--- 	"      ⢻⣿⣿⣄   ⠈⠻⣿⣿⣿⣷⣿⣿⣿⣿⣿⡟ ⠫⢿⣿⡆     ",
--- 	"       ⠻⣿⣿⣿⣿⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⢀⣀⣤⣾⡿⠃     ",
--- 	"                                   "
---     }
-
---     local opts = {
--- 	theme = "doom",
--- 	config = {
--- 	    header = logo,
--- 	    center = {
--- 		{ key = "f", action = "FzfLua find_files", desc = "Find file",   },
--- 		{ key = "n", action = "ene | startinsert",    desc = "New file",    },
--- 		{ key = "r", action = "FzfLua oldfiles",   desc = "Recent files",},
--- 		{ key = "p", action = "FzfLua marks",      desc = "Projects",    },
--- 		{ key = "q", action = "qa",                   desc = "Quit",        }
--- 	    },
--- 	    -- footer = function()
--- 	    -- 	local stats = require("lazy").stats()
--- 	    -- 	local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
--- 	    -- 	return { "Loaded " .. stats.loaded .. " plugins in " .. ms .. "ms!" }
--- 	    -- end
--- 	}
---     }
---     for _, button in ipairs(opts.config.center) do
--- 	button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
--- 	button.key_format = "  %s"
---     end
---     require('dashboard').setup(opts)
--- end)
 later(function()
 	  vim.pack.add({ 'https://github.com/nvim-tree/nvim-tree.lua' })
 	  require('nvim-tree').setup({
