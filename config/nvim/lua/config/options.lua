@@ -43,19 +43,19 @@ o.cursorline = true
 o.list = true
 o.foldcolumn = "1"
 opt.fillchars = {
-  fold = " ",
-	foldclose = "",
-	foldopen = "",
-  diff = "╱",
-  eob = " ",
-	vert = " ",
+    fold = " ",
+    foldclose = "",
+    foldopen = "",
+    diff = "╱",
+    eob = " ",
+    vert = " ",
 }
 opt.listchars = {
-	tab = "  ",
-	trail = "·",
-	nbsp = "␣",
-	precedes = "«",
-	extends = "»",
+    tab = "  ",
+    trail = "·",
+    nbsp = "␣",
+    precedes = "«",
+    extends = "»",
 }
 
 -- folds
@@ -66,10 +66,10 @@ o.foldlevelstart = 99
 vim.g.markdown_folding = 1
 
 vim.filetype.add({
-	extension = {
-		vert = "glsl",
-		frag = "glsl",
-	},
+    extension = {
+	vert = "glsl",
+	frag = "glsl",
+    },
 })
 
 vim.g.netrw_banner = 0
