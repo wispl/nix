@@ -82,37 +82,38 @@ later(function()
 	}
     })
 end)
--- later(function()
---     vim.pack.add({
--- 	'https://github.com/saghen/blink.cmp',
--- 	'https://github.com/saghen/blink.lib'
---     })
---     local cmp = require('blink.cmp')
---     cmp.build():pwait()
---     cmp.setup({
--- 	completion = {
+later(function()
+    vim.pack.add({
+	'https://github.com/saghen/blink.lib',
+	'https://github.com/saghen/blink.cmp'
+    })
 
--- 	    menu = {
--- 		border = "solid",
--- 		draw = {
--- 		    treesitter = { "lsp" },
--- 		    gap = 3,
--- 		    columns = { { "label", "label_description", gap = 2 }, { "kind", "kind_icon", gap = 1 } },
--- 		},
--- 	    },
--- 	    documentation = {
--- 		window = { border = "solid" },
--- 		auto_show = true,
--- 		auto_show_delay_ms = 500,
--- 	    },
--- 	    ghost_text = { enabled = true },
--- 	},
--- 	keymap = { preset = "enter" },
--- 	snippets = { preset = "luasnip" },
--- 	cmdline = { enabled = false },
--- 	sources = { default = { "lsp", "path", "snippets", "buffer" } },
---     })
--- end)
+    local cmp = require('blink.cmp')
+    cmp.build():pwait()
+    cmp.setup({
+	completion = {
+
+	    menu = {
+		border = "solid",
+		draw = {
+		    treesitter = { "lsp" },
+		    gap = 3,
+		    columns = { { "label", "label_description", gap = 2 }, { "kind", "kind_icon", gap = 1 } },
+		},
+	    },
+	    documentation = {
+		window = { border = "solid" },
+		auto_show = true,
+		auto_show_delay_ms = 500,
+	    },
+	    ghost_text = { enabled = true },
+	},
+	keymap = { preset = "enter" },
+	snippets = { preset = "luasnip" },
+	cmdline = { enabled = false },
+	sources = { default = { "lsp", "path", "snippets", "buffer" } },
+    })
+end)
 on_event('InsertEnter', function()
     vim.pack.add({ 'https://github.com/L3MON4D3/LuaSnip' })
 
