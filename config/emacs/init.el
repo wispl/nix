@@ -392,6 +392,7 @@ If this is a daemon session, load them all immediately instead."
 ;;   hl-line: highlight the current line... that is it
 ;;   tramp: edit files remotely like a wizard
 ;;   outline: super simple folding, used for elisp since it works so well
+;;   desktop: saves your work for later, so you can eat it later
 ;;   eglot: occasional lsp sweets 
 ;; Changes should be fairly minimal if possible
 (use-package which-key
@@ -518,17 +519,14 @@ If this is a daemon session, load them all immediately instead."
       (when (null (cdr (car vc-git-root-cache)))
 	(setq vc-git-root-cache (cdr vc-git-root-cache)))
       value))
-  (advice-add 'vc-git-root :around #'memoize-vc-git-root)
-
-  ;; memoize all git candidates in the current project
-  (defvar $counsel-git-cands-cache nil)
-  (defun $memoize-counsel-git-cands (orig dir)
-    ($memoize-remote (magit-toplevel dir) '$counsel-git-cands-cache orig dir))
-  (advice-add 'counsel-git-cands :around #'$memoize-counsel-git-cands))
+  (advice-add 'vc-git-root :around #'memoize-vc-git-root))
 (use-package outline
   :ensure nil
   :hook (emacs-lisp-mode . outline-minor-mode))
 
+(use-package desktop
+  :ensure nil
+  :hook (on-init-ui . desktop-save-mode))
 (use-package eglot
   :ensure nil
   :config
