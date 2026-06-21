@@ -38,10 +38,6 @@ in {
 
     (mkIf cfg.emacs.enable {
       home.packages = with pkgs; [
-        # Need to inject GTK_THEME because we set the config home to somewhere
-        # else. I would rather have a dark startup screen than a bright white
-        # one. Another option is to use emac's --init-directory but I am not
-        # to sure how that one interacts with other plugins
         (let
           emacs = (emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.jinx]);
         in
@@ -50,7 +46,7 @@ in {
             paths = [emacs];
             buildInputs = [makeWrapper];
             postBuild = ''
-              wrapProgram $out/bin/emacs --set XDG_CONFIG_HOME "${config.xdgdir.flake}/config" --set GTK_THEME adw-gtk3-dark
+              wrapProgram $out/bin/emacs --add-flag "--init-directory=${config.xdgdir.flake}/config/emacs"
             '';
           })
         ripgrep

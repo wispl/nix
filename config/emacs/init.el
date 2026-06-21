@@ -394,6 +394,7 @@ If this is a daemon session, load them all immediately instead."
 ;;   outline: super simple folding, used for elisp since it works so well
 ;;   desktop: saves your work for later, so you can eat it later
 ;;   eglot: occasional lsp sweets 
+;;   appt: notifications from emacs, with prophecies from org
 ;; Changes should be fairly minimal if possible
 (use-package which-key
   :ensure nil
@@ -549,6 +550,32 @@ If this is a daemon session, load them all immediately instead."
   :config
   (eglot-booster-mode +1))
 
+(use-package appt
+  :after org-agenda
+  :ensure nil
+  :config
+  ;; From https://www.reddit.com/r/emacs/comments/1gdjtcf/you_dont_need_orgalert_emacs_has_it_builtin_kinda/
+  ;; Specifically from karthink's config
+  ;; https://github.com/karthink/.emacs.d/blob/793b1209f493a10068b3c145658364dda5c24e99/lisp/setup-org.el#L1192
+  (setq appt-disp-window-function
+	(lambda (minutes-to now text)
+	  (org-show-notification
+	   (format "Appointment in %s minutes:\n%s"
+		   minutes-to text)))
+	appt-display-interval 15
+	appt-display-mode-line nil
+	appt-message-warning-time 60)
+  (define-advice appt-activate (:after (&optional _arg) hold-your-horses)
+    "`appt-activate' is too eager, rein it in."
+    (remove-hook 'write-file-functions #'appt-update-list)
+    (when (timerp appt-timer)
+      (timer-set-time appt-timer (current-time) 3000)))
+  (define-advice appt-check (:before (&optional _force) from-org-agenda)
+    "Read events from Org agenda if possible."
+    (and (featurep 'org-agenda)
+         (ignore-errors
+           (let ((inhibit-message t))
+             (org-agenda-to-appt t))))))
 ;;;; Evil
 ;;
 ;; Vim emulation via evil, cause life isn't fun without being evil.
@@ -1885,7 +1912,6 @@ If this is a daemon session, load them all immediately instead."
 ;;   elfeed: reading feeds in emacs, feeding reads in emacs
 ;;   olivetti: nice, sleepy margins for reading text-based stuff
 ;;   emacs-everywhere: its always with you, like a puppy dog
-;;   appt: reminders (for org), this one is built-in but kind of more of a utility
 ;;   restart-emacs: give emacs a little restart
 ;; TODO: (use-package calfw-blocks :vc (:url "https://github.com/ml729/calfw-blocks.git" :rev :newest))
 (use-package jinx
@@ -2057,32 +2083,6 @@ If this is a daemon session, load them all immediately instead."
 		'(((wayland . niri)
 		   :focus-command ("niri" "msg" "action" "focus-window" "--id" "%w")
 		   :info-function emacs-everywhere--app-info-linux-niri)))))
-(use-package appt
-  :after org-agenda
-  :ensure nil
-  :config
-  ;; From https://www.reddit.com/r/emacs/comments/1gdjtcf/you_dont_need_orgalert_emacs_has_it_builtin_kinda/
-  ;; Specifically from karthink's config
-  ;; https://github.com/karthink/.emacs.d/blob/793b1209f493a10068b3c145658364dda5c24e99/lisp/setup-org.el#L1192
-  (setq appt-disp-window-function
-	(lambda (minutes-to now text)
-	  (org-show-notification
-	   (format "Appointment in %s minutes:\n%s"
-		   minutes-to text)))
-	appt-display-interval 15
-	appt-display-mode-line nil
-	appt-message-warning-time 60)
-  (define-advice appt-activate (:after (&optional _arg) hold-your-horses)
-    "`appt-activate' is too eager, rein it in."
-    (remove-hook 'write-file-functions #'appt-update-list)
-    (when (timerp appt-timer)
-      (timer-set-time appt-timer (current-time) 3000)))
-  (define-advice appt-check (:before (&optional _force) from-org-agenda)
-    "Read events from Org agenda if possible."
-    (and (featurep 'org-agenda)
-         (ignore-errors
-           (let ((inhibit-message t))
-             (org-agenda-to-appt t))))))
 (use-package restart-emacs :commands (restart-emacs))
 (use-package ox-hugo
   :after ox
