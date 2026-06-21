@@ -1,5 +1,5 @@
 {
-  description = "Nix flake template for Kubernetes";
+  description = "Nix flake template for Node";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.systems.url = "github:nix-systems/default";
   inputs.flake-utils = {
@@ -18,15 +18,16 @@
       in {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
-            # openshift
-            kubernetes-helm
-            argocd
-            kubeseal
+            pnpm
+            typescript-language-server
+
+            # Frontend 
+            # svelte-language-server
+            # svelte-check
+
+            # For npm, but I prefer pnpm 
+            # nodejs_22
           ];
-          shellHook = ''
-            export KUBECONFIG=$XDG_CONFIG_HOME/kube
-            export KUBECACHEDIR=$XDG_CACHE_HOME/kube
-          '';
         };
       }
     );

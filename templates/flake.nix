@@ -22,6 +22,10 @@
       path = ./kubernetes;
       description = "Basic environment for Kubernetes, mmmmm, GitOps, yummmmm";
     };
+    templates.node = {
+      path = ./node;
+      description = "Basic environment for nodejs, the language of the unfortunate";
+    };
 
     templates.default = self.templates.c;
   };
