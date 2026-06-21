@@ -39,6 +39,9 @@
             stlink
             stlink-gui
 
+            # Unit testing, automatically pulls in cmock  too
+            ceedling
+
             # Alternatively https://github.com/mirrexagon/nixpkgs-esp-dev
             # esp-idf-full
           ];

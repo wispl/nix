@@ -12,11 +12,8 @@ in {
   options.modules.packages.dev = {
     sh.enable = mkEnableOption "sh";
     rust.enable = mkEnableOption "rust";
-    java.enable = mkEnableOption "java";
     cc.enable = mkEnableOption "c and cpp";
     tex.enable = mkEnableOption "texlive";
-    embedded.enable = mkEnableOption "embedded";
-    kube.enable = mkEnableOption "kube";
     podman.enable = mkEnableOption "podman";
   };
 
@@ -39,12 +36,6 @@ in {
         clippy
         cargo
       ];
-    })
-
-    # I HATE JAVA :(
-    (mkIf cfg.java.enable {
-      # I pull java version in using flakes, but these variables are needed for XDG
-      home.environment.sessionVariables."_JAVA_OPTIONS" = "-Djava.util.prefs.userRoot=${config.xdgdir.config}/java";
     })
 
     # Mandatory tex: are texnomancers developers?
@@ -120,14 +111,6 @@ in {
     # Shellfish shell
     (mkIf cfg.sh.enable {
       home.packages = [pkgs.shellcheck-minimal];
-    })
-
-    # For k8 of course, since I have to use OpenShift occasionally, I
-    # prefer to pull kube or oc depending on the project with flakes
-    (mkIf cfg.kube.enable {
-      # xdg
-      home.environment.sessionVariables."KUBECONFIG" = "${config.xdgdir.config}/kube";
-      home.environment.sessionVariables."KUBECACHEDIR" = "${config.xdgdir.cache}/kube";
     })
 
     # Containers for containing my anger

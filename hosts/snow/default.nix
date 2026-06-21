@@ -70,8 +70,6 @@
         sh.enable = true;
         rust.enable = true;
         tex.enable = true;
-        java.enable = true;
-        kube.enable = true;
         podman.enable = true;
       };
       shell = {

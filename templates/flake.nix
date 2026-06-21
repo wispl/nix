@@ -18,6 +18,10 @@
       path = ./embedded;
       description = "Basic environment for doom and despair";
     };
+    templates.kubernetes = {
+      path = ./kubernetes;
+      description = "Basic environment for Kubernetes, mmmmm, GitOps, yummmmm";
+    };
 
     templates.default = self.templates.c;
   };

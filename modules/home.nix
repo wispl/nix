@@ -88,6 +88,8 @@ in {
         FLAKE = "${config.xdgdir.flake}";
         # Add binary home to path
         PATH = "\${PATH}:${config.xdgdir.bin}";
+        # For Java apps
+        "_JAVA_OPTIONS" = "-Djava.util.prefs.userRoot=${config.xdgdir.config}/java";
       };
     };
   };
