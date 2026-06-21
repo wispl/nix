@@ -38,15 +38,24 @@ in {
 
     (mkIf cfg.emacs.enable {
       home.packages = with pkgs; [
-        ((emacsPackagesFor emacs-pgtk).emacsWithPackages (
-          epkgs: [epkgs.jinx]
-        ))
+        (let 
+          emacs = (emacsPackagesFor emacs-pgtk).emacsWithPackages (epkgs: [epkgs.jinx]);
+        in
+          symlinkJoin {
+            name = "emacs";
+            paths = [emacs];
+            buildInputs = [ makeWrapper ];
+            postBuild =''
+            wrapProgram $out/bin/emacs --set XDG_CONFIG_HOME "${config.xdgdir.flake}/config" --set GTK_THEME adw-gtk3-dark
+          '';
+        })
         ripgrep
         fd
         enchant
         vips
         poppler-utils
         ffmpegthumbnailer
+        emacs-lsp-booster
         (aspellWithDicts (dicts: with dicts; [en]))
       ];
       # Expose dictionaries for enchant to find
