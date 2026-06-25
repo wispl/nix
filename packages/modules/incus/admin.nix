@@ -25,7 +25,7 @@ in {
           device = utils.mapVolumes {"prom-data" = "/prometheus";};
           file = [
             {
-              target = "/etc/prometheus/prometheus.yml";
+              target_path = "/etc/prometheus/prometheus.yml";
               content =
                 # yaml
                 ''

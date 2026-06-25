@@ -9,5 +9,6 @@
     name = "tianlu";
     media.enable = true;
     files.enable = true;
+    glance.enable = true;
   };
 }
