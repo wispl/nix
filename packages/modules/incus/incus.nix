@@ -99,20 +99,14 @@ in {
                   issuer: "${config.modules.server.name}"
                 # Required for storage 
                 storage:
-                  encryption_key: 'a_very_important_secret'
                   local:
-                    path: '/config/db.sqlite3'
-                # Required, even if password reset is disabled
-                identity_validation:
-                  reset_password:
-                    jwt_secret: ""
+                    path: "/config/db.sqlite3"
                 # Required, stores list of users
                 authentication_backend:
                   file:
                     path: /config/users.yml
                 # Required, allows session to work
                 session:
-                  secret: 'insecure_session_secret'
                   cookies:
                     - domain: "${config.modules.server.name}.internal"
                       authelia_url: "https://auth.${config.modules.server.name}.internal"
@@ -128,7 +122,29 @@ in {
                     - domain: "*.${config.modules.server.name}.internal"
                       policy: one_factor
               '';
+          },
+          {
+            target_path = "/config/configuration.yal";
+            content = # yaml
+              ''
+                users:
+                  wisp:
+                    disabled: false
+                    displayname: "wisp"
+                    email: wisp@${config.modules.server.name}.internal
+                    groups:
+                      - "admins"
+                      - "dev"
+                    password: "{{ secret /run/secrets/USER_PASSWORD }}"
+              '';
           }];
+          config = {
+            "environment.X_AUTHELIA_CONFIG_FILTERS" = "template";
+            # Required secrets 
+            "environment.AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE" = "/run/secrets/JWT_SECRET";
+            "environment.AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE" = "/run/secrets/STORAGE_ENCRYPTION_KEY";
+            "environment.AUTHELIA_SESSION_SECRET_FILE" = "/run/secrets/SESSION_SECRET";
+          };
         };
       };
     }
