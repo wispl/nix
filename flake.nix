@@ -15,6 +15,9 @@
     # Terraforming nix, or eating tofu, whichever you like better
     terranix.url = "github:terranix/terranix";
     terranix.inputs.nixpkgs.follows = "nixpkgs";
+    # Sops, your secrets are not safe with me
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = {
@@ -25,16 +28,18 @@
     hjem,
     disko,
     terranix,
+    sops-nix,
   } @ inputs: let
     inherit (self) outputs;
     systems = ["x86_64-linux"];
     forAllSystems = nixpkgs.lib.genAttrs systems;
     modules = import ./modules;
   in {
-    packages = forAllSystems (system: import ./packages {
-      inherit system terranix;
-      pkgs = nixpkgs.legacyPackages.${system};
-    });
+    packages = forAllSystems (system:
+      import ./packages {
+        inherit system terranix;
+        pkgs = nixpkgs.legacyPackages.${system};
+      });
 
     nixosConfigurations = {
       snow = nixpkgs.lib.nixosSystem {
