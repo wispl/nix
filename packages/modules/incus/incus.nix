@@ -102,7 +102,19 @@ in {
           image = "docker:authelia/authelia";
           file = [
             {
-              target_path = "/config/configuration.yal";
+              source_path = "/nix/persist/deploy/authelia/jwt-secret";
+              target_path ="/run/secrets/JWT_SECRET";
+            }
+            {
+              source_path = "/nix/persist/deploy/authelia/storage-encryption-key";
+              target_path ="/run/secrets/STORAGE_ENCRYPTION_KEY";
+            }
+            {
+              source_path = "/nix/persist/deploy/authelia/session-secret";
+              target_path ="/run/secrets/SESSION_SECRET";
+            }
+            {
+              target_path = "/config/configuration.yml";
               content =
                 # yaml
                 ''
@@ -142,7 +154,7 @@ in {
                 '';
             }
             {
-              target_path = "/config/configuration.yal";
+              target_path = "/config/configuration.yml";
               content =
                 # yaml
                 ''

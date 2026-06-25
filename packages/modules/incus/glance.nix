@@ -161,7 +161,7 @@ in {
         }
         {
           target_path = "/app/assets";
-          source_path = "/packages/assets/icons";
+          source_path = "./packages/assets/icons";
           create_directories = "true";
         }
       ];
