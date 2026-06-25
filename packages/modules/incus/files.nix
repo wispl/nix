@@ -11,9 +11,11 @@ in {
     (utils.createVolumes [ "music" "media" "downloads" "syncthing-data" "filebrowser-config" "filebrowser-data"] )
 
     {
-      modules.server.expose = {
-        "files" = "filebrowser.incus:80";
-        "sync" = "syncthing.incus:8384";
+      modules.server = {
+        expose = {
+          "files" = "filebrowser.incus:80";
+          "sync" = "syncthing.incus:8384";
+        };
       };
 
       resource."incus_instance" = {
@@ -26,6 +28,9 @@ in {
             "downloads" = "/downloads";
             "music" = "/music";
             "media" = "/media";
+          };
+          config = {
+            "environment.FB_NOAUTH" = "noauth";
           };
         };
 
