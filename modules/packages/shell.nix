@@ -118,6 +118,7 @@ in {
         # :)
         fastfetch
         pfetch
+        age
       ];
     })
 

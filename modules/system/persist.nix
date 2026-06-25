@@ -32,6 +32,8 @@ in {
           "/var/log"
           "/var/lib/systemd/coredump"
           "/var/lib/nixos"
+          "/var/lib/sops-nix"
+          "/etc/ssh"
         ]
         ++ cfg.directories;
       files = [

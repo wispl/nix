@@ -1,11 +1,12 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }: let
   inherit (lib) mkOption mkIf mkMerge elem;
   inherit (lib.types) listOf str;
-  cfg = config.modules.hardware;
+  cfg = config.modules.deploy;
 in {
   options.modules.deploy = mkOption {
     type = listOf str;
@@ -13,7 +14,7 @@ in {
     description = "secrets to deploy via a systemd service, can be: incus, authelia";
   };
   config = mkMerge [
-    (mkIf elem "incus" cfg.deploy {
+    (mkIf (elem "incus" cfg) {
       systemd.services.gen-secrets-incus = {
         description = "Generate incus certificates for metrics";
         wantedBy = [ "multi-user.target" ];
@@ -41,7 +42,7 @@ in {
       };
     })
 
-    (mkIf elem "authelia" cfg.deploy {
+    (mkIf (elem "authelia" cfg) {
       systemd.services.gen-secrets-authelia = {
         description = "Generate authelia secrets";
         wantedBy = [ "multi-user.target" ];
