@@ -21,11 +21,11 @@
             pnpm
             typescript-language-server
 
-            # Frontend 
+            # Frontend
             # svelte-language-server
             # svelte-check
 
-            # For npm, but I prefer pnpm 
+            # For npm, but I prefer pnpm
             # nodejs_22
           ];
         };

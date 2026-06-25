@@ -1,14 +1,17 @@
-{config, lib, ...}:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (lib) mkEnableOption mkIf mkMerge;
   cfg = config.modules.server.media;
-  utils = import ./utils.nix { inherit lib; };
+  utils = import ./utils.nix {inherit lib;};
 in {
   options.modules.server.media = {
     enable = mkEnableOption "media (jellyfin, metube, feishin)";
   };
   config = mkIf (cfg.enable) (mkMerge [
-    (utils.createVolumes [ "music" "media" "downloads" "jellyfin-cache" "jellyfin-config"])
+    (utils.createVolumes ["music" "media" "downloads" "jellyfin-cache" "jellyfin-config"])
 
     {
       modules.server.expose = {
@@ -30,13 +33,13 @@ in {
         };
 
         "metube" = {
-          name  = "metube";
+          name = "metube";
           image = "ghcr:alexta69/metube";
-          device = utils.mapVolumes { "downloads" = "/downloads"; };
+          device = utils.mapVolumes {"downloads" = "/downloads";};
         };
 
         "feishin" = {
-          name  = "feishin";
+          name = "feishin";
           image = "ghcr:jeffvli/feishin";
           config = {
             "environment.SERVER_NAME" = "jellyfin";

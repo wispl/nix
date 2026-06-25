@@ -1,14 +1,17 @@
-{config, lib, ...}:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (lib) mkEnableOption mkIf mkMerge;
   cfg = config.modules.server.files;
-  utils = import ./utils.nix { inherit lib; };
+  utils = import ./utils.nix {inherit lib;};
 in {
   options.modules.server.files = {
     enable = mkEnableOption "file servers (syncthing and filebrowser)";
   };
   config = mkIf (cfg.enable) (mkMerge [
-    (utils.createVolumes [ "music" "media" "downloads" "syncthing-data" "filebrowser-config" "filebrowser-data"] )
+    (utils.createVolumes ["music" "media" "downloads" "syncthing-data" "filebrowser-config" "filebrowser-data"])
 
     {
       modules.server = {
@@ -35,9 +38,9 @@ in {
         };
 
         "syncthing" = {
-          name  = "syncthing";
+          name = "syncthing";
           image = "docker:syncthing/syncthing";
-          device = utils.mapVolumes { "syncthing-data" = "/var/syncthing"; };
+          device = utils.mapVolumes {"syncthing-data" = "/var/syncthing";};
         };
       };
     }

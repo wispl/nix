@@ -1,10 +1,13 @@
-{config, lib, ...}:
-let
+{
+  config,
+  lib,
+  ...
+}: let
   inherit (lib) mkEnableOption mkIf mkMerge mkOption;
   inherit (lib.strings) concatLines;
   inherit (lib.types) str attrsOf;
   cfg = config.modules.server;
-  utils = import ./utils.nix { inherit lib; };
+  utils = import ./utils.nix {inherit lib;};
 in {
   options.modules.server = {
     enable = mkEnableOption "incus server";
@@ -19,60 +22,73 @@ in {
     };
   };
   config = mkIf (cfg.enable) (mkMerge [
-    (utils.createVolumes [ "caddy-data" ] )
+    (utils.createVolumes ["caddy-data"])
 
     {
       terraform."required_providers".incus.source = "lxd/incus";
-      
+
       resource."incus_instance" = {
         "caddy" = {
           name = "caddy";
           image = "docker:caddy/caddy";
-          device = [{
-            name = "eth0";
-            type = "proxy";
-            properties = { "ipv4.address" = "10.0.100.0"; };
-          }] ++ utils.mapVolumes { "caddy-data" = "/data"; };
-          file = [{
-            target_path = "/etc/caddy/Caddyfile";
-            content = # yaml
-              ''
-                auth.${cfg.name}.internal {
-                  reverse_proxy authelia:9091
-                }
+          device =
+            [
+              {
+                name = "eth0";
+                type = "proxy";
+                properties = {"ipv4.address" = "10.0.100.0";};
+              }
+            ]
+            ++ utils.mapVolumes {"caddy-data" = "/data";};
+          file = [
+            {
+              target_path = "/etc/caddy/Caddyfile";
+              content =
+                # yaml
+                ''
+                  auth.${cfg.name}.internal {
+                    reverse_proxy authelia:9091
+                  }
 
-                ${concatLines (lib.mapAttrsToList (name: value: ''
-                   ${name}.${cfg.name}.internal {
-                      forward_auth authelia:9091 {
-                        uri /api/authz/forward-auth
-                        copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+                  ${concatLines (lib.mapAttrsToList (name: value: ''
+                      ${name}.${cfg.name}.internal {
+                         forward_auth authelia:9091 {
+                           uri /api/authz/forward-auth
+                           copy_headers Remote-User Remote-Groups Remote-Email Remote-Name
+                         }
+                         reverse_proxy ${value}
                       }
-                      reverse_proxy ${value}
-                   }
-                 '') cfg.expose)}
-              '';
-          }];
+                    '')
+                    cfg.expose)}
+                '';
+            }
+          ];
         };
 
         # DNS, Points back to the proxy ip address
         "unbound" = {
           name = "unbound";
           image = "docker:klutchell/unbound";
-          device = [{
-            name = "eth0";
-            type = "proxy";
-            properties = { "ipv4.address" = "10.0.100.1"; };
-          }];
-          file = [{
-            target_path = "/etc/unbound/custom.conf.d/records.conf";
-            content = # conf
-              ''
-                server:
-                  local-zone: "${cfg.name}.internal." redirect
-                  local-data: "${cfg.name}.internal. A 10.0.100.0"
-                  local-data-ptr: "10.0.100.0 ${cfg.name}.internal."
-              '';
-          }];
+          device = [
+            {
+              name = "eth0";
+              type = "proxy";
+              properties = {"ipv4.address" = "10.0.100.1";};
+            }
+          ];
+          file = [
+            {
+              target_path = "/etc/unbound/custom.conf.d/records.conf";
+              content =
+                # conf
+                ''
+                  server:
+                    local-zone: "${cfg.name}.internal." redirect
+                    local-data: "${cfg.name}.internal. A 10.0.100.0"
+                    local-data-ptr: "10.0.100.0 ${cfg.name}.internal."
+                '';
+            }
+          ];
         };
 
         # I don't really use the OIDC that much, unless it is absolutely needed.
@@ -84,63 +100,67 @@ in {
         "authelia" = {
           name = "authelia";
           image = "docker:authelia/authelia";
-          file = [{
-            target_path = "/config/configuration.yal";
-            content = # yaml
-              ''
-                theme: "dark"
-                # Required for oidc clients to work
-                server:
-                  endpoints:
-                    authz:
-                      forward-auth:
-                        implementation: "ForwardAuth"
-                totp:
-                  issuer: "${config.modules.server.name}"
-                # Required for storage 
-                storage:
-                  local:
-                    path: "/config/db.sqlite3"
-                # Required, stores list of users
-                authentication_backend:
-                  file:
-                    path: /config/users.yml
-                # Required, allows session to work
-                session:
-                  cookies:
-                    - domain: "${config.modules.server.name}.internal"
-                      authelia_url: "https://auth.${config.modules.server.name}.internal"
-                      default_redirection_url: "https://www.${config.modules.server.name}.internal"
-                # Required, but I don't care about it so just use file
-                notifier:
-                  filesystem:
-                    filename: "/config/notification.txt"
-                # Required, policies for different domains
-                access_control:
-                  default_policy: deny
-                  rules:
-                    - domain: "*.${config.modules.server.name}.internal"
-                      policy: one_factor
-              '';
-          },
-          {
-            target_path = "/config/configuration.yal";
-            content = # yaml
-              ''
-                users:
-                  wisp:
-                    disabled: false
-                    displayname: "wisp"
-                    email: wisp@${config.modules.server.name}.internal
-                    groups:
-                      - "admins"
-                      - "dev"
-                    password: "{{ secret /run/secrets/USER_PASSWORD }}"
-              '';
-          }];
+          file = [
+            {
+              target_path = "/config/configuration.yal";
+              content =
+                # yaml
+                ''
+                  theme: "dark"
+                  # Required for oidc clients to work
+                  server:
+                    endpoints:
+                      authz:
+                        forward-auth:
+                          implementation: "ForwardAuth"
+                  totp:
+                    issuer: "${config.modules.server.name}"
+                  # Required for storage
+                  storage:
+                    local:
+                      path: "/config/db.sqlite3"
+                  # Required, stores list of users
+                  authentication_backend:
+                    file:
+                      path: /config/users.yml
+                  # Required, allows session to work
+                  session:
+                    cookies:
+                      - domain: "${config.modules.server.name}.internal"
+                        authelia_url: "https://auth.${config.modules.server.name}.internal"
+                        default_redirection_url: "https://www.${config.modules.server.name}.internal"
+                  # Required, but I don't care about it so just use file
+                  notifier:
+                    filesystem:
+                      filename: "/config/notification.txt"
+                  # Required, policies for different domains
+                  access_control:
+                    default_policy: deny
+                    rules:
+                      - domain: "*.${config.modules.server.name}.internal"
+                        policy: one_factor
+                '';
+            }
+            {
+              target_path = "/config/configuration.yal";
+              content =
+                # yaml
+                ''
+                  users:
+                    wisp:
+                      disabled: false
+                      displayname: "wisp"
+                      email: wisp@${config.modules.server.name}.internal
+                      groups:
+                        - "admins"
+                        - "dev"
+                      password: "{{ secret /run/secrets/USER_PASSWORD }}"
+                '';
+            }
+          ];
           config = {
             "environment.X_AUTHELIA_CONFIG_FILTERS" = "template";
-            # Required secrets 
+            # Required secrets
             "environment.AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE" = "/run/secrets/JWT_SECRET";
             "environment.AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE" = "/run/secrets/STORAGE_ENCRYPTION_KEY";
             "environment.AUTHELIA_SESSION_SECRET_FILE" = "/run/secrets/SESSION_SECRET";

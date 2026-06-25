@@ -1,8 +1,6 @@
-{lib, ...}:
-let
+{lib, ...}: let
   inherit (lib) genAttrs mapAttrsToList;
-in
-{
+in {
   createVolumes = volumes: {
     resource."incus_storage_volume" = genAttrs volumes (name: {
       name = "${name}";
@@ -10,13 +8,15 @@ in
     });
   };
 
-  mapVolumes = volumes: lib.mapAttrsToList (name: value: {
-    name = "${name}";
-    type = "disk";
-    properties = {
-      path   = "${value}";
-      source = "incus_storage_volume.volume.${name}.name";
-      pool   = "default";
-    };
-  }) volumes;
+  mapVolumes = volumes:
+    lib.mapAttrsToList (name: value: {
+      name = "${name}";
+      type = "disk";
+      properties = {
+        path = "${value}";
+        source = "incus_storage_volume.volume.${name}.name";
+        pool = "default";
+      };
+    })
+    volumes;
 }
