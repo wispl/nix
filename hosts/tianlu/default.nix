@@ -13,6 +13,7 @@
 
   networking.hostName = "tianlu";
   services.openssh.enable = true;
+  deploy = ["authelia"];
   modules = {
     username = "wisp";
     git.enable = true;

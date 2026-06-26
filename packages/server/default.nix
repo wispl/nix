@@ -10,5 +10,9 @@
     media.enable = true;
     files.enable = true;
     glance.enable = true;
+    wireguard = {
+      ddns.enable = true;
+      variant = "wg-easy";
+    };
   };
 }
