@@ -29,8 +29,8 @@ in {
               -days 3650 -subj "/CN=metrics.local"
           fi
 
-          chown ${config.username}:incus-admin "$TARGET_DIR/metrics.key"
-          chown ${config.username}:incus-admin "$TARGET_DIR/metrics.crt"
+          chown ${config.modules.username}:incus-admin "$TARGET_DIR/metrics.key"
+          chown ${config.modules.username}:incus-admin "$TARGET_DIR/metrics.crt"
           
           chmod 640 "$TARGET_DIR/metrics.key"
           chmod 644 "$TARGET_DIR/metrics.crt"
@@ -54,7 +54,7 @@ in {
           for file in $TARGET_DIR/{jwt-secret,storage-encryption-key,session-secret}; do
             if [ ! -f "$file" ]; then
               openssl rand -hex 64 > "$file"
-              chown ${config.username}:incus-admin "$file"
+              chown ${config.modules.username}:incus-admin "$file"
               chmod 640 "$file"
             fi
           done
