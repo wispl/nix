@@ -36,8 +36,10 @@
       default = "nvim";
       nvim.enable = true;
     };
-    shell.bash.enable = true;
-    packages.extras = with pkgs; [openssl opentofu];
+    packages = {
+      extras = with pkgs; [openssl opentofu];
+      shell.bash.enable = true;
+    };
   };
   system.stateVersion = "25.11";
 }
