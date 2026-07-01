@@ -25,7 +25,7 @@ in {
     (utils.createVolumes ["caddy-data"])
 
     {
-      terraform."required_providers".incus.source = "lxd/incus";
+      terraform."required_providers".incus.source = "lxc/incus";
 
       resource."incus_instance" = {
         "caddy" = {
