@@ -8,6 +8,8 @@
   inherit (lib.types) str attrsOf;
   cfg = config.modules.server;
   utils = import ./utils.nix {inherit lib;};
+  proxyIP = "10.0.100.2";
+  dnsIP = "10.0.100.3";
 in {
   options.modules.server = {
     enable = mkEnableOption "incus server";
@@ -36,7 +38,7 @@ in {
               {
                 name = "eth0";
                 type = "proxy";
-                properties = {"ipv4.address" = "10.0.100.0";};
+                properties = {"ipv4.address" = "${proxyIP}";};
               }
             ]
             ++ utils.mapVolumes {"caddy-data" = "/data";};
@@ -73,7 +75,7 @@ in {
             {
               name = "eth0";
               type = "proxy";
-              properties = {"ipv4.address" = "10.0.100.1";};
+              properties = {"ipv4.address" = "${dnsIP}";};
             }
           ];
           file = [
@@ -84,8 +86,8 @@ in {
                 ''
                   server:
                     local-zone: "${cfg.name}.internal." redirect
-                    local-data: "${cfg.name}.internal. A 10.0.100.0"
-                    local-data-ptr: "10.0.100.0 ${cfg.name}.internal."
+                    local-data: "${cfg.name}.internal. A ${proxyIP}"
+                    local-data-ptr: "${proxyIP} ${cfg.name}.internal."
                 '';
             }
           ];
