@@ -35,7 +35,7 @@ in {
       # TODO: there is more that has to be done
       resource."incus_instance"."wg-easy" = {
         name = "wg-easy";
-        image = "ghcr.io/wg-easy/wg-easy";
+        image = "ghcr.io:wg-easy/wg-easy";
         config = { "environment.PORT" = "80"; };
       };
     })
@@ -47,7 +47,7 @@ in {
       };
       resource."incus_instance"."ddns" = {
         name = "ddns";
-        image = "qmcgaw/ddns-updater";
+        image = "docker:qmcgaw/ddns-updater";
         file = [{
           target_path = "/updater/data/config.json";
           source_path = "/run/secrets/buns";

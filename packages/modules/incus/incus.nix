@@ -37,7 +37,7 @@ in {
             [
               {
                 name = "eth0";
-                type = "proxy";
+                type = "nic";
                 properties = {"ipv4.address" = "${proxyIP}";};
               }
             ]
@@ -74,7 +74,7 @@ in {
           device = [
             {
               name = "eth0";
-              type = "proxy";
+              type = "nic";
               properties = {"ipv4.address" = "${dnsIP}";};
             }
           ];
