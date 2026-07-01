@@ -31,11 +31,7 @@ in {
     })
 
     (mkIf (cfg == "server") {
-      boot = {
-        # Use lts hardened kernel cause why not
-        kernelPackages = pkgs.linuxPackages_6_12_hardened;
-      };
-
+      boot.kernelPackages = pkgs.linuxPackages_6_12;
       # TODO: more server hardening
       # TODO: maybe these should be defaults?
       nix.allowedUsers = ["@wheel"];
@@ -103,8 +99,7 @@ in {
       # TODO: most of these are not actually used, remove?
       # 80, 443: for accessing the server normally
       # 8443 8444: for incus
-      # 22054: DNS
-      networking.firewall.allowedTCPPorts = [80 22054 443 8443 8444];
+      networking.firewall.allowedTCPPorts = [80 443 8443 8444];
       networking.nftables.tables = {
         nat = {
           content = ''

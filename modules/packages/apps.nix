@@ -79,7 +79,7 @@ in {
 
     # pretty okay browser
     (mkIf cfg.firefox.enable {
-      home.packages = [pkgs.firefox];
+      home.packages = with pkgs; [firefox mullvad-browser];
       home.xdg.config.files = {
         "mozilla/firefox/profiles.ini".text = ''
           [General]

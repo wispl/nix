@@ -37,7 +37,7 @@
       nvim.enable = true;
     };
     shell.bash.enable = true;
-    packages.extras = with pkgs; [openssl];
+    packages.extras = with pkgs; [openssl opentofu];
   };
   system.stateVersion = "25.11";
 }
