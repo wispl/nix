@@ -25,7 +25,7 @@
   }) (filterAttrs (n: v: n != "home") config.modules.server.expose);
   # Bunch of random yaml stuff...
   yamlfile = {
-    server.assets-path = "/app/assets";
+    server.assets-path = "/app/config/assets";
     pages = [
       {
         name = "Home";
@@ -151,20 +151,28 @@ in {
       "home" = "glance.incus:8080";
     };
 
+    resource."incus_storage_volume"."glance-config" = {
+      name = "glance-config";
+      pool = "default";
+      file = [
+        {
+          target_path = "glance.yml";
+          content = builtins.readFile ((pkgs.formats.yaml {}).generate "glance.yaml" yamlfile);
+          create_directories = true;
+        }
+        {
+          target_path = "assets";
+          source_path = "./packages/assets/icons";
+          create_directories = true;
+          recursive = true;
+        }
+      ];
+    };
+
     resource."incus_instance"."glance" = {
       name = "glance";
       image = "docker:glanceapp/glance";
-      file = [
-        {
-          target_path = "/app/config/glance.yml";
-          content = builtins.readFile ((pkgs.formats.yaml {}).generate "glance.yaml" yamlfile);
-        }
-        {
-          target_path = "/app/assets";
-          source_path = "./packages/assets/icons";
-          create_directories = "true";
-        }
-      ];
+      device = utils.mapVolumes {"glance-config" = "/app/config";};
     };
   };
 }

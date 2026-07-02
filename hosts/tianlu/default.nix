@@ -13,6 +13,7 @@
 
   networking.hostName = "tianlu";
   services.openssh.enable = true;
+  sops.secrets.cheese = {};
   modules = {
     username = "wisp";
     git.enable = true;

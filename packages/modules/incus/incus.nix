@@ -25,6 +25,93 @@ in {
   };
   config = mkIf (cfg.enable) (mkMerge [
     (utils.createVolumes ["caddy-data"])
+    {
+      resource."incus_storage_volume"."authelia-config" = {
+        name = "authelia-config";
+        pool = "default";
+        file = [
+          {
+            target_path = "configuration.yml";
+            content =
+              # yaml
+              ''
+                theme: 'dark'
+                # Required for oidc clients to work
+                server:
+                  endpoints:
+                    authz:
+                      forward-auth:
+                        implementation: 'ForwardAuth'
+                totp:
+                  issuer: '${config.modules.server.name}'
+                # Required for storage
+                storage:
+                  local:
+                    path: '/config/db.sqlite3'
+                # Required, stores list of users
+                authentication_backend:
+                  file:
+                    path: /config/users.yml
+                # Required, allows session to work
+                session:
+                  cookies:
+                    - domain: '${config.modules.server.name}.internal'
+                      authelia_url: 'https://auth.${config.modules.server.name}.internal'
+                      default_redirection_url: 'https://www.${config.modules.server.name}.internal'
+                # Required, but I don't care about it so just use file
+                notifier:
+                  filesystem:
+                    filename: '/config/notification.txt'
+                # Required, policies for different domains
+                access_control:
+                  default_policy: deny
+                  rules:
+                    - domain: '*.${config.modules.server.name}.internal'
+                      policy: one_factor
+              '';
+          }
+          {
+            target_path = "users.yml";
+            content =
+              # yaml
+              ''
+                users:
+                  wisp:
+                    disabled: false
+                    displayname: "wisp"
+                    email: wisp@${config.modules.server.name}.internal
+                    groups:
+                      - "admins"
+                      - "dev"
+                    password: "{{ secret /run/secrets/USER_PASSWORD }}"
+              '';
+          }
+        ];
+      };
+
+      resource."incus_storage_volume"."authelia-secrets" = {
+        name = "authelia-secrets";
+        pool = "default";
+        file = [
+          {
+            source_path = "/nix/persist/deploy/authelia/jwt-secret";
+            target_path = "JWT_SECRET";
+          }
+          {
+            source_path = "/nix/persist/deploy/authelia/storage-encryption-key";
+            target_path = "STORAGE_ENCRYPTION_KEY";
+          }
+          {
+            source_path = "/nix/persist/deploy/authelia/session-secret";
+            target_path = "SESSION_SECRET";
+          }
+          {
+            source_path = "/run/secrets/cheese";
+            target_path = "USER_PASSWORD";
+          }
+        ];
+      };
+    }
 
     {
       terraform."required_providers".incus.source = "lxc/incus";
@@ -38,7 +125,10 @@ in {
               {
                 name = "eth0";
                 type = "nic";
-                properties = {"ipv4.address" = "${proxyIP}";};
+                properties = {
+                  "network" = "incusbr0";
+                  "ipv4.address" = "${proxyIP}";
+                };
               }
             ]
             ++ utils.mapVolumes {"caddy-data" = "/data";};
@@ -75,7 +165,10 @@ in {
             {
               name = "eth0";
               type = "nic";
-              properties = {"ipv4.address" = "${dnsIP}";};
+              properties = {
+                "network" = "incusbr0";
+                "ipv4.address" = "${dnsIP}";
+              };
             }
           ];
           file = [
@@ -102,76 +195,10 @@ in {
         "authelia" = {
           name = "authelia";
           image = "docker:authelia/authelia";
-          file = [
-            {
-              source_path = "/nix/persist/deploy/authelia/jwt-secret";
-              target_path ="/run/secrets/JWT_SECRET";
-            }
-            {
-              source_path = "/nix/persist/deploy/authelia/storage-encryption-key";
-              target_path ="/run/secrets/STORAGE_ENCRYPTION_KEY";
-            }
-            {
-              source_path = "/nix/persist/deploy/authelia/session-secret";
-              target_path ="/run/secrets/SESSION_SECRET";
-            }
-            {
-              target_path = "/config/configuration.yml";
-              content =
-                # yaml
-                ''
-                  theme: "dark"
-                  # Required for oidc clients to work
-                  server:
-                    endpoints:
-                      authz:
-                        forward-auth:
-                          implementation: "ForwardAuth"
-                  totp:
-                    issuer: "${config.modules.server.name}"
-                  # Required for storage
-                  storage:
-                    local:
-                      path: "/config/db.sqlite3"
-                  # Required, stores list of users
-                  authentication_backend:
-                    file:
-                      path: /config/users.yml
-                  # Required, allows session to work
-                  session:
-                    cookies:
-                      - domain: "${config.modules.server.name}.internal"
-                        authelia_url: "https://auth.${config.modules.server.name}.internal"
-                        default_redirection_url: "https://www.${config.modules.server.name}.internal"
-                  # Required, but I don't care about it so just use file
-                  notifier:
-                    filesystem:
-                      filename: "/config/notification.txt"
-                  # Required, policies for different domains
-                  access_control:
-                    default_policy: deny
-                    rules:
-                      - domain: "*.${config.modules.server.name}.internal"
-                        policy: one_factor
-                '';
-            }
-            {
-              target_path = "/config/configuration.yml";
-              content =
-                # yaml
-                ''
-                  users:
-                    wisp:
-                      disabled: false
-                      displayname: "wisp"
-                      email: wisp@${config.modules.server.name}.internal
-                      groups:
-                        - "admins"
-                        - "dev"
-                      password: "{{ secret /run/secrets/USER_PASSWORD }}"
-                '';
-            }
-          ];
+          device = utils.mapVolumes {
+            "authelia-config" = "/config";
+            "authelia-secrets" = "/run/secrets";
+          };
           config = {
             "environment.X_AUTHELIA_CONFIG_FILTERS" = "template";
             # Required secrets

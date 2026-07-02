@@ -17,9 +17,9 @@ in {
     (mkIf (elem "incus" cfg) {
       systemd.services.gen-secrets-incus = {
         description = "Generate incus certificates for metrics";
-        wantedBy = [ "multi-user.target" ];
-        before = [ "network.target" ];
-        path = [ pkgs.openssl ];
+        wantedBy = ["multi-user.target"];
+        before = ["network.target"];
+        path = [pkgs.openssl];
         script = ''
           TARGET_DIR="/nix/persist/deploy/incus"
           mkdir -p "$TARGET_DIR"
@@ -31,7 +31,7 @@ in {
 
           chown ${config.modules.username}:incus-admin "$TARGET_DIR/metrics.key"
           chown ${config.modules.username}:incus-admin "$TARGET_DIR/metrics.crt"
-          
+
           chmod 640 "$TARGET_DIR/metrics.key"
           chmod 644 "$TARGET_DIR/metrics.crt"
         '';
@@ -45,9 +45,9 @@ in {
     (mkIf (elem "authelia" cfg) {
       systemd.services.gen-secrets-authelia = {
         description = "Generate authelia secrets";
-        wantedBy = [ "multi-user.target" ];
-        before = [ "network.target" ];
-        path = [ pkgs.openssl ];
+        wantedBy = ["multi-user.target"];
+        before = ["network.target"];
+        path = [pkgs.openssl];
         script = ''
           TARGET_DIR="/nix/persist/deploy/authelia"
           mkdir -p "$TARGET_DIR"

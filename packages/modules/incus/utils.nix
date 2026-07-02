@@ -14,7 +14,7 @@ in {
       type = "disk";
       properties = {
         path = "${value}";
-        source = "incus_storage_volume.volume.${name}.name";
+        source = "${name}";
         pool = "default";
       };
     })

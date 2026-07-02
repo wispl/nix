@@ -1,7 +1,9 @@
 keys:
   - &admin age1ftjvuychlv5vrtl8a9zch9ps97h763t03fnafe3cvepqlv4275lsfjtj3a
+  - &tianlu age15mer48fawq6ud64pzayagsq7afd2ua87y96p5urq63hwj0k6jddqzpf2yx
 creation_rules:
   - path_regex: .secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
       - *admin
+      - *tianlu

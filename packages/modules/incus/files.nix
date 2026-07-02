@@ -11,7 +11,7 @@ in {
     enable = mkEnableOption "file servers (syncthing and filebrowser)";
   };
   config = mkIf (cfg.enable) (mkMerge [
-    (utils.createVolumes ["music" "media" "downloads" "syncthing-data" "filebrowser-config" "filebrowser-data"])
+    (utils.createVolumes ["music" "media" "downloads" "syncthing-data" "filebrowser-config" "filebrowser-data" "filebrowser-database"])
 
     {
       modules.server = {

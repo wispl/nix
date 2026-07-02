@@ -22,11 +22,11 @@ in {
       resource."incus_instance"."netbird" = {
         name = "netbird";
         image = "docker:netbirdio/netbird ";
-        device = utils.mapVolumes { "netbird-data" = "/var/lib/netbird"; };
-        config = { "environment.NB_SETUP_KEY" = "placeholder"; };
+        device = utils.mapVolumes {"netbird-data" = "/var/lib/netbird";};
+        config = {"environment.NB_SETUP_KEY" = "placeholder";};
       };
     })
-  
+
     # This is not easy
     (mkIf (cfg.variant == "wg-easy") {
       modules.server.expose = {
@@ -35,11 +35,10 @@ in {
       # TODO: there is more that has to be done
       resource."incus_instance"."wg-easy" = {
         name = "wg-easy";
-        image = "ghcr.io:wg-easy/wg-easy";
-        config = { "environment.PORT" = "80"; };
+        image = "ghcr:wg-easy/wg-easy";
+        config = {"environment.PORT" = "80";};
       };
     })
-
 
     (mkIf cfg.ddns.enable {
       modules.server.expose = {
@@ -48,13 +47,15 @@ in {
       resource."incus_instance"."ddns" = {
         name = "ddns";
         image = "docker:qmcgaw/ddns-updater";
-        file = [{
-          target_path = "/updater/data/config.json";
-          source_path = "/run/secrets/buns";
-          uid = 1000;
-          gid = 1000;
-          create_directories = true;
-        }];
+        file = [
+          {
+            target_path = "/updater/data/config.json";
+            source_path = "/run/secrets/buns";
+            uid = 1000;
+            gid = 1000;
+            create_directories = true;
+          }
+        ];
       };
     })
   ];
